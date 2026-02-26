@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>정통 사주 만세력</title>
+    <title>사주명리 - 나의 운명</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -16,15 +16,15 @@
         ================================ -->
         <div id="input-screen" class="screen active">
             <header class="top-nav">
-                <button class="icon-btn">⟨</button>
-                <h1 class="nav-title">정통 만세력 2.0 🔮</h1>
-                <button class="icon-btn">≡</button>
+                <button class="icon-btn" id="mainBackBtn">⟨</button>
+                <h1 class="nav-title">나의 사주 🔮</h1>
+                <div style="width:24px;"></div> <!-- 우측 더보기 버튼 삭제 후 밸런스를 위한 빈 여백 -->
             </header>
 
             <main class="form-wrapper">
                 <div class="form-group">
                     <label>이름</label>
-                    <input type="text" id="userName" placeholder="최대 12글자 이내로 입력하세요" autocomplete="off">
+                    <input type="text" id="userName" placeholder="이름을 입력해주세요" autocomplete="off">
                 </div>
 
                 <div class="form-group">
@@ -36,32 +36,43 @@
                 </div>
 
                 <div class="form-group">
-                    <label>생년월일시 <span class="help-text">12간지 시간표 🔍</span></label>
-                    <div class="date-time-row">
-                        <select id="calendarType" class="input-elem">
-                            <option value="solar">양력</option>
-                            <option value="lunar">음력</option>
-                        </select>
-                        <input type="date" id="birthDate" class="input-elem">
-                        <input type="time" id="birthTime" class="input-elem">
+                    <label>
+                        생년월일시
+                        <span class="help-text" id="btn12Ganji">12간지 시간표 🔍</span>
+                    </label>
+
+                    <!-- 더 자연스러운 입력 폼 형태 -->
+                    <div class="date-time-box">
+                        <div class="dt-row">
+                            <span class="dt-label">양/음</span>
+                            <select id="calendarType" class="clean-input">
+                                <option value="solar">양력</option>
+                                <option value="lunar">음력</option>
+                            </select>
+                        </div>
+                        <div class="dt-divider"></div>
+                        <div class="dt-row">
+                            <span class="dt-label">날짜</span>
+                            <input type="date" id="birthDate" class="clean-input">
+                        </div>
+                        <div class="dt-divider"></div>
+                        <div class="dt-row">
+                            <span class="dt-label">시간</span>
+                            <input type="time" id="birthTime" class="clean-input">
+                        </div>
                     </div>
+
                     <div class="checkbox-row">
                         <label><input type="checkbox" id="unknownTime"> 시간 모름</label>
-                        <label><input type="checkbox" id="yajaTime"> 야자시/조자시 🔍</label>
+                        <label><input type="checkbox" id="yajaTime"> 야자시/조자시 <span class="help-icon"
+                                id="btnYaja">🔍</span></label>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label>도시 (선택)</label>
-                    <div class="search-input-wrap">
-                        <input type="text" id="birthCity" placeholder="태어난 도시명을 입력하세요 (예: 서울)" autocomplete="off">
-                        <span class="search-icon">🔍</span>
-                    </div>
-                </div>
+                <!-- 도시 선택 삭제됨 -->
 
                 <div class="bottom-btns">
-                    <button type="button" id="submitBtn" class="primary-btn">만세력 보러가기</button>
-                    <button type="button" class="secondary-btn">저장된 만세력 불러오기</button>
+                    <button type="button" id="submitBtn" class="primary-btn">나의 사주 보러가기</button>
                 </div>
             </main>
         </div>
@@ -74,23 +85,20 @@
             <header class="top-nav">
                 <button class="icon-btn" id="backBtn">⟨</button>
                 <h1 class="nav-title">명식 결과 및 풀이</h1>
-                <button class="icon-btn">≡</button>
+                <div style="width:24px;"></div>
             </header>
 
             <main class="result-wrapper">
-
                 <!-- 상단 프로필 요약 정보 -->
                 <div class="profile-summary">
-                    <div class="profile-avatar">🐶</div>
+                    <div class="profile-avatar">👤</div>
                     <div class="profile-info">
                         <h2 id="resName">이름</h2>
-                        <p class="res-subtitle" id="resAnimal">임술(검은 개) 🔍</p>
-                        <p class="res-desc" id="resDetails1">양 1994/08/04 11:30 남자 서울특별시</p>
-                        <p class="res-desc highlight" id="resDetails2">음(평달) 1994/06/27 11:30 남자 서울특별시</p>
+                        <p class="res-desc" id="resDetails1">양력 1990/01/01 12:00 여자</p>
                     </div>
                 </div>
 
-                <!-- 세밀한 한자 명식 (만세력 표) -->
+                <!-- 세밀한 명식 (만세력 표) -->
                 <div class="manseoryok-board">
                     <table class="m-table">
                         <thead>
@@ -103,10 +111,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- 천간 (위쪽 4글자) -->
+                            <!-- 천간 -->
                             <tr class="hanja-row upper">
                                 <td class="label">천간</td>
-                                <!-- 우측 상단 모서리에 오행 텍스트 -->
                                 <td class="wood relative">을<span>乙</span><span class="element-tag">-목</span></td>
                                 <td class="water relative">임<span>壬</span><span class="element-tag">+수</span></td>
                                 <td class="metal relative">신<span>辛</span><span class="element-tag">-금</span></td>
@@ -119,7 +126,7 @@
                                 <td class="metal-bg">정인</td>
                                 <td class="wood-bg">식신</td>
                             </tr>
-                            <!-- 지지 (아래쪽 4글자) -->
+                            <!-- 지지 -->
                             <tr class="hanja-row lower">
                                 <td class="label">지지</td>
                                 <td class="fire relative">사<span>巳</span><span class="element-tag">+화</span></td>
@@ -134,7 +141,7 @@
                                 <td class="earth-bg">정관</td>
                                 <td class="earth-bg">편관</td>
                             </tr>
-                            <!-- 지장간 및 신살 -->
+                            <!-- 지장간, 12운성, 12신살 -->
                             <tr class="detail-row">
                                 <td class="label">지장간</td>
                                 <td>무경병</td>
@@ -160,30 +167,63 @@
                     </table>
                 </div>
 
-                <!-- 제미나이 AI 챗봇 영역 -->
+                <!-- AI 챗봇 영역 -->
                 <div class="chat-section">
                     <div class="chat-header-bar">
-                        <span>사주 풀이 자세히 보기 (AI 도사님)</span>
-                        <span class="chevron">ᐱ</span>
+                        <span>사주 심층 분석 (AI 도사님)</span>
                     </div>
-
                     <div class="chat-box" id="chatBox">
                         <div class="message bot">
-                            <div class="bubble">만세력 명식을 성공적으로 뽑았습니다!<br>위의 사주 8글자를 바탕으로 올해의 운세, 재물운, 연애운 등 궁금하신 점을 자유롭게
-                                물어보세요.</div>
+                            <div class="bubble">만세력을 바탕으로 사주 8글자 셋업을 마쳤습니다. <br>올해의 운세나 재물운 등 궁금한 점을 편하게 말씀해주세요.</div>
                         </div>
                     </div>
-
                     <div class="chat-input-area">
                         <input type="text" id="userInput" placeholder="질문을 입력하세요..." autocomplete="off">
                         <button id="sendBtn">전송</button>
                     </div>
                 </div>
-
             </main>
-        </div> <!-- end result-screen -->
-
+        </div>
     </div>
+
+    <!-- 모달: 12간지 시간표 -->
+    <div id="modal-12ganji" class="modal-overlay">
+        <div class="modal-content">
+            <h3 class="modal-title">12간지 시간표</h3>
+            <div class="modal-body">
+                <p><strong>자시(子)</strong>: 23:30 ~ 01:29</p>
+                <p><strong>축시(丑)</strong>: 01:30 ~ 03:29</p>
+                <p><strong>인시(寅)</strong>: 03:30 ~ 05:29</p>
+                <p><strong>묘시(卯)</strong>: 05:30 ~ 07:29</p>
+                <p><strong>진시(辰)</strong>: 07:30 ~ 09:29</p>
+                <p><strong>사시(巳)</strong>: 09:30 ~ 11:29</p>
+                <p><strong>오시(午)</strong>: 11:30 ~ 13:29</p>
+                <p><strong>미시(未)</strong>: 13:30 ~ 15:29</p>
+                <p><strong>신시(申)</strong>: 15:30 ~ 17:29</p>
+                <p><strong>유시(酉)</strong>: 17:30 ~ 19:29</p>
+                <p><strong>술시(戌)</strong>: 19:30 ~ 21:29</p>
+                <p><strong>해시(亥)</strong>: 21:30 ~ 23:29</p>
+            </div>
+            <button class="modal-close-btn" data-target="modal-12ganji">확인</button>
+        </div>
+    </div>
+
+    <!-- 모달: 야자시/조자시 설명 -->
+    <div id="modal-yaja" class="modal-overlay">
+        <div class="modal-content">
+            <h3 class="modal-title">야자시 / 조자시란?</h3>
+            <div class="modal-body">
+                <p>사주 명리학에서는 밤 11시부터 새벽 1시 사이(자시)에 태어난 경우 날짜의 분기점을 어떻게 볼 것인지에 대한 이견이 있습니다.</p>
+                <br>
+                <p><strong>• 야자시 (夜子時)</strong>: 23:30 ~ 00:00 이전. 오늘 밤의 끝으로 보아 <strong>오늘 명식</strong>을 따릅니다.</p>
+                <p><strong>• 조자시 (朝子時)</strong>: 00:00 ~ 01:30 이전. 내일 아침의 시작으로 보아 <strong>내일 명식</strong>을 따릅니다.</p>
+                <br>
+                <p>정확한 풀이를 위해 본인이 태어난 시간이 자정 이전인지 이후인지 확인이 필요합니다.</p>
+            </div>
+            <button class="modal-close-btn" data-target="modal-yaja">확인</button>
+        </div>
+    </div>
+
     <script src="chat.js"></script>
 </body>
 
