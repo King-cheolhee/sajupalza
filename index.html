@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>사주팔자 상담소</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="chat-container">
+        <header class="chat-header">
+            <div class="profile-pic">🧙‍♂️</div>
+            <div class="header-info">
+                <h2>사주 명리학자 도사님</h2>
+                <p>당신의 운명을 들여다봅니다</p>
+            </div>
+        </header>
+
+        <main class="chat-box" id="chatBox">
+            <div class="message bot">
+                <div class="bubble">안녕하세요. 정확한 사주 풀이를 위해 먼저 <strong>생년월일</strong>과 <strong>태어난 시간</strong>을 채팅으로 입력해주세요.<br>(예: 1995년 3월 16일 오후 3시)</div>
+            </div>
+        </main>
+
+        <footer class="chat-input-area">
+            <input type="text" id="userInput" placeholder="메시지 입력..." autocomplete="off">
+            <button id="sendBtn">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                </svg>
+            </button>
+        </footer>
+    </div>
+
+    <!-- 만세력 템플릿 (숨겨져 있다가 필요시 채팅창에 삽입됨) -->
+    <template id="manseoryokTemplate">
+        <div class="saju-grid-container">
+            <div class="saju-header">당신의 명식(만세력)입니다.</div>
+            <table class="saju-table">
+                <thead>
+                    <tr>
+                        <th>시주</th><th>일주</th><th>월주</th><th>년주</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="stems"> <!-- 천간 -->
+                        <td class="wood">乙</td><td class="fire">丙</td><td class="earth">己</td><td class="wood">乙</td>
+                    </tr>
+                    <tr class="branches"> <!-- 지지 -->
+                        <td class="earth">未</td><td class="fire">午</td><td class="wood">卯</td><td class="water">亥</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="saju-footer">오행: 木 3, 火 2, 土 2, 金 0, 水 1</div>
+        </div>
+    </template>
+
+    <script src="chat.js"></script>
+</body>
+</html>
