@@ -1,60 +1,190 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>사주팔자 상담소</title>
+    <title>정통 사주 만세력</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <div class="chat-container">
-        <header class="chat-header">
-            <div class="profile-pic">🧙‍♂️</div>
-            <div class="header-info">
-                <h2>사주 명리학자 도사님</h2>
-                <p>당신의 운명을 들여다봅니다</p>
-            </div>
-        </header>
+    <div id="app-container">
 
-        <main class="chat-box" id="chatBox">
-            <div class="message bot">
-                <div class="bubble">안녕하세요. 정확한 사주 풀이를 위해 먼저 <strong>생년월일</strong>과 <strong>태어난 시간</strong>을 채팅으로 입력해주세요.<br>(예: 1995년 3월 16일 오후 3시)</div>
-            </div>
-        </main>
+        <!-- ===============================
+              1. 프로필 입력 화면 (폼)
+        ================================ -->
+        <div id="input-screen" class="screen active">
+            <header class="top-nav">
+                <button class="icon-btn">⟨</button>
+                <h1 class="nav-title">정통 만세력 2.0 🔮</h1>
+                <button class="icon-btn">≡</button>
+            </header>
 
-        <footer class="chat-input-area">
-            <input type="text" id="userInput" placeholder="메시지 입력..." autocomplete="off">
-            <button id="sendBtn">
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
-                </svg>
-            </button>
-        </footer>
-    </div>
+            <main class="form-wrapper">
+                <div class="form-group">
+                    <label>이름</label>
+                    <input type="text" id="userName" placeholder="최대 12글자 이내로 입력하세요" autocomplete="off">
+                </div>
 
-    <!-- 만세력 템플릿 (숨겨져 있다가 필요시 채팅창에 삽입됨) -->
-    <template id="manseoryokTemplate">
-        <div class="saju-grid-container">
-            <div class="saju-header">당신의 명식(만세력)입니다.</div>
-            <table class="saju-table">
-                <thead>
-                    <tr>
-                        <th>시주</th><th>일주</th><th>월주</th><th>년주</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="stems"> <!-- 천간 -->
-                        <td class="wood">乙</td><td class="fire">丙</td><td class="earth">己</td><td class="wood">乙</td>
-                    </tr>
-                    <tr class="branches"> <!-- 지지 -->
-                        <td class="earth">未</td><td class="fire">午</td><td class="wood">卯</td><td class="water">亥</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="saju-footer">오행: 木 3, 火 2, 土 2, 金 0, 水 1</div>
+                <div class="form-group">
+                    <label>성별</label>
+                    <div class="toggle-group" id="genderToggle">
+                        <button type="button" class="toggle-btn active" data-val="female">여자</button>
+                        <button type="button" class="toggle-btn" data-val="male">남자</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>생년월일시 <span class="help-text">12간지 시간표 🔍</span></label>
+                    <div class="date-time-row">
+                        <select id="calendarType" class="input-elem">
+                            <option value="solar">양력</option>
+                            <option value="lunar">음력</option>
+                        </select>
+                        <input type="date" id="birthDate" class="input-elem">
+                        <input type="time" id="birthTime" class="input-elem">
+                    </div>
+                    <div class="checkbox-row">
+                        <label><input type="checkbox" id="unknownTime"> 시간 모름</label>
+                        <label><input type="checkbox" id="yajaTime"> 야자시/조자시 🔍</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>도시 (선택)</label>
+                    <div class="search-input-wrap">
+                        <input type="text" id="birthCity" placeholder="태어난 도시명을 입력하세요 (예: 서울)" autocomplete="off">
+                        <span class="search-icon">🔍</span>
+                    </div>
+                </div>
+
+                <div class="bottom-btns">
+                    <button type="button" id="submitBtn" class="primary-btn">만세력 보러가기</button>
+                    <button type="button" class="secondary-btn">저장된 만세력 불러오기</button>
+                </div>
+            </main>
         </div>
-    </template>
 
+
+        <!-- ===============================
+              2. 결과 (만세력 & 채팅) 화면
+        ================================ -->
+        <div id="result-screen" class="screen">
+            <header class="top-nav">
+                <button class="icon-btn" id="backBtn">⟨</button>
+                <h1 class="nav-title">명식 결과 및 풀이</h1>
+                <button class="icon-btn">≡</button>
+            </header>
+
+            <main class="result-wrapper">
+
+                <!-- 상단 프로필 요약 정보 -->
+                <div class="profile-summary">
+                    <div class="profile-avatar">🐶</div>
+                    <div class="profile-info">
+                        <h2 id="resName">이름</h2>
+                        <p class="res-subtitle" id="resAnimal">임술(검은 개) 🔍</p>
+                        <p class="res-desc" id="resDetails1">양 1994/08/04 11:30 남자 서울특별시</p>
+                        <p class="res-desc highlight" id="resDetails2">음(평달) 1994/06/27 11:30 남자 서울특별시</p>
+                    </div>
+                </div>
+
+                <!-- 세밀한 한자 명식 (만세력 표) -->
+                <div class="manseoryok-board">
+                    <table class="m-table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>생시</th>
+                                <th>생일</th>
+                                <th>생월</th>
+                                <th>생년</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- 천간 (위쪽 4글자) -->
+                            <tr class="hanja-row upper">
+                                <td class="label">천간</td>
+                                <!-- 우측 상단 모서리에 오행 텍스트 -->
+                                <td class="wood relative">을<span>乙</span><span class="element-tag">-목</span></td>
+                                <td class="water relative">임<span>壬</span><span class="element-tag">+수</span></td>
+                                <td class="metal relative">신<span>辛</span><span class="element-tag">-금</span></td>
+                                <td class="wood relative">갑<span>甲</span><span class="element-tag">+목</span></td>
+                            </tr>
+                            <tr class="sibsung-row">
+                                <td class="label">십성</td>
+                                <td class="wood-bg">상관</td>
+                                <td class="water-bg">비견</td>
+                                <td class="metal-bg">정인</td>
+                                <td class="wood-bg">식신</td>
+                            </tr>
+                            <!-- 지지 (아래쪽 4글자) -->
+                            <tr class="hanja-row lower">
+                                <td class="label">지지</td>
+                                <td class="fire relative">사<span>巳</span><span class="element-tag">+화</span></td>
+                                <td class="earth relative">술<span>戌</span><span class="element-tag">+토</span></td>
+                                <td class="earth relative">미<span>未</span><span class="element-tag">-토</span></td>
+                                <td class="earth relative">술<span>戌</span><span class="element-tag">+토</span></td>
+                            </tr>
+                            <tr class="sibsung-row">
+                                <td class="label">십성</td>
+                                <td class="fire-bg">편재</td>
+                                <td class="earth-bg">편관</td>
+                                <td class="earth-bg">정관</td>
+                                <td class="earth-bg">편관</td>
+                            </tr>
+                            <!-- 지장간 및 신살 -->
+                            <tr class="detail-row">
+                                <td class="label">지장간</td>
+                                <td>무경병</td>
+                                <td>신정무</td>
+                                <td>정을기</td>
+                                <td>신정무</td>
+                            </tr>
+                            <tr class="detail-row">
+                                <td class="label">12운성</td>
+                                <td>절</td>
+                                <td>관대</td>
+                                <td>양</td>
+                                <td>관대</td>
+                            </tr>
+                            <tr class="detail-row">
+                                <td class="label">12신살</td>
+                                <td>망신살</td>
+                                <td>화개살</td>
+                                <td>반안살</td>
+                                <td>화개살</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 제미나이 AI 챗봇 영역 -->
+                <div class="chat-section">
+                    <div class="chat-header-bar">
+                        <span>사주 풀이 자세히 보기 (AI 도사님)</span>
+                        <span class="chevron">ᐱ</span>
+                    </div>
+
+                    <div class="chat-box" id="chatBox">
+                        <div class="message bot">
+                            <div class="bubble">만세력 명식을 성공적으로 뽑았습니다!<br>위의 사주 8글자를 바탕으로 올해의 운세, 재물운, 연애운 등 궁금하신 점을 자유롭게
+                                물어보세요.</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-input-area">
+                        <input type="text" id="userInput" placeholder="질문을 입력하세요..." autocomplete="off">
+                        <button id="sendBtn">전송</button>
+                    </div>
+                </div>
+
+            </main>
+        </div> <!-- end result-screen -->
+
+    </div>
     <script src="chat.js"></script>
 </body>
+
 </html>
