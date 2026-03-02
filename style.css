@@ -97,15 +97,17 @@ body {
 /* ===============================
    입력 화면 (배경 투명도 제어 및 인풋창 명시성)
 =============================== */
-/* 2. 배경에 투명도(불투명도 조절)를 넣어 인풋창이 완전히 눈에 띄게 구성 */
+/* 2. 배경에 새로 첨부하신 이미지를 배치하고 투명도(불투명도 조절) 오버레이를 적용하여 인풋창 명시성 확보 */
 .form-wrapper.pattern-bg {
     padding: 24px 24px;
     overflow-y: auto;
     flex: 1;
     display: flex;
     flex-direction: column;
-    /* 이미지 대신 CSS 그라데이션으로 차분하고 몽환적인 딥 블루 네이비 그라데이션 */
-    background: radial-gradient(circle at 50% 10%, #1e283d 0%, #0f141e 100%);
+    /* 전달해주신 이미지를 깔고, 그 위에 진한 반투명 네이비 레이어를 덮어 가시성 향상 */
+    background: radial-gradient(circle at 50% 10%, rgba(30, 40, 61, 0.85) 0%, rgba(11, 15, 25, 0.95) 100%),
+        url('참고사진/Gemini_Generated_Image_cjkkfvcjkkfvcjkk.png') center/cover no-repeat;
+    background-blend-mode: multiply;
 }
 
 .intro-decoration {
