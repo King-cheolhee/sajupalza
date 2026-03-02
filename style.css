@@ -1,12 +1,13 @@
-/* 기본 리셋 및 명조체 폰트 적용 */
+/* 기존 이미지를 완전히 제거하고 맑은 고딕(가독성 중심) 폰트와 심플하고 직관적인 CSS 그라데이션 적용 */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
+/* 1. 맑은 고딕 적용 및 가독성 최우선 세팅 */
 body {
-    font-family: 'Noto Serif KR', serif;
+    font-family: "Malgun Gothic", "맑은 고딕", -apple-system, sans-serif;
     background-color: #0b0f19;
     /* 매우 깊고 신비로운 밤하늘 네이비 */
     display: flex;
@@ -28,7 +29,6 @@ body {
     overflow: hidden;
 }
 
-/* 화면 전환용 클래스 */
 .screen {
     display: none;
     flex-direction: column;
@@ -40,14 +40,13 @@ body {
     display: flex;
 }
 
-/* 1. 전통 테마 네비게이션바 (네이비+금/은장식 톤) */
+/* 네비게이션바 */
 .top-nav.traditional {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 18px 20px;
     background: rgba(15, 20, 30, 0.95);
-    /* 반투명 네이비 */
     border-bottom: 2px solid #202a3f;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     z-index: 10;
@@ -55,9 +54,9 @@ body {
 
 .nav-title {
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 700;
     color: #e6dfd3;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
 }
 
 .icon-btn {
@@ -75,7 +74,7 @@ body {
     color: #d4cfc5;
 }
 
-/* 뒤로/앞으로 가기 버튼 강조 (Bold) */
+/* 뒤로/앞으로 가기 버튼 강조 */
 .bold-back {
     font-weight: 900;
     font-size: 28px;
@@ -95,36 +94,32 @@ body {
     opacity: 0.7;
 }
 
-/* 1. 입력 폼 영역 (연화문 / 기와 패턴 배경 연출) */
-.form-wrapper {
-    padding: 20px 24px;
+/* ===============================
+   입력 화면 (배경 투명도 제어 및 인풋창 명시성)
+=============================== */
+/* 2. 배경에 투명도(불투명도 조절)를 넣어 인풋창이 완전히 눈에 띄게 구성 */
+.form-wrapper.pattern-bg {
+    padding: 24px 24px;
     overflow-y: auto;
     flex: 1;
     display: flex;
     flex-direction: column;
-    background-image:
-        radial-gradient(circle at center, rgba(31, 41, 60, 0.8) 0%, rgba(15, 20, 30, 1) 100%),
-        url('참고사진/KakaoTalk_20260303_005122798_02.jpg');
-    background-size: cover;
-    background-position: center;
-    background-blend-mode: overlay;
+    /* 이미지 대신 CSS 그라데이션으로 차분하고 몽환적인 딥 블루 네이비 그라데이션 */
+    background: radial-gradient(circle at 50% 10%, #1e283d 0%, #0f141e 100%);
 }
 
 .intro-decoration {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    margin-top: 10px;
 }
 
-/* 노리개 장식 사용 (KakaoTalk_20260303_005122798_01.jpg) */
-.norigae-ornament {
-    width: 65px;
-    height: 80px;
-    background: url('참고사진/KakaoTalk_20260303_005122798_01.jpg') no-repeat center top;
-    background-size: cover;
-    margin: 0 auto;
-    border-radius: 50%;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-    border: 2px solid #3c4963;
+/* 3. 생뚱맞은 아이콘 제거하고 차분한 안내 문구 타이포그래피 적용 */
+.intro-text {
+    font-size: 15px;
+    color: #9ab4c4;
+    font-weight: 600;
+    letter-spacing: 1px;
 }
 
 .form-group {
@@ -136,38 +131,38 @@ body {
     align-items: center;
     justify-content: space-between;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
     color: #f0ebd8;
     margin-bottom: 12px;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 
 .help-text {
     font-size: 13px;
-    color: #9ab4c4;
+    color: #6db3e6;
     cursor: pointer;
     text-decoration: underline;
     text-underline-offset: 3px;
-    font-weight: 400;
+    font-weight: 600;
 }
 
 .help-icon {
-    color: #9ab4c4;
+    color: #6db3e6;
     font-size: 15px;
     margin-left: 4px;
     cursor: pointer;
     text-decoration: none;
 }
 
-/* 인풋창 (신뢰감 있는 고전적 느낌의 박스) */
+/* 4. 입력칸 시인성 강화 (명확하게 구분되는 박스) */
 #userName,
 .date-time-box {
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid #2d3b55;
-    border-radius: 6px;
-    color: #e6dfd3;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(2px);
+    background: rgba(255, 255, 255, 0.08);
+    /* 반투명 화이트 */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 #userName {
@@ -176,29 +171,29 @@ body {
     font-size: 17px;
     outline: none;
     transition: 0.3s;
-    font-family: 'Noto Serif KR', serif;
+    font-family: inherit;
 }
 
 #userName:focus,
 .date-time-box:focus-within {
-    border-color: #5c729c;
-    background: rgba(0, 0, 0, 0.6);
+    border-color: #6db3e6;
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 8px rgba(109, 179, 230, 0.4);
 }
 
 #userName::placeholder,
 .clean-input::placeholder {
-    color: #6e7c94;
-    font-family: 'Noto Serif KR', serif;
-    font-weight: 300;
+    color: #8e9bac;
+    font-family: inherit;
+    font-weight: 500;
 }
 
 /* 성별 토글 */
 .toggle-group {
     display: flex;
-    border: 1px solid #2d3b55;
-    border-radius: 6px;
-    background: rgba(0, 0, 0, 0.4);
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .toggle-btn {
@@ -208,23 +203,26 @@ body {
     border: none;
     font-size: 16px;
     font-weight: 600;
-    color: #6e7c94;
+    color: #8e9bac;
     cursor: pointer;
     transition: 0.3s;
-    font-family: 'Noto Serif KR', serif;
+    font-family: inherit;
 }
 
 .toggle-btn.active {
-    color: #0f141e;
-    background: #9ab4c4;
-    font-weight: 600;
-    border-radius: 4px;
+    color: #0b0f19;
+    background: #c8b9a6;
+    font-weight: 700;
+    border-radius: 6px;
 }
+
+/* 대비가 강하도록 금/은색 계열 */
 
 /* 생년월일시 박스 */
 .date-time-box {
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .dt-row {
@@ -237,7 +235,7 @@ body {
     width: 55px;
     font-size: 15px;
     color: #9ab4c4;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .clean-input {
@@ -246,26 +244,26 @@ body {
     outline: none;
     font-size: 17px;
     background: transparent;
-    color: #f0ebd8;
-    font-family: 'Noto Serif KR', serif;
+    color: #ffffff;
+    font-family: inherit;
     letter-spacing: 1px;
 }
 
 .clean-input option {
-    background: #0f141e;
+    background: #1e283d;
     color: #f0ebd8;
 }
 
 .ampm-select {
     flex: 0.4;
-    border-right: 1px dotted #2d3b55;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 0;
     margin-right: 12px;
 }
 
 .dt-divider {
     height: 1px;
-    background: #1c273c;
+    background: rgba(255, 255, 255, 0.1);
     margin: 0 10px;
 }
 
@@ -293,54 +291,57 @@ body {
 .chk-mark {
     width: 18px;
     height: 18px;
-    border: 1px solid #2d3b55;
+    border: 1px solid rgba(255, 255, 255, 0.3);
     display: inline-block;
     background: rgba(0, 0, 0, 0.4);
     position: relative;
-    border-radius: 2px;
+    border-radius: 3px;
 }
 
 .custom-chk input:checked+.chk-mark::after {
     content: '✔';
     position: absolute;
-    color: #e6dfd3;
-    font-size: 13px;
+    color: #6db3e6;
+    font-size: 14px;
     top: -1px;
     left: 2px;
 }
 
-/* 하단 버튼 (고급스러운 금/은색 테마) */
+/* 5. 하단 버튼 ('사주풀이 시작', 볼드 강조) */
 .bottom-btns {
     margin-top: auto;
     padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .primary-btn {
     width: 100%;
     padding: 18px;
-    background: linear-gradient(to bottom, #d5c3aa, #b39b7d);
+    background: linear-gradient(135deg, #d5c3aa, #a3896c);
     color: #1a1514;
-    border: 1px solid #756247;
-    border-radius: 6px;
-    font-size: 18px;
-    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: 900;
+    /* 제일 눈에 띄게 */
     cursor: pointer;
-    font-family: 'Noto Serif KR', serif;
+    font-family: inherit;
     transition: 0.2s;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
     letter-spacing: 2px;
 }
 
 .primary-btn:hover {
     filter: brightness(1.1);
+    transform: translateY(-1px);
 }
 
 
 /* ===============================
-   1.5 로딩 화면 (분석 중...)
+   6. 로딩 화면 (차분한, 책을 펴는 느낌의 모션)
 =============================== */
 .loading-theme {
-    background: #0b0f19;
+    background: #0f141e;
 }
 
 .loading-overlay {
@@ -349,43 +350,57 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: url('참고사진/KakaoTalk_20260303_005122798.jpg') center/cover no-repeat;
-    background-blend-mode: multiply;
-    background-color: rgba(10, 15, 25, 0.8);
+    background: radial-gradient(circle, #1e283d 0%, #0b0f19 100%);
 }
 
-.loading-lock {
-    width: 120px;
-    height: 120px;
-    background: url('참고사진/KakaoTalk_20260303_005122798.jpg') center/cover no-repeat;
-    border-radius: 50%;
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
-    border: 2px solid #5c729c;
+/* 책/서책 분석을 표현하는 CSS 애니메이션 구조 */
+.book-animation {
+    position: relative;
+    width: 100px;
+    height: 70px;
     margin-bottom: 30px;
-    animation: pulse 2s infinite ease-in-out;
+    perspective: 400px;
+    display: flex;
+}
+
+.book-page {
+    width: 50px;
+    height: 70px;
+    background: #d5c3aa;
+    border: 1px solid #a3896c;
+    border-radius: 2px;
+    transform-origin: left center;
+}
+
+.left-page {
+    transform-origin: right center;
+    background: linear-gradient(to right, #b39b7d, #d5c3aa);
+    border-radius: 4px 0 0 4px;
+}
+
+.right-page {
+    background: linear-gradient(to left, #b39b7d, #d5c3aa);
+    border-radius: 0 4px 4px 0;
+    animation: pageTurn 1.8s infinite ease-in-out alternate;
 }
 
 .loading-text {
     font-size: 20px;
     color: #f0ebd8;
-    font-weight: 600;
-    letter-spacing: 3px;
-    font-family: 'Noto Serif KR', serif;
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-family: inherit;
     animation: blink 1.5s infinite;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
-@keyframes pulse {
+@keyframes pageTurn {
     0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.05);
+        transform: rotateY(0deg);
     }
 
     100% {
-        transform: scale(1);
+        transform: rotateY(-180deg);
     }
 }
 
@@ -405,10 +420,10 @@ body {
 
 
 /* ===============================
-   2. 결과 화면 (두루마리 / 매화 테마)
+   결과 화면 (저작권 요소 제거 후 깔끔한 그라데이션)
 =============================== */
 #result-screen {
-    background: #f4eee1;
+    background: #fdfaf5;
     color: #2e2320;
 }
 
@@ -438,8 +453,8 @@ body {
 .profile-summary {
     padding: 25px 20px;
     text-align: center;
-    border-bottom: 2px dashed #cbbca5;
-    background: #fbf8f1;
+    border-bottom: 2px dashed #d5c3aa;
+    background: #faf5eb;
 }
 
 .profile-info h2 {
@@ -456,10 +471,9 @@ body {
     font-weight: 600;
 }
 
-/* 정교한 한자 중심 만세력 표 */
 .manseoryok-board {
     padding: 30px 15px;
-    background: #fffcf5;
+    background: #ffffff;
 }
 
 .m-table {
@@ -471,11 +485,11 @@ body {
 .m-table th {
     padding: 12px 0;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
     color: #2d3b55;
     border-bottom: 2px solid #2d3b55;
     border-right: 1px solid #d5c8b2;
-    background: #e2e8f0;
+    background: #eef2f6;
 }
 
 .m-table th:last-child {
@@ -492,23 +506,18 @@ body {
     border-right: none;
 }
 
-/* 행 레이블 (세로표기) */
 .m-table td.label {
     width: 45px;
-    background: #edf2f7;
+    background: #f8fafc;
     font-size: 13px;
     color: #2d3b55;
-    font-weight: 600;
+    font-weight: 700;
     border-right: 2px solid #2d3b55;
     writing-mode: vertical-rl;
     text-orientation: upright;
-    display: table-cell;
-    vertical-align: middle;
-    letter-spacing: 2px;
     padding: 10px 0;
 }
 
-/* 한글 & 한자 & 오행 레이아웃 */
 .hanja-row td:not(.label) {
     padding: 18px 0;
 }
@@ -516,23 +525,22 @@ body {
 .hanja-row .elem {
     font-size: 12px;
     margin-bottom: 5px;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .hanja-row .hanja {
     font-size: 44px;
-    font-weight: 900;
+    font-weight: 800;
     line-height: 1.1;
     margin-bottom: 3px;
-    font-family: serif;
+    font-family: "Malgun Gothic", serif;
 }
 
 .hanja-row .hangul {
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 700;
 }
 
-/* 오행 색상 텍스트용 */
 .wood-txt {
     color: #1e5a3a;
 }
@@ -581,7 +589,7 @@ body {
 .sibsung-row td:not(.label) {
     padding: 10px 0;
     font-size: 14.5px;
-    font-weight: 900;
+    font-weight: 800;
     border-bottom: 2px solid #2d3b55;
 }
 
@@ -599,49 +607,30 @@ body {
     font-weight: 600;
 }
 
-/* 대화형 챗봇 영역 (매화/두루마리 배경) */
+/* 대화형 챗봇 영역 (클린 그라데이션) */
 .chat-section {
     display: flex;
     flex-direction: column;
     flex: 1;
     border-top: 2px solid #2d3b55;
-    background: #e6dfcb;
+    background: #fdfaf5;
 }
 
 .chat-header-bar.roof-theme {
-    background: url('참고사진/KakaoTalk_20260303_005122798_04.jpg') center/cover no-repeat;
+    background: linear-gradient(135deg, #1e283d, #2d3b55);
     position: relative;
     color: #fff;
-    padding: 18px;
+    padding: 16px;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
     text-align: center;
     margin: 10px 10px 0 10px;
     border-radius: 6px 6px 0 0;
     letter-spacing: 1px;
 }
 
-.chat-header-bar.roof-theme::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.4);
-    border-radius: 6px 6px 0 0;
-}
-
-.chat-header-bar.roof-theme span {
-    position: relative;
-    z-index: 1;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-}
-
 .scroll-bg {
-    background: url('참고사진/KakaoTalk_20260303_005122798_03.jpg') center/cover no-repeat;
-    background-color: rgba(255, 255, 255, 0.85);
-    background-blend-mode: lighten;
+    background: #fafafa;
     flex: 1;
     min-height: 280px;
     overflow-y: auto;
@@ -650,8 +639,8 @@ body {
     flex-direction: column;
     gap: 18px;
     margin: 0 10px;
-    border-left: 2px solid #cbbca5;
-    border-right: 2px solid #cbbca5;
+    border-left: 2px solid #d5c3aa;
+    border-right: 2px solid #d5c3aa;
 }
 
 .message {
@@ -677,48 +666,48 @@ body {
 }
 
 .bot .bubble {
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid #cbbca5;
+    background: #ffffff;
+    border: 1px solid #d5c3aa;
     color: #2e2320;
 }
 
 .user .bubble {
     background: #1e283d;
-    color: #f4eee1;
+    color: #fdfaf5;
     border: 1px solid #1e283d;
 }
 
 .chat-input-area {
     display: flex;
     padding: 15px 10px;
-    background: #e6dfcb;
+    background: #eef2f6;
 }
 
 .chat-input-area input {
     flex: 1;
     padding: 16px;
-    background: #fffcf5;
-    border: 2px solid #cbbca5;
+    background: #ffffff;
+    border: 2px solid #cbd5e1;
     outline: none;
     font-size: 16px;
-    font-family: 'Noto Serif KR', serif;
-    color: #2e2320;
+    font-family: inherit;
+    color: #1e283d;
     border-radius: 6px 0 0 6px;
 }
 
 .chat-input-area input:focus {
-    border-color: #1e283d;
+    border-color: #6db3e6;
 }
 
 .chat-input-area button {
     padding: 0 24px;
     background: #1e283d;
-    color: #fffcf5;
+    color: #ffffff;
     border: 2px solid #1e283d;
     font-weight: 700;
     cursor: pointer;
     font-size: 16px;
-    font-family: 'Noto Serif KR', serif;
+    font-family: inherit;
     border-radius: 0 6px 6px 0;
     transition: 0.2s;
 }
@@ -727,7 +716,7 @@ body {
     background: #0f141e;
 }
 
-/* 모달 스타일 유지 */
+/* 모달 및 기타 구조 유지 */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -771,7 +760,7 @@ body {
     margin-bottom: 24px;
     max-height: 400px;
     overflow-y: auto;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .modal-close-btn {
@@ -783,7 +772,7 @@ body {
     border: none;
     cursor: pointer;
     font-size: 16px;
-    font-family: 'Noto Serif KR', serif;
+    font-family: inherit;
     border-radius: 6px;
 }
 
