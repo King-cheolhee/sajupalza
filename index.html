@@ -4,101 +4,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>사주명리 - 나의 운명</title>
+    <title>사주명리 - 도향(道香)</title>
+    <!-- 고급스러운 명조체 로드 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div id="app-container">
-
         <!-- ===============================
-              1. 프로필 입력 화면 (폼)
+              1. 프로필 입력 화면 (전통 목가구 테마)
         ================================ -->
         <div id="input-screen" class="screen active">
-            <header class="top-nav">
+            <header class="top-nav traditional">
                 <button class="icon-btn" id="mainBackBtn">⟨</button>
-                <h1 class="nav-title">나의 사주 🔮</h1>
-                <div style="width:24px;"></div> <!-- 우측 더보기 버튼 삭제 후 밸런스를 위한 빈 여백 -->
+                <h1 class="nav-title">정통 명리</h1>
+                <div style="width:24px;"></div>
             </header>
 
             <main class="form-wrapper">
-                <div class="form-group">
-                    <label>이름</label>
-                    <input type="text" id="userName" placeholder="이름을 입력해주세요" autocomplete="off">
+                <!-- 전통 장식 문양 포인트 -->
+                <div class="intro-decoration">
+                    <div class="metal-ornament"></div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group box-style">
+                    <label>이름</label>
+                    <input type="text" id="userName" placeholder="성함을 기입해 주십시오" autocomplete="off">
+                </div>
+
+                <div class="form-group box-style">
                     <label>성별</label>
                     <div class="toggle-group" id="genderToggle">
-                        <button type="button" class="toggle-btn active" data-val="female">여자</button>
-                        <button type="button" class="toggle-btn" data-val="male">남자</button>
+                        <button type="button" class="toggle-btn active" data-val="female">여성 (坤)</button>
+                        <button type="button" class="toggle-btn" data-val="male">남성 (乾)</button>
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group box-style">
                     <label>
                         생년월일시
                         <span class="help-text" id="btn12Ganji">12간지 시간표 🔍</span>
                     </label>
 
-                    <!-- 더 자연스러운 입력 폼 형태 -->
                     <div class="date-time-box">
                         <div class="dt-row">
-                            <span class="dt-label">양/음</span>
+                            <span class="dt-label">역법</span>
                             <select id="calendarType" class="clean-input">
-                                <option value="solar">양력</option>
-                                <option value="lunar">음력</option>
+                                <option value="solar">양력 (陽曆)</option>
+                                <option value="lunar">음력 (陰曆)</option>
                             </select>
                         </div>
                         <div class="dt-divider"></div>
                         <div class="dt-row">
                             <span class="dt-label">날짜</span>
-                            <input type="date" id="birthDate" class="clean-input">
+                            <input type="text" id="birthDate" class="clean-input auto-format-date"
+                                placeholder="YYYY-MM-DD (숫자 8자리 기입)" autocomplete="off" maxlength="10">
                         </div>
                         <div class="dt-divider"></div>
                         <div class="dt-row">
                             <span class="dt-label">시간</span>
-                            <input type="time" id="birthTime" class="clean-input">
+                            <select id="ampmType" class="clean-input ampm-select">
+                                <option value="am">오전</option>
+                                <option value="pm">오후</option>
+                            </select>
+                            <input type="text" id="birthTime" class="clean-input auto-format-time"
+                                placeholder="HH:MM (숫자 4자리)" autocomplete="off" maxlength="5">
                         </div>
                     </div>
 
                     <div class="checkbox-row">
-                        <label><input type="checkbox" id="unknownTime"> 시간 모름</label>
-                        <label><input type="checkbox" id="yajaTime"> 야자시/조자시 <span class="help-icon"
-                                id="btnYaja">🔍</span></label>
+                        <label class="custom-chk"><input type="checkbox" id="unknownTime"> <span
+                                class="chk-mark"></span> 시간 모름</label>
+                        <label class="custom-chk"><input type="checkbox" id="yajaTime"> <span class="chk-mark"></span>
+                            야자시/조자시 <span class="help-icon" id="btnYaja">🔍</span></label>
                     </div>
                 </div>
 
-                <!-- 도시 선택 삭제됨 -->
-
                 <div class="bottom-btns">
-                    <button type="button" id="submitBtn" class="primary-btn">나의 사주 보러가기</button>
+                    <button type="button" id="submitBtn" class="primary-btn">운명의 문 열기</button>
                 </div>
             </main>
         </div>
 
 
         <!-- ===============================
-              2. 결과 (만세력 & 채팅) 화면
+              2. 결과 (만세력 & 채팅) 화면 (한지 테마)
         ================================ -->
-        <div id="result-screen" class="screen">
-            <header class="top-nav">
+        <div id="result-screen" class="screen result-theme">
+            <header class="top-nav traditional panel-nav">
                 <button class="icon-btn" id="backBtn">⟨</button>
-                <h1 class="nav-title">명식 결과 및 풀이</h1>
+                <h1 class="nav-title">명식 대조(對照)</h1>
                 <div style="width:24px;"></div>
             </header>
 
             <main class="result-wrapper">
-                <!-- 상단 프로필 요약 정보 -->
+                <!-- 프로필 요약 정보 -->
                 <div class="profile-summary">
-                    <div class="profile-avatar">👤</div>
                     <div class="profile-info">
                         <h2 id="resName">이름</h2>
-                        <p class="res-desc" id="resDetails1">양력 1990/01/01 12:00 여자</p>
+                        <p class="res-desc" id="resDetails1">양력 1990/01/01 12:00 여성</p>
                     </div>
                 </div>
 
-                <!-- 세밀한 명식 (만세력 표) -->
+                <!-- 세밀한 명식 (만세력 표) - 한자 병기 개선 -->
                 <div class="manseoryok-board">
                     <table class="m-table">
                         <thead>
@@ -114,10 +126,26 @@
                             <!-- 천간 -->
                             <tr class="hanja-row upper">
                                 <td class="label">천간</td>
-                                <td class="wood relative">을<span>乙</span><span class="element-tag">-목</span></td>
-                                <td class="water relative">임<span>壬</span><span class="element-tag">+수</span></td>
-                                <td class="metal relative">신<span>辛</span><span class="element-tag">-금</span></td>
-                                <td class="wood relative">갑<span>甲</span><span class="element-tag">+목</span></td>
+                                <td>
+                                    <div class="elem wood-txt">-목</div>
+                                    <div class="hanja wood-txt">乙</div>
+                                    <div class="hangul wood-txt">을</div>
+                                </td>
+                                <td>
+                                    <div class="elem water-txt">+수</div>
+                                    <div class="hanja water-txt">壬</div>
+                                    <div class="hangul water-txt">임</div>
+                                </td>
+                                <td>
+                                    <div class="elem metal-txt">-금</div>
+                                    <div class="hanja metal-txt">辛</div>
+                                    <div class="hangul metal-txt">신</div>
+                                </td>
+                                <td>
+                                    <div class="elem wood-txt">+목</div>
+                                    <div class="hanja wood-txt">甲</div>
+                                    <div class="hangul wood-txt">갑</div>
+                                </td>
                             </tr>
                             <tr class="sibsung-row">
                                 <td class="label">십성</td>
@@ -129,10 +157,26 @@
                             <!-- 지지 -->
                             <tr class="hanja-row lower">
                                 <td class="label">지지</td>
-                                <td class="fire relative">사<span>巳</span><span class="element-tag">+화</span></td>
-                                <td class="earth relative">술<span>戌</span><span class="element-tag">+토</span></td>
-                                <td class="earth relative">미<span>未</span><span class="element-tag">-토</span></td>
-                                <td class="earth relative">술<span>戌</span><span class="element-tag">+토</span></td>
+                                <td>
+                                    <div class="elem fire-txt">+화</div>
+                                    <div class="hanja fire-txt">巳</div>
+                                    <div class="hangul fire-txt">사</div>
+                                </td>
+                                <td>
+                                    <div class="elem earth-txt">+토</div>
+                                    <div class="hanja earth-txt">戌</div>
+                                    <div class="hangul earth-txt">술</div>
+                                </td>
+                                <td>
+                                    <div class="elem earth-txt">-토</div>
+                                    <div class="hanja earth-txt">未</div>
+                                    <div class="hangul earth-txt">미</div>
+                                </td>
+                                <td>
+                                    <div class="elem earth-txt">+토</div>
+                                    <div class="hanja earth-txt">戌</div>
+                                    <div class="hangul earth-txt">술</div>
+                                </td>
                             </tr>
                             <tr class="sibsung-row">
                                 <td class="label">십성</td>
@@ -170,16 +214,17 @@
                 <!-- AI 챗봇 영역 -->
                 <div class="chat-section">
                     <div class="chat-header-bar">
-                        <span>사주 심층 분석 (AI 도사님)</span>
+                        명리 심층 분석 (도사님 대화)
                     </div>
                     <div class="chat-box" id="chatBox">
                         <div class="message bot">
-                            <div class="bubble">만세력을 바탕으로 사주 8글자 셋업을 마쳤습니다. <br>올해의 운세나 재물운 등 궁금한 점을 편하게 말씀해주세요.</div>
+                            <div class="bubble">사주 8글자 명식 구성을 성공적으로 마쳤습니다. <br>금년의 길흉화복이나 평생지기의 조언, 혹은 재물과 애정에 관해 편하게
+                                여쭈어보시지요.</div>
                         </div>
                     </div>
                     <div class="chat-input-area">
-                        <input type="text" id="userInput" placeholder="질문을 입력하세요..." autocomplete="off">
-                        <button id="sendBtn">전송</button>
+                        <input type="text" id="userInput" placeholder="조언을 구해봅니다..." autocomplete="off">
+                        <button id="sendBtn">여쭙기</button>
                     </div>
                 </div>
             </main>
@@ -189,7 +234,7 @@
     <!-- 모달: 12간지 시간표 -->
     <div id="modal-12ganji" class="modal-overlay">
         <div class="modal-content">
-            <h3 class="modal-title">12간지 시간표</h3>
+            <h3 class="modal-title">12간지 시간표 (十二支)</h3>
             <div class="modal-body">
                 <p><strong>자시(子)</strong>: 23:30 ~ 01:29</p>
                 <p><strong>축시(丑)</strong>: 01:30 ~ 03:29</p>
@@ -211,14 +256,14 @@
     <!-- 모달: 야자시/조자시 설명 -->
     <div id="modal-yaja" class="modal-overlay">
         <div class="modal-content">
-            <h3 class="modal-title">야자시 / 조자시란?</h3>
+            <h3 class="modal-title">야자시와 조자시의 구분</h3>
             <div class="modal-body">
-                <p>사주 명리학에서는 밤 11시부터 새벽 1시 사이(자시)에 태어난 경우 날짜의 분기점을 어떻게 볼 것인지에 대한 이견이 있습니다.</p>
+                <p>명리학에서 자시(밤 11시 ~ 새벽 1시)에 태어난 경우 날짜의 경계를 어찌할지에 대한 논의가 있습니다.</p>
                 <br>
-                <p><strong>• 야자시 (夜子時)</strong>: 23:30 ~ 00:00 이전. 오늘 밤의 끝으로 보아 <strong>오늘 명식</strong>을 따릅니다.</p>
-                <p><strong>• 조자시 (朝子時)</strong>: 00:00 ~ 01:30 이전. 내일 아침의 시작으로 보아 <strong>내일 명식</strong>을 따릅니다.</p>
+                <p><strong>• 야자시 (夜子時)</strong>: 23:30 ~ 00:00 이전. 오늘 밤의 끝자락으로 보아 <strong>오늘의 명식</strong>을 따릅니다.</p>
+                <p><strong>• 조자시 (朝子時)</strong>: 00:00 ~ 01:30 이전. 내일 아침의 시작으로 보아 <strong>내일의 명식</strong>을 따릅니다.</p>
                 <br>
-                <p>정확한 풀이를 위해 본인이 태어난 시간이 자정 이전인지 이후인지 확인이 필요합니다.</p>
+                <p>가장 명확한 풀이를 위해 밤 12시(자정)를 기준으로 전(야자시)과 후(조자시)를 가늠해 주시길 바랍니다.</p>
             </div>
             <button class="modal-close-btn" data-target="modal-yaja">확인</button>
         </div>
