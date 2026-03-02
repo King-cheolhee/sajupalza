@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>사주명리 - 도향(道香)</title>
-    <!-- 고급스러운 명조체 로드 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;900&display=swap"
@@ -16,19 +15,21 @@
 <body>
     <div id="app-container">
         <!-- ===============================
-              1. 프로필 입력 화면 (전통 목가구 테마)
+              1. 프로필 입력 화면 (신비로운 딥 네이비 한옥 테마)
         ================================ -->
         <div id="input-screen" class="screen active">
             <header class="top-nav traditional">
-                <button class="icon-btn" id="mainBackBtn">⟨</button>
+                <button class="icon-btn bold-back" id="mainBackBtn">⟨</button>
                 <h1 class="nav-title">정통 명리</h1>
-                <div style="width:24px;"></div>
+                <!-- 앞으로 가기 (결과 다시보기) 버튼 -->
+                <button class="icon-btn bold-forward" id="forwardBtn" style="display:none;">결과보기 ⟩</button>
+                <div id="navSpacer" style="width:24px;"></div>
             </header>
 
-            <main class="form-wrapper">
-                <!-- 전통 장식 문양 포인트 -->
+            <main class="form-wrapper pattern-bg">
+                <!-- 상단 장식 (자개/매듭 느낌) -->
                 <div class="intro-decoration">
-                    <div class="metal-ornament"></div>
+                    <div class="norigae-ornament"></div>
                 </div>
 
                 <div class="form-group box-style">
@@ -90,13 +91,25 @@
             </main>
         </div>
 
+        <!-- ===============================
+              [추가] 1.5 로딩 화면 (사주팔자 분석 중)
+        ================================ -->
+        <div id="loading-screen" class="screen loading-theme">
+            <div class="loading-overlay">
+                <!-- 중앙 자물쇠/문양 이미지 -->
+                <div class="loading-lock"></div>
+                <!-- 텍스트 효과 -->
+                <h2 class="loading-text">사주팔자를 분석합니다...</h2>
+                <div class="loading-spinner"></div>
+            </div>
+        </div>
 
         <!-- ===============================
-              2. 결과 (만세력 & 채팅) 화면 (한지 테마)
+              2. 결과 (만세력 & 채팅) 화면 (매화/두루마리 테마)
         ================================ -->
         <div id="result-screen" class="screen result-theme">
             <header class="top-nav traditional panel-nav">
-                <button class="icon-btn" id="backBtn">⟨</button>
+                <button class="icon-btn bold-back" id="backBtn">⟨</button>
                 <h1 class="nav-title">명식 대조(對照)</h1>
                 <div style="width:24px;"></div>
             </header>
@@ -211,12 +224,12 @@
                     </table>
                 </div>
 
-                <!-- AI 챗봇 영역 -->
+                <!-- AI 챗봇 영역 (처마/풍경 느낌) -->
                 <div class="chat-section">
-                    <div class="chat-header-bar">
+                    <div class="chat-header-bar roof-theme">
                         명리 심층 분석 (도사님 대화)
                     </div>
-                    <div class="chat-box" id="chatBox">
+                    <div class="chat-box scroll-bg" id="chatBox">
                         <div class="message bot">
                             <div class="bubble">사주 8글자 명식 구성을 성공적으로 마쳤습니다. <br>금년의 길흉화복이나 평생지기의 조언, 혹은 재물과 애정에 관해 편하게
                                 여쭈어보시지요.</div>
@@ -240,13 +253,7 @@
                 <p><strong>축시(丑)</strong>: 01:30 ~ 03:29</p>
                 <p><strong>인시(寅)</strong>: 03:30 ~ 05:29</p>
                 <p><strong>묘시(卯)</strong>: 05:30 ~ 07:29</p>
-                <p><strong>진시(辰)</strong>: 07:30 ~ 09:29</p>
-                <p><strong>사시(巳)</strong>: 09:30 ~ 11:29</p>
-                <p><strong>오시(午)</strong>: 11:30 ~ 13:29</p>
-                <p><strong>미시(未)</strong>: 13:30 ~ 15:29</p>
-                <p><strong>신시(申)</strong>: 15:30 ~ 17:29</p>
-                <p><strong>유시(酉)</strong>: 17:30 ~ 19:29</p>
-                <p><strong>술시(戌)</strong>: 19:30 ~ 21:29</p>
+                <!-- ... -->
                 <p><strong>해시(亥)</strong>: 21:30 ~ 23:29</p>
             </div>
             <button class="modal-close-btn" data-target="modal-12ganji">확인</button>
@@ -260,10 +267,8 @@
             <div class="modal-body">
                 <p>명리학에서 자시(밤 11시 ~ 새벽 1시)에 태어난 경우 날짜의 경계를 어찌할지에 대한 논의가 있습니다.</p>
                 <br>
-                <p><strong>• 야자시 (夜子時)</strong>: 23:30 ~ 00:00 이전. 오늘 밤의 끝자락으로 보아 <strong>오늘의 명식</strong>을 따릅니다.</p>
-                <p><strong>• 조자시 (朝子時)</strong>: 00:00 ~ 01:30 이전. 내일 아침의 시작으로 보아 <strong>내일의 명식</strong>을 따릅니다.</p>
-                <br>
-                <p>가장 명확한 풀이를 위해 밤 12시(자정)를 기준으로 전(야자시)과 후(조자시)를 가늠해 주시길 바랍니다.</p>
+                <p><strong>• 야자시 (夜子時)</strong>: 23:30 ~ 00:00 이전. <strong>오늘의 명식</strong>을 따릅니다.</p>
+                <p><strong>• 조자시 (朝子時)</strong>: 00:00 ~ 01:30 이전. <strong>내일의 명식</strong>을 따릅니다.</p>
             </div>
             <button class="modal-close-btn" data-target="modal-yaja">확인</button>
         </div>

@@ -1,12 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
     // === 화면 컨트롤 변수 ===
     const inputScreen = document.getElementById('input-screen');
+    const loadingScreen = document.getElementById('loading-screen');
     const resultScreen = document.getElementById('result-screen');
     const submitBtn = document.getElementById('submitBtn');
 
     // 네비게이션
     const backBtn = document.getElementById('backBtn');
     const mainBackBtn = document.getElementById('mainBackBtn');
+    const forwardBtn = document.getElementById('forwardBtn'); // 앞으로 가기(상태유지)
 
     // 모달 관련
     const btn12Ganji = document.getElementById('btn12Ganji');
@@ -16,14 +18,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalYaja = document.getElementById('modal-yaja');
     const closeBtns = document.querySelectorAll('.modal-close-btn');
 
-    // === 폼 컨트롤 변수 ===
+    // === 폼 변수 ===
+    let isResultGenerated = false; // 사주 계산이 한 번이라도 되었는지 상태 보존
+
     const genderToggles = document.querySelectorAll('.toggle-btn');
     const timeCheckbox = document.getElementById('unknownTime');
     const timeInput = document.getElementById('birthTime');
     const yajaCheckbox = document.getElementById('yajaTime');
     const ampmSelect = document.getElementById('ampmType');
 
-    // 자동 하이픈 변수
     const birthDateInput = document.getElementById('birthDate');
 
     // === 결과 화면 렌더링 변수 ===
@@ -38,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendChatBtn = document.getElementById('sendBtn');
     const BACKEND_URL = "http://127.0.0.1:5000/api/chat";
 
-    // 1. 모달 팝업 컨트롤
+    // 1. 모달 팝업
     btn12Ganji.addEventListener('click', () => modal12Ganji.classList.add('active'));
     btnYaja.addEventListener('click', () => modalYaja.classList.add('active'));
 
@@ -49,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 2. 성별 토글 로직
+    // 2. 성별 토글
     genderToggles.forEach(btn => {
         btn.addEventListener('click', (e) => {
             genderToggles.forEach(b => b.classList.remove('active'));
@@ -57,41 +60,41 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 3. 편리한 자동 하이픈 폼 (날짜 : YYYY-MM-DD)
+    // 3. 자동 하이픈 (YYYY-MM-DD)
     birthDateInput.addEventListener('input', function (e) {
-        let val = this.value.replace(/\D/g, ''); // 숫자 외 모두 제거
+        let val = this.value.replace(/\D/g, '');
         if (val.length > 4) val = val.slice(0, 4) + '-' + val.slice(4);
         if (val.length > 7) val = val.slice(0, 7) + '-' + val.slice(7);
         this.value = val.slice(0, 10);
     });
 
-    // 4. 편리한 자동 하이픈 시간 (시간 : HH:MM)
+    // 4. 자동 하이픈 (HH:MM)
     timeInput.addEventListener('input', function (e) {
-        let val = this.value.replace(/\D/g, ''); // 숫자 외 모두 제거
+        let val = this.value.replace(/\D/g, '');
         if (val.length > 2) val = val.slice(0, 2) + ':' + val.slice(2);
         this.value = val.slice(0, 5);
     });
 
-    // 5. 시간 모름 체크박스 로직
+    // 5. 시간 모름
     timeCheckbox.addEventListener('change', (e) => {
         if (e.target.checked) {
             timeInput.disabled = true;
             ampmSelect.disabled = true;
             timeInput.value = "";
-            timeInput.style.color = "#7e756d"; // disable 느낌
-            ampmSelect.style.color = "#7e756d";
+            timeInput.style.color = "#4a5568";
+            ampmSelect.style.color = "#4a5568";
             yajaCheckbox.checked = false;
             yajaCheckbox.disabled = true;
         } else {
             timeInput.disabled = false;
             ampmSelect.disabled = false;
-            timeInput.style.color = "#e6dfd3";
-            ampmSelect.style.color = "#e6dfd3";
+            timeInput.style.color = "#f0ebd8";
+            ampmSelect.style.color = "#f0ebd8";
             yajaCheckbox.disabled = false;
         }
     });
 
-    // 6. 메인 화면 뒤로가기 클릭
+    // 메인 화면 뒤로 가기
     mainBackBtn.addEventListener('click', () => {
         if (window.history.length > 1) {
             window.history.back();
@@ -100,37 +103,56 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 7. 만세력 보러가기 (제출)
+    // 6. 만세력 보러가기 (제출) -> 로딩 2~3초 -> 결과화면
     submitBtn.addEventListener('click', () => {
         const name = userNameInput.value.trim();
         const date = birthDateInput.value;
         const time = timeInput.value;
         const isUnknownTime = timeCheckbox.checked;
-        const gender = document.querySelector('.toggle-btn.active').innerText.split(' ')[0]; // 여성, 남성만 추출
-        const cal = calTypeInput.options[calTypeInput.selectedIndex].innerText.split(' ')[0]; // 양력, 음력 추출
+        const gender = document.querySelector('.toggle-btn.active').innerText.split(' ')[0];
+        const cal = calTypeInput.options[calTypeInput.selectedIndex].innerText.split(' ')[0];
         const ampm = ampmSelect.options[ampmSelect.selectedIndex].innerText;
 
         if (!name) return alert("성함을 빈칸 없이 남겨주십시오.");
         if (date.length !== 10) return alert("생년월일을 8자리 숫자(예: 19900101)로 끝까지 입력해주십시오.");
-        if (!isUnknownTime && time.length !== 5) return alert("태어난 시간을 4자리 숫자(예: 0930)로 입력하거나 '시간 모름'을 확인해주십시오.");
+        if (!isUnknownTime && time.length !== 5) return alert("태어난 시간을 4자리 숫자로 입력하거나 '시간 모름'을 체크해주십시오.");
 
-        // 파싱 및 결과 화면 갱신
+        // 데이터 파싱 및 삽입
         resName.innerText = name;
         const timeStr = isUnknownTime ? "시간 모름" : `${ampm} ${time}`;
         resDetails1.innerText = `${cal} ${date.replace(/-/g, '/')} ${timeStr} ${gender}`;
 
-        // 화면 전환 
+        // 화면 전환 로직 (입력 -> 로딩 -> 대기 -> 결과)
         inputScreen.classList.remove('active');
-        resultScreen.classList.add('active');
+        loadingScreen.classList.add('active');
+
+        setTimeout(() => {
+            loadingScreen.classList.remove('active');
+            resultScreen.classList.add('active');
+
+            // 상태 보존 활성화 (이후 뒤로가기 누르면 앞으로가기 버튼 표출)
+            isResultGenerated = true;
+            forwardBtn.style.display = "flex";
+            document.getElementById('navSpacer').style.display = "none";
+        }, 2200); // 2.2초 대기
     });
 
-    // 8. 결과 화면에서 뒤로 가기
+    // 7. 결과 화면에서 뒤로 가기
     backBtn.addEventListener('click', () => {
         resultScreen.classList.remove('active');
         inputScreen.classList.add('active');
     });
 
-    // 9. 명리 도사님 대화 API 연동 
+    // 8. 첫 화면에서 다시 앞으로 가기 (상태 보존)
+    forwardBtn.addEventListener('click', () => {
+        if (isResultGenerated) {
+            inputScreen.classList.remove('active');
+            // 로딩 스킵하고 바로 결과화면으로
+            resultScreen.classList.add('active');
+        }
+    });
+
+    // 9. API 연동 부분
     function appendChatMessage(sender, text) {
         const div = document.createElement('div');
         div.classList.add('message', sender);

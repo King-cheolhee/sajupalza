@@ -7,7 +7,8 @@
 
 body {
     font-family: 'Noto Serif KR', serif;
-    background-color: #1a1514;
+    background-color: #0b0f19;
+    /* 매우 깊고 신비로운 밤하늘 네이비 */
     display: flex;
     justify-content: center;
     min-height: 100vh;
@@ -17,8 +18,8 @@ body {
 #app-container {
     width: 100%;
     max-width: 480px;
-    background: #2b1d18;
-    /* 깊은 목재 색상 */
+    background: #0f141e;
+    /* 깊고 신뢰감 있는 인디고/밤색 계열 */
     min-height: 100vh;
     position: relative;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
@@ -39,15 +40,16 @@ body {
     display: flex;
 }
 
-/* 1. 전통 테마 네비게이션바 (은장식 느낌) */
+/* 1. 전통 테마 네비게이션바 (네이비+금/은장식 톤) */
 .top-nav.traditional {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 18px 20px;
-    background: #2b1d18;
-    border-bottom: 2px solid #4a342b;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    background: rgba(15, 20, 30, 0.95);
+    /* 반투명 네이비 */
+    border-bottom: 2px solid #202a3f;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     z-index: 10;
 }
 
@@ -73,28 +75,56 @@ body {
     color: #d4cfc5;
 }
 
-/* 1. 입력 폼 영역 */
+/* 뒤로/앞으로 가기 버튼 강조 (Bold) */
+.bold-back {
+    font-weight: 900;
+    font-size: 28px;
+    color: #c8b9a6;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    padding: 0 10px 0 0;
+}
+
+.bold-forward {
+    font-weight: 800;
+    font-size: 16px;
+    color: #c8b9a6;
+    letter-spacing: 1px;
+}
+
+.bold-forward:active {
+    opacity: 0.7;
+}
+
+/* 1. 입력 폼 영역 (연화문 / 기와 패턴 배경 연출) */
 .form-wrapper {
-    padding: 25px 24px;
+    padding: 20px 24px;
     overflow-y: auto;
     flex: 1;
     display: flex;
     flex-direction: column;
-    background-image: radial-gradient(circle at center, #35241e 0%, #2b1d18 100%);
+    background-image:
+        radial-gradient(circle at center, rgba(31, 41, 60, 0.8) 0%, rgba(15, 20, 30, 1) 100%),
+        url('참고사진/KakaoTalk_20260303_005122798_02.jpg');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
 }
 
 .intro-decoration {
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
-.metal-ornament {
-    width: 70px;
-    height: 70px;
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 5 Q70 20 90 50 Q70 80 50 95 Q30 80 10 50 Q30 20 50 5 Z" fill="%238e8279"/></svg>') no-repeat center center;
-    background-size: contain;
+/* 노리개 장식 사용 (KakaoTalk_20260303_005122798_01.jpg) */
+.norigae-ornament {
+    width: 65px;
+    height: 80px;
+    background: url('참고사진/KakaoTalk_20260303_005122798_01.jpg') no-repeat center top;
+    background-size: cover;
     margin: 0 auto;
-    opacity: 0.7;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    border: 2px solid #3c4963;
 }
 
 .form-group {
@@ -107,14 +137,14 @@ body {
     justify-content: space-between;
     font-size: 16px;
     font-weight: 600;
-    color: #d4cfc5;
+    color: #f0ebd8;
     margin-bottom: 12px;
     letter-spacing: 1px;
 }
 
 .help-text {
     font-size: 13px;
-    color: #9a8a7c;
+    color: #9ab4c4;
     cursor: pointer;
     text-decoration: underline;
     text-underline-offset: 3px;
@@ -122,21 +152,22 @@ body {
 }
 
 .help-icon {
-    color: #9a8a7c;
+    color: #9ab4c4;
     font-size: 15px;
     margin-left: 4px;
     cursor: pointer;
     text-decoration: none;
 }
 
-/* 인풋창 (투명한 목가구 틀 느낌) */
+/* 인풋창 (신뢰감 있는 고전적 느낌의 박스) */
 #userName,
 .date-time-box {
-    background: rgba(0, 0, 0, 0.25);
-    border: 1px solid #5a4b44;
-    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid #2d3b55;
+    border-radius: 6px;
     color: #e6dfd3;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
 }
 
 #userName {
@@ -150,13 +181,13 @@ body {
 
 #userName:focus,
 .date-time-box:focus-within {
-    border-color: #9c928a;
-    background: rgba(0, 0, 0, 0.45);
+    border-color: #5c729c;
+    background: rgba(0, 0, 0, 0.6);
 }
 
 #userName::placeholder,
 .clean-input::placeholder {
-    color: #6a5a4d;
+    color: #6e7c94;
     font-family: 'Noto Serif KR', serif;
     font-weight: 300;
 }
@@ -164,10 +195,10 @@ body {
 /* 성별 토글 */
 .toggle-group {
     display: flex;
-    border: 1px solid #5a4b44;
-    border-radius: 4px;
-    background: rgba(0, 0, 0, 0.25);
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    border: 1px solid #2d3b55;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.4);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .toggle-btn {
@@ -177,17 +208,17 @@ body {
     border: none;
     font-size: 16px;
     font-weight: 600;
-    color: #6a5a4d;
+    color: #6e7c94;
     cursor: pointer;
     transition: 0.3s;
     font-family: 'Noto Serif KR', serif;
 }
 
 .toggle-btn.active {
-    color: #1a1514;
-    background: #9c928a;
-    /* 은색 음각 버튼 활성화 */
+    color: #0f141e;
+    background: #9ab4c4;
     font-weight: 600;
+    border-radius: 4px;
 }
 
 /* 생년월일시 박스 */
@@ -205,7 +236,7 @@ body {
 .dt-label {
     width: 55px;
     font-size: 15px;
-    color: #9a8a7c;
+    color: #9ab4c4;
     font-weight: 600;
 }
 
@@ -215,26 +246,26 @@ body {
     outline: none;
     font-size: 17px;
     background: transparent;
-    color: #e6dfd3;
+    color: #f0ebd8;
     font-family: 'Noto Serif KR', serif;
     letter-spacing: 1px;
 }
 
 .clean-input option {
-    background: #2b1d18;
-    color: #e6dfd3;
+    background: #0f141e;
+    color: #f0ebd8;
 }
 
 .ampm-select {
     flex: 0.4;
-    border-right: 1px dotted #5a4b44;
+    border-right: 1px dotted #2d3b55;
     border-radius: 0;
     margin-right: 12px;
 }
 
 .dt-divider {
     height: 1px;
-    background: #4a342b;
+    background: #1c273c;
     margin: 0 10px;
 }
 
@@ -243,7 +274,7 @@ body {
     display: flex;
     gap: 24px;
     font-size: 15px;
-    color: #9a8a7c;
+    color: #9ab4c4;
     margin-top: 14px;
     padding-left: 6px;
 }
@@ -262,9 +293,9 @@ body {
 .chk-mark {
     width: 18px;
     height: 18px;
-    border: 1px solid #5a4b44;
+    border: 1px solid #2d3b55;
     display: inline-block;
-    background: rgba(0, 0, 0, 0.25);
+    background: rgba(0, 0, 0, 0.4);
     position: relative;
     border-radius: 2px;
 }
@@ -278,7 +309,7 @@ body {
     left: 2px;
 }
 
-/* 하단 버튼 (전통 자물쇠 느낌 은색) */
+/* 하단 버튼 (고급스러운 금/은색 테마) */
 .bottom-btns {
     margin-top: auto;
     padding-top: 20px;
@@ -287,26 +318,94 @@ body {
 .primary-btn {
     width: 100%;
     padding: 18px;
-    background: linear-gradient(to bottom, #a49a8f, #7a7066);
+    background: linear-gradient(to bottom, #d5c3aa, #b39b7d);
     color: #1a1514;
-    border: 2px solid #5a544f;
-    border-radius: 4px;
+    border: 1px solid #756247;
+    border-radius: 6px;
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     font-family: 'Noto Serif KR', serif;
     transition: 0.2s;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 4px 6px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     letter-spacing: 2px;
 }
 
 .primary-btn:hover {
-    background: linear-gradient(to bottom, #b4aaa0, #8a8076);
+    filter: brightness(1.1);
 }
 
 
 /* ===============================
-   2. 결과 화면 (한지 느낌 테마)
+   1.5 로딩 화면 (분석 중...)
+=============================== */
+.loading-theme {
+    background: #0b0f19;
+}
+
+.loading-overlay {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: url('참고사진/KakaoTalk_20260303_005122798.jpg') center/cover no-repeat;
+    background-blend-mode: multiply;
+    background-color: rgba(10, 15, 25, 0.8);
+}
+
+.loading-lock {
+    width: 120px;
+    height: 120px;
+    background: url('참고사진/KakaoTalk_20260303_005122798.jpg') center/cover no-repeat;
+    border-radius: 50%;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+    border: 2px solid #5c729c;
+    margin-bottom: 30px;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+.loading-text {
+    font-size: 20px;
+    color: #f0ebd8;
+    font-weight: 600;
+    letter-spacing: 3px;
+    font-family: 'Noto Serif KR', serif;
+    animation: blink 1.5s infinite;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes blink {
+    0% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.5;
+    }
+}
+
+
+/* ===============================
+   2. 결과 화면 (두루마리 / 매화 테마)
 =============================== */
 #result-screen {
     background: #f4eee1;
@@ -314,18 +413,18 @@ body {
 }
 
 #result-screen .panel-nav {
-    background: #e6dfcb;
-    border-bottom: 2px solid #cbbca5;
-    box-shadow: none;
-    color: #2e2320;
+    background: #0f141e;
+    border-bottom: 2px solid #2d3b55;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    color: #f0ebd8;
 }
 
 #result-screen .nav-title {
-    color: #2e2320;
+    color: #f0ebd8;
 }
 
 #result-screen .icon-btn {
-    color: #5c4e46;
+    color: #c8b9a6;
 }
 
 .result-wrapper {
@@ -335,19 +434,18 @@ body {
     flex-direction: column;
 }
 
-/* 프로필 요약 (전통 인장/도장 느낌) */
+/* 프로필 요약 */
 .profile-summary {
     padding: 25px 20px;
     text-align: center;
     border-bottom: 2px dashed #cbbca5;
-    position: relative;
     background: #fbf8f1;
 }
 
 .profile-info h2 {
     font-size: 24px;
     font-weight: 900;
-    color: #8c2a1a;
+    color: #1e283d;
     letter-spacing: 2px;
     margin-bottom: 8px;
 }
@@ -367,17 +465,17 @@ body {
 .m-table {
     width: 100%;
     border-collapse: collapse;
-    border: 2px solid #4a342b;
+    border: 2px solid #2d3b55;
 }
 
 .m-table th {
     padding: 12px 0;
     font-size: 16px;
     font-weight: 600;
-    color: #4a342b;
-    border-bottom: 2px solid #4a342b;
+    color: #2d3b55;
+    border-bottom: 2px solid #2d3b55;
     border-right: 1px solid #d5c8b2;
-    background: #ebdcc3;
+    background: #e2e8f0;
 }
 
 .m-table th:last-child {
@@ -397,11 +495,11 @@ body {
 /* 행 레이블 (세로표기) */
 .m-table td.label {
     width: 45px;
-    background: #f2e9d8;
+    background: #edf2f7;
     font-size: 13px;
-    color: #5c4e46;
+    color: #2d3b55;
     font-weight: 600;
-    border-right: 2px solid #4a342b;
+    border-right: 2px solid #2d3b55;
     writing-mode: vertical-rl;
     text-orientation: upright;
     display: table-cell;
@@ -410,7 +508,7 @@ body {
     padding: 10px 0;
 }
 
-/* 한글 & 한자 & 병음 레이아웃 */
+/* 한글 & 한자 & 오행 레이아웃 */
 .hanja-row td:not(.label) {
     padding: 18px 0;
 }
@@ -434,7 +532,7 @@ body {
     font-weight: 600;
 }
 
-/* 오행 색상 텍스트용 (전통 색감) */
+/* 오행 색상 텍스트용 */
 .wood-txt {
     color: #1e5a3a;
 }
@@ -448,19 +546,11 @@ body {
 }
 
 .metal-txt {
-    color: #5a5a5a;
+    color: #4a5568;
 }
 
 .water-txt {
-    color: #1a486b;
-}
-
-/* 십성 배경 (은은함) */
-.sibsung-row td:not(.label) {
-    padding: 10px 0;
-    font-size: 14.5px;
-    font-weight: 900;
-    border-bottom: 2px solid #4a342b;
+    color: #2b6cb0;
 }
 
 .wood-bg {
@@ -479,16 +569,22 @@ body {
 }
 
 .metal-bg {
-    color: #5a5a5a;
-    background: #efefef;
+    color: #4a5568;
+    background: #edf2f7;
 }
 
 .water-bg {
-    color: #1a486b;
-    background: #eaf0f5;
+    color: #2b6cb0;
+    background: #ebf8ff;
 }
 
-/* 하단 세부 정보 (지장간, 신살 등) */
+.sibsung-row td:not(.label) {
+    padding: 10px 0;
+    font-size: 14.5px;
+    font-weight: 900;
+    border-bottom: 2px solid #2d3b55;
+}
+
 .detail-row td.label {
     writing-mode: horizontal-tb;
     text-orientation: mixed;
@@ -498,33 +594,54 @@ body {
 
 .detail-row td:not(.label) {
     font-size: 13px;
-    color: #5c4e46;
+    color: #4a5568;
     padding: 12px 0;
     font-weight: 600;
 }
 
-/* 대화형 챗봇 영역 (먹물 붓자국 느낌) */
+/* 대화형 챗봇 영역 (매화/두루마리 배경) */
 .chat-section {
     display: flex;
     flex-direction: column;
     flex: 1;
-    border-top: 2px solid #4a342b;
+    border-top: 2px solid #2d3b55;
     background: #e6dfcb;
 }
 
-.chat-header-bar {
-    background: #4a342b;
-    color: #e6dfd3;
-    padding: 16px;
+.chat-header-bar.roof-theme {
+    background: url('참고사진/KakaoTalk_20260303_005122798_04.jpg') center/cover no-repeat;
+    position: relative;
+    color: #fff;
+    padding: 18px;
     font-size: 16px;
     font-weight: 600;
     text-align: center;
     margin: 10px 10px 0 10px;
-    border-radius: 4px 4px 0 0;
+    border-radius: 6px 6px 0 0;
     letter-spacing: 1px;
 }
 
-.chat-box {
+.chat-header-bar.roof-theme::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 6px 6px 0 0;
+}
+
+.chat-header-bar.roof-theme span {
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.scroll-bg {
+    background: url('참고사진/KakaoTalk_20260303_005122798_03.jpg') center/cover no-repeat;
+    background-color: rgba(255, 255, 255, 0.85);
+    background-blend-mode: lighten;
     flex: 1;
     min-height: 280px;
     overflow-y: auto;
@@ -532,10 +649,9 @@ body {
     display: flex;
     flex-direction: column;
     gap: 18px;
-    background: #f4eee1;
     margin: 0 10px;
-    border-left: 2px solid #4a342b;
-    border-right: 2px solid #4a342b;
+    border-left: 2px solid #cbbca5;
+    border-right: 2px solid #cbbca5;
 }
 
 .message {
@@ -556,20 +672,20 @@ body {
     padding: 14px 18px;
     font-size: 15px;
     line-height: 1.6;
-    border-radius: 4px;
-    box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .bot .bubble {
-    background: #fffcf5;
-    border: 2px solid #4a342b;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #cbbca5;
     color: #2e2320;
 }
 
 .user .bubble {
-    background: #4a342b;
+    background: #1e283d;
     color: #f4eee1;
-    border: 2px solid #4a342b;
+    border: 1px solid #1e283d;
 }
 
 .chat-input-area {
@@ -582,40 +698,43 @@ body {
     flex: 1;
     padding: 16px;
     background: #fffcf5;
-    border: 2px solid #4a342b;
+    border: 2px solid #cbbca5;
     outline: none;
     font-size: 16px;
     font-family: 'Noto Serif KR', serif;
     color: #2e2320;
-    border-radius: 4px 0 0 4px;
+    border-radius: 6px 0 0 6px;
+}
+
+.chat-input-area input:focus {
+    border-color: #1e283d;
 }
 
 .chat-input-area button {
     padding: 0 24px;
-    background: #8c2a1a;
+    background: #1e283d;
     color: #fffcf5;
-    border: 2px solid #8c2a1a;
+    border: 2px solid #1e283d;
     font-weight: 700;
     cursor: pointer;
     font-size: 16px;
     font-family: 'Noto Serif KR', serif;
-    border-radius: 0 4px 4px 0;
+    border-radius: 0 6px 6px 0;
     transition: 0.2s;
 }
 
 .chat-input-area button:hover {
-    background: #6a1a10;
-    border-color: #6a1a10;
+    background: #0f141e;
 }
 
-/* 모달 스타일 유지 개선 */
+/* 모달 스타일 유지 */
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.8);
     z-index: 100;
     display: none;
     justify-content: center;
@@ -631,14 +750,14 @@ body {
     width: 85%;
     max-width: 380px;
     padding: 30px 25px;
-    border: 2px solid #4a342b;
-    position: relative;
+    border: 2px solid #2d3b55;
+    border-radius: 8px;
 }
 
 .modal-title {
     font-size: 20px;
     font-weight: 900;
-    color: #4a342b;
+    color: #1e283d;
     margin-bottom: 20px;
     text-align: center;
     border-bottom: 2px dashed #cbbca5;
@@ -647,7 +766,7 @@ body {
 
 .modal-body {
     font-size: 15px;
-    color: #4a342b;
+    color: #4a5568;
     line-height: 1.7;
     margin-bottom: 24px;
     max-height: 400px;
@@ -658,15 +777,16 @@ body {
 .modal-close-btn {
     width: 100%;
     padding: 16px;
-    background: #4a342b;
+    background: #1e283d;
     color: #e6dfd3;
     font-weight: bold;
     border: none;
     cursor: pointer;
     font-size: 16px;
     font-family: 'Noto Serif KR', serif;
+    border-radius: 6px;
 }
 
 .modal-close-btn:hover {
-    background: #35241e;
+    background: #0f141e;
 }
