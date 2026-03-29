@@ -180,10 +180,9 @@ document.addEventListener('DOMContentLoaded', () => {
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    // 결과 화면 진입 시 자동으로 첫 메시지 전송
+    // 결과 화면 진입 시 자동으로 사주 분석 요청 (사용자 메시지 없이 AI가 바로 분석 시작)
     async function autoSendFirstMessage() {
-        const firstMessage = "제 사주를 봐주세요.";
-        appendChatMessage('user', firstMessage);
+        const firstMessage = "이 사람의 사주를 분석하고, 첫 응답 형식에 따라 유명인 소개, 사주 특성, 총운 한줄, 질문 카테고리를 안내해 주세요.";
 
         const loadId = 'load-' + Date.now();
         const loadDiv = document.createElement('div');
