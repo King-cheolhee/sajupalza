@@ -5,6 +5,42 @@
     padding: 0;
 }
 
+/* 언어 선택 바 */
+#lang-bar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 4px;
+    padding: 8px 12px;
+    background: #0b0f19;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+}
+
+.lang-btn {
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid #2d3b55;
+    border-radius: 4px;
+    background: transparent;
+    color: #8e9bac;
+    cursor: pointer;
+    transition: 0.2s;
+    font-family: inherit;
+}
+
+.lang-btn.active {
+    background: #c8b9a6;
+    color: #0b0f19;
+    border-color: #c8b9a6;
+}
+
+.lang-btn:hover:not(.active) {
+    background: rgba(200, 185, 166, 0.2);
+    color: #d4cfc5;
+}
+
 /* 1. 나눔고딕 적용 및 가독성 최우선 세팅 */
 body {
     font-family: 'Nanum Gothic', "Malgun Gothic", "맑은 고딕", -apple-system, sans-serif;

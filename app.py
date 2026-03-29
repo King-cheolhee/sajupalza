@@ -106,6 +106,16 @@ def chat_with_gemini():
     user_message = data.get('message', '')
     session_id = data.get('sessionId', 'default')
     saju_info = data.get('sajuInfo', None)
+    language = data.get('language', 'ko')
+
+    # 언어별 응답 지시 (한국어 외 언어 선택 시)
+    LANG_INSTRUCTIONS = {
+        'ko': '',
+        'en': '\n\n[IMPORTANT: Respond entirely in English. Translate all fortune-telling terms into English while keeping the analysis authentic.]',
+        'ja': '\n\n[IMPORTANT: すべて日本語で応答してください。四柱推命の用語は日本語で表現してください。]',
+        'zh': '\n\n[IMPORTANT: 请全部用中文回答。请用中文表达四柱推命的术语。]'
+    }
+    lang_instruction = LANG_INSTRUCTIONS.get(language, '')
 
     # [Gemini API 비용 절감 및 세팅 전략]
     # 1. 계산 분산: 프론트엔드 JS에서 만세력 8글자를 계산해 넘기면 Gemini 연산 토큰 절약
@@ -130,10 +140,11 @@ def chat_with_gemini():
                 f"생시: {saju_info.get('birthTime', '시간 모름')}\n"
                 f"역법: {saju_info.get('calendar', '양력')}\n\n"
                 f"상담자의 첫 질문: {user_message}"
+                f"{lang_instruction}"
             )
             response = chat.send_message(context_message)
         else:
-            response = chat.send_message(user_message)
+            response = chat.send_message(user_message + lang_instruction)
         
         bot_reply = response.text
         

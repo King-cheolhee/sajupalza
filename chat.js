@@ -199,7 +199,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({
                     message: firstMessage,
                     sessionId: sessionId,
-                    sajuInfo: sajuInfo
+                    sajuInfo: sajuInfo,
+                    language: currentLang || 'ko'
                 })
             });
             const data = await res.json();
@@ -235,7 +236,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({
                     message: text,
                     sessionId: sessionId,
-                    sajuInfo: isFirstMessage ? sajuInfo : null
+                    sajuInfo: isFirstMessage ? sajuInfo : null,
+                    language: currentLang || 'ko'
                 })
             });
             const data = await res.json();
@@ -245,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
             isFirstMessage = false;
         } catch (e) {
             document.getElementById(loadId).remove();
-            appendChatMessage('bot', "하늘의 기운(서버)과 닿지 않고 있습니다. 잠시 후 다시 시도해주시지요.");
+            appendChatMessage('bot', getTranslation('chatError'));
         }
     }
 

@@ -19,6 +19,13 @@
 </head>
 
 <body>
+    <!-- 언어 선택 바 -->
+    <div id="lang-bar">
+        <button class="lang-btn active" data-lang="ko" onclick="switchLanguage('ko')">KO</button>
+        <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')">EN</button>
+        <button class="lang-btn" data-lang="ja" onclick="switchLanguage('ja')">JA</button>
+        <button class="lang-btn" data-lang="zh" onclick="switchLanguage('zh')">ZH</button>
+    </div>
     <div id="app-container">
         <!-- ===============================
               1. 프로필 입력 화면
@@ -26,8 +33,9 @@
         <div id="input-screen" class="screen active">
             <header class="top-nav traditional">
                 <button class="icon-btn bold-back" id="mainBackBtn">⟨</button>
-                <h1 class="nav-title">사주팔자</h1>
-                <button class="icon-btn bold-forward" id="forwardBtn" style="display:none;">결과보기 ⟩</button>
+                <h1 class="nav-title" data-i18n="navTitle">사주팔자</h1>
+                <button class="icon-btn bold-forward" id="forwardBtn" style="display:none;" data-i18n="navForward">결과보기
+                    ⟩</button>
                 <div id="navSpacer" style="width:24px;"></div>
             </header>
 
@@ -35,65 +43,70 @@
                 style="background: radial-gradient(circle at 50% 10%, rgba(30, 40, 61, 0.85) 0%, rgba(11, 15, 25, 0.95) 100%), url('참고사진/Gemini_Generated_Image_cjkkfvcjkkfvcjkk.png') center/cover no-repeat; background-blend-mode: multiply;">
                 <!-- 상단 여백 (기존 쌩뚱맞은 이미지 제거 및 차분한 여백 배치) -->
                 <div class="intro-decoration">
-                    <p class="intro-text">한치 앞을 모르는 인생의 길, 알고 가면 쉬워집니다.</p>
+                    <p class="intro-text" data-i18n="introText">한치 앞을 모르는 인생의 길, 알고 가면 쉬워집니다.</p>
                 </div>
 
                 <div class="form-group box-style">
-                    <label>이름</label>
-                    <input type="text" id="userName" placeholder="성함을 기입해 주십시오" autocomplete="off">
+                    <label data-i18n="labelName">이름</label>
+                    <input type="text" id="userName" placeholder="성함을 기입해 주십시오" data-i18n="placeholderName"
+                        autocomplete="off">
                 </div>
 
                 <div class="form-group box-style">
-                    <label>성별</label>
+                    <label data-i18n="labelGender">성별</label>
                     <div class="toggle-group" id="genderToggle">
-                        <button type="button" class="toggle-btn active" data-val="female">여성 (坤)</button>
-                        <button type="button" class="toggle-btn" data-val="male">남성 (乾)</button>
+                        <button type="button" class="toggle-btn active" data-val="female" data-i18n="genderFemale">여성
+                            (坤)</button>
+                        <button type="button" class="toggle-btn" data-val="male" data-i18n="genderMale">남성 (乾)</button>
                     </div>
                 </div>
 
                 <div class="form-group box-style">
                     <label>
-                        생년월일시
-                        <span class="help-text" id="btn12Ganji">12간지 시간표 🔍</span>
+                        <span data-i18n="labelBirthInfo">생년월일시</span>
+                        <span class="help-text" id="btn12Ganji" data-i18n="btn12Ganji">12간지 시간표 🔍</span>
                     </label>
 
                     <div class="date-time-box">
                         <div class="dt-row">
-                            <span class="dt-label">역법</span>
+                            <span class="dt-label" data-i18n="labelCalendar">역법</span>
                             <select id="calendarType" class="clean-input">
-                                <option value="solar">양력 (陽曆)</option>
-                                <option value="lunar">음력 (陰曆)</option>
+                                <option value="solar" data-i18n="calSolar">양력 (陽曆)</option>
+                                <option value="lunar" data-i18n="calLunar">음력 (陰曆)</option>
                             </select>
                         </div>
                         <div class="dt-divider"></div>
                         <div class="dt-row">
-                            <span class="dt-label">날짜</span>
+                            <span class="dt-label" data-i18n="labelDate">날짜</span>
                             <input type="text" id="birthDate" class="clean-input auto-format-date"
-                                placeholder="YYYY-MM-DD (숫자 8자리 기입)" autocomplete="off" maxlength="10">
+                                placeholder="YYYY-MM-DD (숫자 8자리 기입)" data-i18n="placeholderDate" autocomplete="off"
+                                maxlength="10">
                         </div>
                         <div class="dt-divider"></div>
                         <div class="dt-row">
-                            <span class="dt-label">시간</span>
+                            <span class="dt-label" data-i18n="labelTime">시간</span>
                             <select id="ampmType" class="clean-input ampm-select">
-                                <option value="am">오전</option>
-                                <option value="pm">오후</option>
+                                <option value="am" data-i18n="amLabel">오전</option>
+                                <option value="pm" data-i18n="pmLabel">오후</option>
                             </select>
                             <input type="text" id="birthTime" class="clean-input auto-format-time"
-                                placeholder="HH:MM (숫자 4자리)" autocomplete="off" maxlength="5">
+                                placeholder="HH:MM (숫자 4자리)" data-i18n="placeholderTime" autocomplete="off"
+                                maxlength="5">
                         </div>
                     </div>
 
                     <div class="checkbox-row">
                         <label class="custom-chk"><input type="checkbox" id="unknownTime"> <span
-                                class="chk-mark"></span> 시간 모름</label>
+                                class="chk-mark"></span> <span data-i18n="unknownTime">시간 모름</span></label>
                         <label class="custom-chk"><input type="checkbox" id="yajaTime"> <span class="chk-mark"></span>
-                            야자시/조자시 <span class="help-icon" id="btnYaja">🔍</span></label>
+                            <span data-i18n="yajaTime">야자시/조자시</span> <span class="help-icon"
+                                id="btnYaja">🔍</span></label>
                     </div>
                 </div>
 
                 <div class="bottom-btns">
                     <!-- 요청: '운명의 문 열기' -> '사주풀이 시작', 볼드체 반영 -->
-                    <button type="button" id="submitBtn" class="primary-btn">사주풀이 시작</button>
+                    <button type="button" id="submitBtn" class="primary-btn" data-i18n="submitBtn">사주풀이 시작</button>
                 </div>
             </main>
         </div>
@@ -108,7 +121,7 @@
                     <div class="book-page left-page"></div>
                     <div class="book-page right-page"></div>
                 </div>
-                <h2 class="loading-text">사주팔자를 분석합니다...</h2>
+                <h2 class="loading-text" data-i18n="loadingText">사주팔자를 분석합니다...</h2>
                 <div class="loading-spinner"></div>
             </div>
         </div>
@@ -119,7 +132,7 @@
         <div id="result-screen" class="screen result-theme">
             <header class="top-nav traditional panel-nav">
                 <button class="icon-btn bold-back" id="backBtn">⟨</button>
-                <h1 class="nav-title">명식 대조(對照)</h1>
+                <h1 class="nav-title" data-i18n="navResult">명식 대조(對照)</h1>
                 <div style="width:24px;"></div>
             </header>
 
@@ -226,17 +239,19 @@
                 </div>
 
                 <div class="chat-section">
-                    <div class="chat-header-bar roof-theme">
+                    <div class="chat-header-bar roof-theme" data-i18n="chatHeader">
                         명리 심층 분석 (도사님 대화)
                     </div>
                     <div class="chat-box scroll-bg" id="chatBox">
                         <div class="message bot">
-                            <div class="bubble">사주 8글자 셋업을 완료했습니다. <br>금년의 길흉화복이나 평생지기의 조언 등 편하게 질문해 주십시오.</div>
+                            <div class="bubble" data-i18n="chatWelcome">사주 8글자 셋업을 완료했습니다. <br>금년의 길흉화복이나 평생지기의 조언 등 편하게
+                                질문해 주십시오.</div>
                         </div>
                     </div>
                     <div class="chat-input-area">
-                        <input type="text" id="userInput" placeholder="조언을 구해봅니다..." autocomplete="off">
-                        <button id="sendBtn">여쭙기</button>
+                        <input type="text" id="userInput" placeholder="조언을 구해봅니다..." data-i18n="chatPlaceholder"
+                            autocomplete="off">
+                        <button id="sendBtn" data-i18n="chatSendBtn">여쭙기</button>
                     </div>
                 </div>
             </main>
@@ -361,16 +376,23 @@
 
     <!-- 푸터 -->
     <footer id="site-footer">
-        <p>&copy; 2026 도향(道香) — AI 사주명리 상담 서비스</p>
-        <p class="footer-links">
+        <p data-i18n="footerCopyright">&copy; 2026 도향(道香) — AI 사주명리 상담 서비스</p>
+        <p class="footer-links" id="footer-links">
             <a href="#about-section">서비스 소개</a> |
             <a href="#faq-section">자주 묻는 질문</a> |
             <a href="#policy-section">개인정보처리방침</a>
         </p>
-        <p class="footer-disclaimer">본 서비스는 재미와 참고 목적으로 제공되며, 전문적인 상담을 대체하지 않습니다.</p>
+        <p class="footer-disclaimer" data-i18n="footerDisclaimer">본 서비스는 재미와 참고 목적으로 제공되며, 전문적인 상담을 대체하지 않습니다.</p>
     </footer>
 
+    <script src="lang.js"></script>
     <script src="chat.js"></script>
+    <script>
+        // 페이지 로드 시 저장된 언어로 번역 적용
+        document.addEventListener('DOMContentLoaded', () => {
+            applyTranslations();
+        });
+    </script>
 </body>
 
 </html>
