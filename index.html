@@ -1,25 +1,25 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>사주명리 - 도향(道香) | 무료 AI 사주풀이 상담</title>
+    <title>?ъ＜紐낅━ - ?꾪뼢(?볣쬂) | 臾대즺 AI ?ъ＜????곷떞</title>
     <meta name="description"
-        content="도향(道香) - 무료 AI 사주팔자 상담 서비스. 생년월일시를 입력하면 AI 사주 전문가가 올해 운세, 직장운, 연애운, 결혼운을 대화형으로 풀어드립니다.">
-    <meta name="keywords" content="사주, 사주팔자, 무료 운세, AI 사주, 만세력, 오행, 사주풀이, 도향">
-    <meta property="og:title" content="도향(道香) - 무료 AI 사주풀이 상담">
-    <meta property="og:description" content="AI 사주 전문가와 대화하며 나의 운세를 알아보세요. 무료, 회원가입 없이 바로 시작!">
+        content="?꾪뼢(?볣쬂) - 臾대즺 AI ?ъ＜?붿옄 ?곷떞 ?쒕퉬?? ?앸뀈?붿씪?쒕? ?낅젰?섎㈃ AI ?ъ＜ ?꾨Ц媛媛 ?ы빐 ?댁꽭, 吏곸옣?? ?곗븷?? 寃고샎?댁쓣 ??뷀삎?쇰줈 ??대뱶由쎈땲??">
+    <meta name="keywords" content="?ъ＜, ?ъ＜?붿옄, 臾대즺 ?댁꽭, AI ?ъ＜, 留뚯꽭?? ?ㅽ뻾, ?ъ＜??? ?꾪뼢">
+    <meta property="og:title" content="?꾪뼢(?볣쬂) - 臾대즺 AI ?ъ＜????곷떞">
+    <meta property="og:description" content="AI ?ъ＜ ?꾨Ц媛? ??뷀븯硫??섏쓽 ?댁꽭瑜??뚯븘蹂댁꽭?? 臾대즺, ?뚯썝媛???놁씠 諛붾줈 ?쒖옉!">
     <meta property="og:type" content="website">
     <link rel="stylesheet" href="style.css">
-    <!-- 나눔고딕 Google Fonts -->
+    <!-- ?섎닎怨좊뵓 Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <!-- 언어 선택 바 -->
+    <!-- ?몄뼱 ?좏깮 諛?-->
     <div id="lang-bar">
         <button class="lang-btn active" data-lang="ko" onclick="switchLanguage('ko')">KO</button>
         <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')">EN</button>
@@ -28,119 +28,119 @@
     </div>
     <div id="app-container">
         <!-- ===============================
-              1. 프로필 입력 화면
+              1. ?꾨줈???낅젰 ?붾㈃
         ================================ -->
         <div id="input-screen" class="screen active">
             <header class="top-nav traditional">
-                <button class="icon-btn bold-back" id="mainBackBtn">⟨</button>
-                <h1 class="nav-title" data-i18n="navTitle">사주팔자</h1>
-                <button class="icon-btn bold-forward" id="forwardBtn" style="display:none;" data-i18n="navForward">결과보기
-                    ⟩</button>
+                <button class="icon-btn bold-back" id="mainBackBtn">??/button>
+                <h1 class="nav-title" data-i18n="navTitle">?ъ＜?붿옄</h1>
+                <button class="icon-btn bold-forward" id="forwardBtn" style="display:none;" data-i18n="navForward">寃곌낵蹂닿린
+                    ??/button>
                 <div id="navSpacer" style="width:24px;"></div>
             </header>
 
             <main class="form-wrapper pattern-bg"
-                style="background: radial-gradient(circle at 50% 10%, rgba(30, 40, 61, 0.85) 0%, rgba(11, 15, 25, 0.95) 100%), url('참고사진/Gemini_Generated_Image_cjkkfvcjkkfvcjkk.png') center/cover no-repeat; background-blend-mode: multiply;">
-                <!-- 상단 여백 (기존 쌩뚱맞은 이미지 제거 및 차분한 여백 배치) -->
+                style="background: radial-gradient(circle at 50% 10%, rgba(30, 40, 61, 0.85) 0%, rgba(11, 15, 25, 0.95) 100%), url('李멸퀬?ъ쭊/Gemini_Generated_Image_cjkkfvcjkkfvcjkk.png') center/cover no-repeat; background-blend-mode: multiply;">
+                <!-- ?곷떒 ?щ갚 (湲곗〈 ?⑸슧留욎? ?대?吏 ?쒓굅 諛?李⑤텇???щ갚 諛곗튂) -->
                 <div class="intro-decoration">
-                    <p class="intro-text" data-i18n="introText">한치 앞을 모르는 인생의 길, 알고 가면 쉬워집니다.</p>
+                    <p class="intro-text" data-i18n="introText">?쒖튂 ?욎쓣 紐⑤Ⅴ???몄깮??湲? ?뚭퀬 媛硫??ъ썙吏묐땲??</p>
                 </div>
 
                 <div class="form-group box-style">
-                    <label data-i18n="labelName">이름</label>
-                    <input type="text" id="userName" placeholder="성함을 기입해 주십시오" data-i18n="placeholderName"
+                    <label data-i18n="labelName">?대쫫</label>
+                    <input type="text" id="userName" placeholder="?깊븿??湲곗엯??二쇱떗?쒖삤" data-i18n="placeholderName"
                         autocomplete="off">
                 </div>
 
                 <div class="form-group box-style">
-                    <label data-i18n="labelGender">성별</label>
+                    <label data-i18n="labelGender">?깅퀎</label>
                     <div class="toggle-group" id="genderToggle">
-                        <button type="button" class="toggle-btn active" data-val="female" data-i18n="genderFemale">여성
-                            (坤)</button>
-                        <button type="button" class="toggle-btn" data-val="male" data-i18n="genderMale">남성 (乾)</button>
+                        <button type="button" class="toggle-btn active" data-val="female" data-i18n="genderFemale">?ъ꽦
+                            (??</button>
+                        <button type="button" class="toggle-btn" data-val="male" data-i18n="genderMale">?⑥꽦 (阿?</button>
                     </div>
                 </div>
 
                 <div class="form-group box-style">
                     <label>
-                        <span data-i18n="labelBirthInfo">생년월일시</span>
-                        <span class="help-text" id="btn12Ganji" data-i18n="btn12Ganji">12간지 시간표 🔍</span>
+                        <span data-i18n="labelBirthInfo">?앸뀈?붿씪??/span>
+                        <span class="help-text" id="btn12Ganji" data-i18n="btn12Ganji">12媛꾩? ?쒓컙???뵇</span>
                     </label>
 
                     <div class="date-time-box">
                         <div class="dt-row">
-                            <span class="dt-label" data-i18n="labelCalendar">역법</span>
+                            <span class="dt-label" data-i18n="labelCalendar">??쾿</span>
                             <select id="calendarType" class="clean-input">
-                                <option value="solar" data-i18n="calSolar">양력 (陽曆)</option>
-                                <option value="lunar" data-i18n="calLunar">음력 (陰曆)</option>
+                                <option value="solar" data-i18n="calSolar">?묐젰 (?썸썓)</option>
+                                <option value="lunar" data-i18n="calLunar">?뚮젰 (?경썓)</option>
                             </select>
                         </div>
                         <div class="dt-divider"></div>
                         <div class="dt-row">
-                            <span class="dt-label" data-i18n="labelDate">날짜</span>
+                            <span class="dt-label" data-i18n="labelDate">?좎쭨</span>
                             <input type="text" id="birthDate" class="clean-input auto-format-date"
-                                placeholder="YYYY-MM-DD (숫자 8자리 기입)" data-i18n="placeholderDate" autocomplete="off"
+                                placeholder="YYYY-MM-DD (?レ옄 8?먮━ 湲곗엯)" data-i18n="placeholderDate" autocomplete="off"
                                 maxlength="10">
                         </div>
                         <div class="dt-divider"></div>
                         <div class="dt-row">
-                            <span class="dt-label" data-i18n="labelTime">시간</span>
+                            <span class="dt-label" data-i18n="labelTime">?쒓컙</span>
                             <select id="ampmType" class="clean-input ampm-select">
-                                <option value="am" data-i18n="amLabel">오전</option>
-                                <option value="pm" data-i18n="pmLabel">오후</option>
+                                <option value="am" data-i18n="amLabel">?ㅼ쟾</option>
+                                <option value="pm" data-i18n="pmLabel">?ㅽ썑</option>
                             </select>
                             <input type="text" id="birthTime" class="clean-input auto-format-time"
-                                placeholder="HH:MM (숫자 4자리)" data-i18n="placeholderTime" autocomplete="off"
+                                placeholder="HH:MM (?レ옄 4?먮━)" data-i18n="placeholderTime" autocomplete="off"
                                 maxlength="5">
                         </div>
                     </div>
 
                     <div class="checkbox-row">
                         <label class="custom-chk"><input type="checkbox" id="unknownTime"> <span
-                                class="chk-mark"></span> <span data-i18n="unknownTime">시간 모름</span></label>
+                                class="chk-mark"></span> <span data-i18n="unknownTime">?쒓컙 紐⑤쫫</span></label>
                         <label class="custom-chk"><input type="checkbox" id="yajaTime"> <span class="chk-mark"></span>
-                            <span data-i18n="yajaTime">야자시/조자시</span> <span class="help-icon"
-                                id="btnYaja">🔍</span></label>
+                            <span data-i18n="yajaTime">?쇱옄??議곗옄??/span> <span class="help-icon"
+                                id="btnYaja">?뵇</span></label>
                     </div>
                 </div>
 
                 <div class="bottom-btns">
-                    <!-- 요청: '운명의 문 열기' -> '사주풀이 시작', 볼드체 반영 -->
-                    <button type="button" id="submitBtn" class="primary-btn" data-i18n="submitBtn">사주풀이 시작</button>
+                    <!-- ?붿껌: '?대챸??臾??닿린' -> '?ъ＜????쒖옉', 蹂쇰뱶泥?諛섏쁺 -->
+                    <button type="button" id="submitBtn" class="primary-btn" data-i18n="submitBtn">?ъ＜????쒖옉</button>
                 </div>
             </main>
         </div>
 
         <!-- ===============================
-              1.5 로딩 화면 (분석 중 느낌)
+              1.5 濡쒕뵫 ?붾㈃ (遺꾩꽍 以??먮굦)
         ================================ -->
         <div id="loading-screen" class="screen loading-theme">
             <div class="loading-overlay">
-                <!-- 책이나 서책을 펴는 듯한 시각적 효과 (CSS 애니메이션) -->
+                <!-- 梨낆씠???쒖콉???대뒗 ??븳 ?쒓컖???④낵 (CSS ?좊땲硫붿씠?? -->
                 <div class="book-animation">
                     <div class="book-page left-page"></div>
                     <div class="book-page right-page"></div>
                 </div>
-                <h2 class="loading-text" data-i18n="loadingText">사주팔자를 분석합니다...</h2>
+                <h2 class="loading-text" data-i18n="loadingText">?ъ＜?붿옄瑜?遺꾩꽍?⑸땲??..</h2>
                 <div class="loading-spinner"></div>
             </div>
         </div>
 
         <!-- ===============================
-              2. 결과 (만세력 & 채팅) 화면
+              2. 寃곌낵 (留뚯꽭??& 梨꾪똿) ?붾㈃
         ================================ -->
         <div id="result-screen" class="screen result-theme">
             <header class="top-nav traditional panel-nav">
-                <button class="icon-btn bold-back" id="backBtn">⟨</button>
-                <h1 class="nav-title" data-i18n="navResult">명식 대조(對照)</h1>
+                <button class="icon-btn bold-back" id="backBtn">??/button>
+                <h1 class="nav-title" data-i18n="navResult">紐낆떇 ?議?弱띸뀱)</h1>
                 <div style="width:24px;"></div>
             </header>
 
             <main class="result-wrapper">
                 <div class="profile-summary">
                     <div class="profile-info">
-                        <h2 id="resName">이름</h2>
-                        <p class="res-desc" id="resDetails1">양력 1990/01/01 12:00 여성</p>
+                        <h2 id="resName">?대쫫</h2>
+                        <p class="res-desc" id="resDetails1">?묐젰 1990/01/01 12:00 ?ъ꽦</p>
                     </div>
                 </div>
 
@@ -149,89 +149,89 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>생시</th>
-                                <th>생일</th>
-                                <th>생월</th>
-                                <th>생년</th>
+                                <th>?앹떆</th>
+                                <th>?앹씪</th>
+                                <th>?앹썡</th>
+                                <th>?앸뀈</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- 천간 -->
+                            <!-- 泥쒓컙 -->
                             <tr class="hanja-row upper">
-                                <td class="label">천간</td>
+                                <td class="label">泥쒓컙</td>
                                 <td>
-                                    <div class="elem wood-txt">-목</div>
-                                    <div class="hanja wood-txt">乙</div>
-                                    <div class="hangul wood-txt">을</div>
+                                    <div class="elem wood-txt">-紐?/div>
+                                    <div class="hanja wood-txt">阿?/div>
+                                    <div class="hangul wood-txt">??/div>
                                 </td>
                                 <td>
-                                    <div class="elem water-txt">+수</div>
-                                    <div class="hanja water-txt">壬</div>
-                                    <div class="hangul water-txt">임</div>
+                                    <div class="elem water-txt">+??/div>
+                                    <div class="hanja water-txt">鶯?/div>
+                                    <div class="hangul water-txt">??/div>
                                 </td>
                                 <td>
-                                    <div class="elem metal-txt">-금</div>
-                                    <div class="hanja metal-txt">辛</div>
-                                    <div class="hangul metal-txt">신</div>
+                                    <div class="elem metal-txt">-湲?/div>
+                                    <div class="hanja metal-txt">渦?/div>
+                                    <div class="hangul metal-txt">??/div>
                                 </td>
                                 <td>
-                                    <div class="elem wood-txt">+목</div>
-                                    <div class="hanja wood-txt">甲</div>
-                                    <div class="hangul wood-txt">갑</div>
+                                    <div class="elem wood-txt">+紐?/div>
+                                    <div class="hanja wood-txt">??/div>
+                                    <div class="hangul wood-txt">媛?/div>
                                 </td>
                             </tr>
                             <tr class="sibsung-row">
-                                <td class="label">십성</td>
-                                <td class="wood-bg">상관</td>
-                                <td class="water-bg">비견</td>
-                                <td class="metal-bg">정인</td>
-                                <td class="wood-bg">식신</td>
+                                <td class="label">??꽦</td>
+                                <td class="wood-bg">?곴?</td>
+                                <td class="water-bg">鍮꾧껄</td>
+                                <td class="metal-bg">?뺤씤</td>
+                                <td class="wood-bg">?앹떊</td>
                             </tr>
-                            <!-- 지지 -->
+                            <!-- 吏吏 -->
                             <tr class="hanja-row lower">
-                                <td class="label">지지</td>
+                                <td class="label">吏吏</td>
                                 <td>
-                                    <div class="elem fire-txt">+화</div>
-                                    <div class="hanja fire-txt">巳</div>
-                                    <div class="hangul fire-txt">사</div>
+                                    <div class="elem fire-txt">+??/div>
+                                    <div class="hanja fire-txt">藥?/div>
+                                    <div class="hangul fire-txt">??/div>
                                 </td>
                                 <td>
-                                    <div class="elem earth-txt">+토</div>
-                                    <div class="hanja earth-txt">戌</div>
-                                    <div class="hangul earth-txt">술</div>
+                                    <div class="elem earth-txt">+??/div>
+                                    <div class="hanja earth-txt">??/div>
+                                    <div class="hangul earth-txt">??/div>
                                 </td>
                                 <td>
-                                    <div class="elem earth-txt">-토</div>
-                                    <div class="hanja earth-txt">未</div>
-                                    <div class="hangul earth-txt">미</div>
+                                    <div class="elem earth-txt">-??/div>
+                                    <div class="hanja earth-txt">??/div>
+                                    <div class="hangul earth-txt">誘?/div>
                                 </td>
                                 <td>
-                                    <div class="elem earth-txt">+토</div>
-                                    <div class="hanja earth-txt">戌</div>
-                                    <div class="hangul earth-txt">술</div>
+                                    <div class="elem earth-txt">+??/div>
+                                    <div class="hanja earth-txt">??/div>
+                                    <div class="hangul earth-txt">??/div>
                                 </td>
                             </tr>
                             <tr class="sibsung-row">
-                                <td class="label">십성</td>
-                                <td class="fire-bg">편재</td>
-                                <td class="earth-bg">편관</td>
-                                <td class="earth-bg">정관</td>
-                                <td class="earth-bg">편관</td>
+                                <td class="label">??꽦</td>
+                                <td class="fire-bg">?몄옱</td>
+                                <td class="earth-bg">?멸?</td>
+                                <td class="earth-bg">?뺢?</td>
+                                <td class="earth-bg">?멸?</td>
                             </tr>
-                            <!-- 지장간, 12운성, etc -->
+                            <!-- 吏?κ컙, 12?댁꽦, etc -->
                             <tr class="detail-row">
-                                <td class="label">지장간</td>
-                                <td>무경병</td>
-                                <td>신정무</td>
-                                <td>정을기</td>
-                                <td>신정무</td>
+                                <td class="label">吏?κ컙</td>
+                                <td>臾닿꼍蹂?/td>
+                                <td>?좎젙臾?/td>
+                                <td>?뺤쓣湲?/td>
+                                <td>?좎젙臾?/td>
                             </tr>
                             <tr class="detail-row">
-                                <td class="label">12운성</td>
-                                <td>절</td>
-                                <td>관대</td>
-                                <td>양</td>
-                                <td>관대</td>
+                                <td class="label">12?댁꽦</td>
+                                <td>??/td>
+                                <td>愿?</td>
+                                <td>??/td>
+                                <td>愿?</td>
                             </tr>
                             <!-- ... -->
                         </tbody>
@@ -240,220 +240,220 @@
 
                 <div class="chat-section">
                     <div class="chat-header-bar roof-theme" data-i18n="chatHeader">
-                        명리 심층 분석 (도사님 대화)
+                        紐낅━ ?ъ링 遺꾩꽍 (?꾩궗?????
                     </div>
                     <div class="chat-box scroll-bg" id="chatBox">
                         <div class="message bot">
-                            <div class="bubble" data-i18n="chatWelcome">사주 8글자 셋업을 완료했습니다. <br>금년의 길흉화복이나 평생지기의 조언 등 편하게
-                                질문해 주십시오.</div>
+                            <div class="bubble" data-i18n="chatWelcome">?ъ＜ 8湲???뗭뾽???꾨즺?덉뒿?덈떎. <br>湲덈뀈??湲명쓨?붾났?대굹 ?됱깮吏湲곗쓽 議곗뼵 ???명븯寃?
+                                吏덈Ц??二쇱떗?쒖삤.</div>
                         </div>
                     </div>
                     <div class="chat-input-area">
-                        <input type="text" id="userInput" placeholder="조언을 구해봅니다..." data-i18n="chatPlaceholder"
+                        <input type="text" id="userInput" placeholder="議곗뼵??援ы빐遊낅땲??.." data-i18n="chatPlaceholder"
                             autocomplete="off">
-                        <button id="sendBtn" data-i18n="chatSendBtn">여쭙기</button>
+                        <button id="sendBtn" data-i18n="chatSendBtn">?ъ춽湲?/button>
                     </div>
                 </div>
             </main>
         </div>
     </div>
 
-    <!-- 모달: 12간지 시간표 -->
+    <!-- 紐⑤떖: 12媛꾩? ?쒓컙??-->
     <div id="modal-12ganji" class="modal-overlay">
         <div class="modal-content">
-            <h3 class="modal-title">12간지 시간표 (十二支)</h3>
+            <h3 class="modal-title">12媛꾩? ?쒓컙??(?곦틠??</h3>
             <div class="modal-body">
-                <p><strong>자시(子)</strong>: 23:30 ~ 01:29</p>
-                <p><strong>축시(丑)</strong>: 01:30 ~ 03:29</p>
-                <p><strong>인시(寅)</strong>: 03:30 ~ 05:29</p>
-                <p><strong>묘시(卯)</strong>: 05:30 ~ 07:29</p>
-                <p><strong>진시(辰)</strong>: 07:30 ~ 09:29</p>
-                <p><strong>사시(巳)</strong>: 09:30 ~ 11:29</p>
-                <p><strong>오시(午)</strong>: 11:30 ~ 13:29</p>
-                <p><strong>미시(未)</strong>: 13:30 ~ 15:29</p>
-                <p><strong>신시(申)</strong>: 15:30 ~ 17:29</p>
-                <p><strong>유시(酉)</strong>: 17:30 ~ 19:29</p>
-                <p><strong>술시(戌)</strong>: 19:30 ~ 21:29</p>
-                <p><strong>해시(亥)</strong>: 21:30 ~ 23:29</p>
+                <p><strong>?먯떆(耶?</strong>: 23:30 ~ 01:29</p>
+                <p><strong>異뺤떆(訝?</strong>: 01:30 ~ 03:29</p>
+                <p><strong>?몄떆(野?</strong>: 03:30 ~ 05:29</p>
+                <p><strong>臾섏떆(??</strong>: 05:30 ~ 07:29</p>
+                <p><strong>吏꾩떆(渦?</strong>: 07:30 ~ 09:29</p>
+                <p><strong>?ъ떆(藥?</strong>: 09:30 ~ 11:29</p>
+                <p><strong>?ㅼ떆(??</strong>: 11:30 ~ 13:29</p>
+                <p><strong>誘몄떆(??</strong>: 13:30 ~ 15:29</p>
+                <p><strong>?좎떆(??</strong>: 15:30 ~ 17:29</p>
+                <p><strong>?좎떆(??</strong>: 17:30 ~ 19:29</p>
+                <p><strong>?좎떆(??</strong>: 19:30 ~ 21:29</p>
+                <p><strong>?댁떆(雅?</strong>: 21:30 ~ 23:29</p>
             </div>
-            <button class="modal-close-btn" data-target="modal-12ganji">확인</button>
+            <button class="modal-close-btn" data-target="modal-12ganji">?뺤씤</button>
         </div>
     </div>
 
-    <!-- 모달: 야자시/조자시 설명 -->
+    <!-- 紐⑤떖: ?쇱옄??議곗옄???ㅻ챸 -->
     <div id="modal-yaja" class="modal-overlay">
         <div class="modal-content">
-            <h3 class="modal-title">야자시와 조자시의 구분</h3>
+            <h3 class="modal-title">?쇱옄?쒖? 議곗옄?쒖쓽 援щ텇</h3>
             <div class="modal-body">
-                <p>명리학에서 자시(밤 11시 ~ 새벽 1시)에 태어난 경우 날짜의 경계를 어찌할지에 대한 논의가 있습니다.</p>
+                <p>紐낅━?숈뿉???먯떆(諛?11??~ ?덈꼍 1?????쒖뼱??寃쎌슦 ?좎쭨??寃쎄퀎瑜??댁컡?좎???????쇱쓽媛 ?덉뒿?덈떎.</p>
                 <br>
-                <p><strong>• 야자시 (夜子時)</strong>: 23:30 ~ 00:00 이전. <strong>오늘의 명식</strong>을 따릅니다.</p>
-                <p><strong>• 조자시 (朝子時)</strong>: 00:00 ~ 01:30 이전. <strong>내일의 명식</strong>을 따릅니다.</p>
+                <p><strong>???쇱옄??(鸚쒎춴??</strong>: 23:30 ~ 00:00 ?댁쟾. <strong>?ㅻ뒛??紐낆떇</strong>???곕쫭?덈떎.</p>
+                <p><strong>??議곗옄??(?앭춴??</strong>: 00:00 ~ 01:30 ?댁쟾. <strong>?댁씪??紐낆떇</strong>???곕쫭?덈떎.</p>
             </div>
-            <button class="modal-close-btn" data-target="modal-yaja">확인</button>
+            <button class="modal-close-btn" data-target="modal-yaja">?뺤씤</button>
         </div>
     </div>
 
     <!-- ===============================
-          구글 애드센스 심의용 콘텐츠 섹션
+          援ш? ?좊뱶?쇱뒪 ?ъ쓽??肄섑뀗痢??뱀뀡
     ================================ -->
 
-    <!-- 서비스 소개 (About) -->
-    <section id="about-section" class="adsense-section">
-        <div class="adsense-content">
-            <h2 class="section-title">도향(道香)이란?</h2>
-            <p>도향(道香)은 AI 기반 무료 사주팔자 상담 서비스입니다. 생년월일시를 입력하시면 만세력을 기반으로 사주팔자를 분석하고, AI 사주 전문가 '도향 선생'이 대화형으로 운세를 풀어드립니다.
+    <!-- ?쒕퉬???뚭컻 (About) -->
+    <section id="about-section" class="info-section">
+        <div class="info-content">
+            <h2 class="section-title">?꾪뼢(?볣쬂)?대??</h2>
+            <p>?꾪뼢(?볣쬂)? AI 湲곕컲 臾대즺 ?ъ＜?붿옄 ?곷떞 ?쒕퉬?ㅼ엯?덈떎. ?앸뀈?붿씪?쒕? ?낅젰?섏떆硫?留뚯꽭?μ쓣 湲곕컲?쇰줈 ?ъ＜?붿옄瑜?遺꾩꽍?섍퀬, AI ?ъ＜ ?꾨Ц媛 '?꾪뼢 ?좎깮'????뷀삎?쇰줈 ?댁꽭瑜???대뱶由쎈땲??
             </p>
-            <p>기존의 운세 서비스와 달리, 일방적인 결과 제공이 아닌 <strong>1:1 상담 형태</strong>로 진행되어 궁금한 점을 자유롭게 질문하실 수 있습니다.</p>
+            <p>湲곗〈???댁꽭 ?쒕퉬?ㅼ? ?щ━, ?쇰갑?곸씤 寃곌낵 ?쒓났???꾨땶 <strong>1:1 ?곷떞 ?뺥깭</strong>濡?吏꾪뻾?섏뼱 沅곴툑???먯쓣 ?먯쑀濡?쾶 吏덈Ц?섏떎 ???덉뒿?덈떎.</p>
             <ul>
-                <li>회원가입 없이 무료로 이용 가능</li>
-                <li>AI 기반 대화형 사주 상담</li>
-                <li>올해 운세, 직장운, 연애운, 결혼운 등 상담</li>
-                <li>만세력 기반 사주팔자 명식 제공</li>
+                <li>?뚯썝媛???놁씠 臾대즺濡??댁슜 媛??/li>
+                <li>AI 湲곕컲 ??뷀삎 ?ъ＜ ?곷떞</li>
+                <li>?ы빐 ?댁꽭, 吏곸옣?? ?곗븷?? 寃고샎?????곷떞</li>
+                <li>留뚯꽭??湲곕컲 ?ъ＜?붿옄 紐낆떇 ?쒓났</li>
             </ul>
         </div>
     </section>
 
-    <!-- 자주 묻는 질문 (FAQ) -->
-    <section id="faq-section" class="adsense-section">
-        <div class="adsense-content">
-            <h2 class="section-title">자주 묻는 질문 (FAQ)</h2>
+    <!-- ?먯＜ 臾삳뒗 吏덈Ц (FAQ) -->
+    <section id="faq-section" class="info-section">
+        <div class="info-content">
+            <h2 class="section-title">?먯＜ 臾삳뒗 吏덈Ц (FAQ)</h2>
 
             <div class="faq-item">
-                <h3 class="faq-q">Q. 이 서비스는 무료인가요?</h3>
-                <p class="faq-a">네, 도향(道香)은 완전 무료 서비스입니다. 회원가입이나 결제 없이 바로 이용하실 수 있습니다.</p>
+                <h3 class="faq-q">Q. ???쒕퉬?ㅻ뒗 臾대즺?멸???</h3>
+                <p class="faq-a">?? ?꾪뼢(?볣쬂)? ?꾩쟾 臾대즺 ?쒕퉬?ㅼ엯?덈떎. ?뚯썝媛?낆씠??寃곗젣 ?놁씠 諛붾줈 ?댁슜?섏떎 ???덉뒿?덈떎.</p>
             </div>
 
             <div class="faq-item">
-                <h3 class="faq-q">Q. 사주풀이 결과는 정확한가요?</h3>
-                <p class="faq-a">도향은 전통 사주명리학의 원리(오행, 십신, 12운성 등)를 기반으로 AI가 분석합니다. 재미와 참고 목적으로 이용해 주시기 바라며, 중요한 결정은 반드시
-                    전문가와 상의하시기 바랍니다.</p>
+                <h3 class="faq-q">Q. ?ъ＜???寃곌낵???뺥솗?쒓???</h3>
+                <p class="faq-a">?꾪뼢? ?꾪넻 ?ъ＜紐낅━?숈쓽 ?먮━(?ㅽ뻾, ??떊, 12?댁꽦 ??瑜?湲곕컲?쇰줈 AI媛 遺꾩꽍?⑸땲?? ?щ?? 李멸퀬 紐⑹쟻?쇰줈 ?댁슜??二쇱떆湲?諛붾씪硫? 以묒슂??寃곗젙? 諛섎뱶??
+                    ?꾨Ц媛? ?곸쓽?섏떆湲?諛붾엻?덈떎.</p>
             </div>
 
             <div class="faq-item">
-                <h3 class="faq-q">Q. 어떤 정보를 입력해야 하나요?</h3>
-                <p class="faq-a">이름, 성별, 생년월일, 태어난 시간을 입력합니다. 태어난 시간을 모르시면 '시간 모름'을 체크하고 이용하실 수 있습니다.</p>
+                <h3 class="faq-q">Q. ?대뼡 ?뺣낫瑜??낅젰?댁빞 ?섎굹??</h3>
+                <p class="faq-a">?대쫫, ?깅퀎, ?앸뀈?붿씪, ?쒖뼱???쒓컙???낅젰?⑸땲?? ?쒖뼱???쒓컙??紐⑤Ⅴ?쒕㈃ '?쒓컙 紐⑤쫫'??泥댄겕?섍퀬 ?댁슜?섏떎 ???덉뒿?덈떎.</p>
             </div>
 
             <div class="faq-item">
-                <h3 class="faq-q">Q. 양력과 음력 중 어떤 것을 선택해야 하나요?</h3>
-                <p class="faq-a">주민등록등본 또는 출생증명서에 기재된 역법을 기준으로 선택해 주세요. 일반적으로 병원 출생 기록은 양력입니다.</p>
+                <h3 class="faq-q">Q. ?묐젰怨??뚮젰 以??대뼡 寃껋쓣 ?좏깮?댁빞 ?섎굹??</h3>
+                <p class="faq-a">二쇰??깅줉?깅낯 ?먮뒗 異쒖깮利앸챸?쒖뿉 湲곗옱????쾿??湲곗??쇰줈 ?좏깮??二쇱꽭?? ?쇰컲?곸쑝濡?蹂묒썝 異쒖깮 湲곕줉? ?묐젰?낅땲??</p>
             </div>
 
             <div class="faq-item">
-                <h3 class="faq-q">Q. 개인정보는 안전한가요?</h3>
-                <p class="faq-a">입력하신 정보는 사주 분석 목적으로만 사용되며, 서버에 영구 저장되지 않습니다. 대화가 종료되면 세션 데이터는 자동으로 삭제됩니다.</p>
+                <h3 class="faq-q">Q. 媛쒖씤?뺣낫???덉쟾?쒓???</h3>
+                <p class="faq-a">?낅젰?섏떊 ?뺣낫???ъ＜ 遺꾩꽍 紐⑹쟻?쇰줈留??ъ슜?섎ŉ, ?쒕쾭???곴뎄 ??λ릺吏 ?딆뒿?덈떎. ??붽? 醫낅즺?섎㈃ ?몄뀡 ?곗씠?곕뒗 ?먮룞?쇰줈 ??젣?⑸땲??</p>
             </div>
 
             <div class="faq-item">
-                <h3 class="faq-q">Q. AI가 어떤 운세를 봐주나요?</h3>
-                <p class="faq-a">사업운/직장운, 결혼운, 연애운, 행운 및 주의 시기 등 4가지 카테고리를 중심으로 상담하며, 자유 질문도 가능합니다.</p>
+                <h3 class="faq-q">Q. AI媛 ?대뼡 ?댁꽭瑜?遊먯＜?섏슂?</h3>
+                <p class="faq-a">?ъ뾽??吏곸옣?? 寃고샎?? ?곗븷?? ?됱슫 諛?二쇱쓽 ?쒓린 ??4媛吏 移댄뀒怨좊━瑜?以묒떖?쇰줈 ?곷떞?섎ŉ, ?먯쑀 吏덈Ц??媛?ν빀?덈떎.</p>
             </div>
         </div>
     </section>
 
-    <!-- 면책조항 및 개인정보처리방침 -->
-    <section id="policy-section" class="adsense-section">
-        <div class="adsense-content">
-            <h2 class="section-title">이용 안내</h2>
+    <!-- 硫댁콉議고빆 諛?媛쒖씤?뺣낫泥섎━諛⑹묠 -->
+    <section id="policy-section" class="info-section">
+        <div class="info-content">
+            <h2 class="section-title">?댁슜 ?덈궡</h2>
 
             <div class="policy-block">
-                <h3>면책조항</h3>
-                <p>본 서비스는 전통 사주명리학을 기반으로 한 AI 엔터테인먼트 서비스이며, <strong>재미와 참고 목적</strong>으로 제공됩니다. 본 서비스의 상담 내용은 의학적, 법률적,
-                    재정적 전문 조언을 대체하지 않습니다. 중요한 결정을 내리실 때는 반드시 해당 분야의 전문가와 상의하시기 바랍니다.</p>
+                <h3>硫댁콉議고빆</h3>
+                <p>蹂??쒕퉬?ㅻ뒗 ?꾪넻 ?ъ＜紐낅━?숈쓣 湲곕컲?쇰줈 ??AI ?뷀꽣?뚯씤癒쇳듃 ?쒕퉬?ㅼ씠硫? <strong>?щ?? 李멸퀬 紐⑹쟻</strong>?쇰줈 ?쒓났?⑸땲?? 蹂??쒕퉬?ㅼ쓽 ?곷떞 ?댁슜? ?섑븰?? 踰뺣쪧??
+                    ?ъ젙???꾨Ц 議곗뼵???泥댄븯吏 ?딆뒿?덈떎. 以묒슂??寃곗젙???대━???뚮뒗 諛섎뱶???대떦 遺꾩빞???꾨Ц媛? ?곸쓽?섏떆湲?諛붾엻?덈떎.</p>
             </div>
 
             <div class="policy-block">
-                <h3>개인정보처리방침</h3>
-                <p><strong>수집하는 정보:</strong> 이름, 성별, 생년월일, 태어난 시간 (사주 분석 목적에 한함)</p>
-                <p><strong>정보의 이용:</strong> 입력하신 정보는 AI 사주 분석을 위한 목적으로만 사용됩니다.</p>
-                <p><strong>정보의 보관:</strong> 입력 정보는 서버 메모리에 임시 저장되며, 세션 종료 시 자동으로 삭제됩니다. 데이터베이스에 영구 저장하지 않습니다.</p>
-                <p><strong>제3자 제공:</strong> 수집된 개인정보는 어떠한 제3자에게도 제공되지 않습니다.</p>
-                <p><strong>문의:</strong> 서비스 관련 문의는 이메일(contact@dohyang.com)로 연락 주시기 바랍니다.</p>
+                <h3>媛쒖씤?뺣낫泥섎━諛⑹묠</h3>
+                <p><strong>?섏쭛?섎뒗 ?뺣낫:</strong> ?대쫫, ?깅퀎, ?앸뀈?붿씪, ?쒖뼱???쒓컙 (?ъ＜ 遺꾩꽍 紐⑹쟻???쒗븿)</p>
+                <p><strong>?뺣낫???댁슜:</strong> ?낅젰?섏떊 ?뺣낫??AI ?ъ＜ 遺꾩꽍???꾪븳 紐⑹쟻?쇰줈留??ъ슜?⑸땲??</p>
+                <p><strong>?뺣낫??蹂닿?:</strong> ?낅젰 ?뺣낫???쒕쾭 硫붾え由ъ뿉 ?꾩떆 ??λ릺硫? ?몄뀡 醫낅즺 ???먮룞?쇰줈 ??젣?⑸땲?? ?곗씠?곕쿋?댁뒪???곴뎄 ??ν븯吏 ?딆뒿?덈떎.</p>
+                <p><strong>?????쒓났:</strong> ?섏쭛??媛쒖씤?뺣낫???대뼚?????먯뿉寃뚮룄 ?쒓났?섏? ?딆뒿?덈떎.</p>
+                <p><strong>臾몄쓽:</strong> ?쒕퉬??愿??臾몄쓽???대찓??contact@dohyang.com)濡??곕씫 二쇱떆湲?諛붾엻?덈떎.</p>
             </div>
         </div>
     </section>
 
-    <!-- 사주 기본 용어 및 상식 -->
-    <section id="glossary-section" class="adsense-section">
-        <div class="adsense-content">
-            <h2 class="section-title">사주 기본 용어 & 상식</h2>
+    <!-- ?ъ＜ 湲곕낯 ?⑹뼱 諛??곸떇 -->
+    <section id="glossary-section" class="info-section">
+        <div class="info-content">
+            <h2 class="section-title">?ъ＜ 湲곕낯 ?⑹뼱 & ?곸떇</h2>
 
             <div class="glossary-item">
-                <h3 class="glossary-term">사주팔자 (四柱八字)</h3>
-                <p>태어난 <strong>연(年)·월(月)·일(日)·시(時)</strong>의 네 기둥(四柱)에 각각 천간과 지지 두 글자씩, 총 여덟 글자(八字)로 운명을 읽는 동양 철학입니다.
-                    '사주를 본다'는 것은 이 8글자의 조합을 분석하는 것입니다.</p>
+                <h3 class="glossary-term">?ъ＜?붿옄 (?쎿윶?ュ춻)</h3>
+                <p>?쒖뼱??<strong>??亮?쨌????쨌????쨌????</strong>????湲곕뫁(?쎿윶)??媛곴컖 泥쒓컙怨?吏吏 ??湲?먯뵫, 珥??щ뜜 湲???ュ춻)濡??대챸???쎈뒗 ?숈뼇 泥좏븰?낅땲??
+                    '?ъ＜瑜?蹂몃떎'??寃껋? ??8湲?먯쓽 議고빀??遺꾩꽍?섎뒗 寃껋엯?덈떎.</p>
             </div>
 
             <div class="glossary-item">
-                <h3 class="glossary-term">오행 (五行)</h3>
-                <p>만물을 구성하는 다섯 가지 기운입니다.</p>
+                <h3 class="glossary-term">?ㅽ뻾 (雅붻죱)</h3>
+                <p>留뚮Ъ??援ъ꽦?섎뒗 ?ㅼ꽢 媛吏 湲곗슫?낅땲??</p>
                 <div class="ohang-grid">
-                    <span class="ohang-badge wood">木 목</span>
-                    <span class="ohang-badge fire">火 화</span>
-                    <span class="ohang-badge earth">土 토</span>
-                    <span class="ohang-badge metal">金 금</span>
-                    <span class="ohang-badge water">水 수</span>
+                    <span class="ohang-badge wood">??紐?/span>
+                    <span class="ohang-badge fire">????/span>
+                    <span class="ohang-badge earth">????/span>
+                    <span class="ohang-badge metal">??湲?/span>
+                    <span class="ohang-badge water">麗???/span>
                 </div>
-                <p>이 다섯 요소가 서로 돕거나(상생) 억제하며(상극) 균형을 이루는 것이 중요합니다. 사주에서 특정 오행이 과하거나 부족하면 성격·건강·운세에 영향을 줍니다.</p>
+                <p>???ㅼ꽢 ?붿냼媛 ?쒕줈 ?뺢굅???곸깮) ?듭젣?섎ŉ(?곴레) 洹좏삎???대（??寃껋씠 以묒슂?⑸땲?? ?ъ＜?먯꽌 ?뱀젙 ?ㅽ뻾??怨쇳븯嫄곕굹 遺議깊븯硫??깃꺽쨌嫄닿컯쨌?댁꽭???곹뼢??以띾땲??</p>
             </div>
 
             <div class="glossary-item">
-                <h3 class="glossary-term">천간 (天干) & 지지 (地支)</h3>
-                <p><strong>천간</strong>은 하늘의 기운 10가지: 갑(甲)·을(乙)·병(丙)·정(丁)·무(戊)·기(己)·경(庚)·신(辛)·임(壬)·계(癸)</p>
-                <p><strong>지지</strong>는 땅의 기운 12가지: 자(子)·축(丑)·인(寅)·묘(卯)·진(辰)·사(巳)·오(午)·미(未)·신(申)·유(酉)·술(戌)·해(亥)</p>
-                <p>천간과 지지가 조합되어 '갑자(甲子)', '을축(乙丑)' 같은 60갑자를 이룹니다.</p>
+                <h3 class="glossary-term">泥쒓컙 (鸚⒴묾) & 吏吏 (?경뵱)</h3>
+                <p><strong>泥쒓컙</strong>? ?섎뒛??湲곗슫 10媛吏: 媛???쨌??阿?쨌蹂?訝?쨌??訝?쨌臾???쨌湲?藥?쨌寃?佯?쨌??渦?쨌??鶯?쨌怨???</p>
+                <p><strong>吏吏</strong>???낆쓽 湲곗슫 12媛吏: ??耶?쨌異?訝?쨌??野?쨌臾???쨌吏?渦?쨌??藥?쨌????쨌誘???쨌????쨌????쨌????쨌??雅?</p>
+                <p>泥쒓컙怨?吏吏媛 議고빀?섏뼱 '媛묒옄(?꿨춴)', '?꾩텞(阿쇾툚)' 媛숈? 60媛묒옄瑜??대９?덈떎.</p>
             </div>
 
             <div class="glossary-item">
-                <h3 class="glossary-term">일간 (日干)</h3>
-                <p>사주팔자에서 <strong>나 자신</strong>을 대표하는 글자입니다. 일주(日柱)의 천간이 '나'이며, 나머지 7글자와의 관계를 통해 성격·재능·인생 흐름을 파악합니다.</p>
+                <h3 class="glossary-term">?쇨컙 (?ε묾)</h3>
+                <p>?ъ＜?붿옄?먯꽌 <strong>???먯떊</strong>????쒗븯??湲?먯엯?덈떎. ?쇱＜(?ζ윶)??泥쒓컙??'???대ŉ, ?섎㉧吏 7湲?먯???愿怨꾨? ?듯빐 ?깃꺽쨌?щ뒫쨌?몄깮 ?먮쫫???뚯븙?⑸땲??</p>
             </div>
 
             <div class="glossary-item">
-                <h3 class="glossary-term">십신 (十神)</h3>
-                <p>일간을 기준으로 다른 글자와의 관계를 나타내는 10가지 이름입니다.</p>
-                <p>• <strong>비견·겁재</strong> — 나와 같은 기운 (형제·동료·경쟁)</p>
-                <p>• <strong>식신·상관</strong> — 내가 만드는 기운 (재주·표현·자녀)</p>
-                <p>• <strong>편재·정재</strong> — 내가 지배하는 기운 (재물·아버지)</p>
-                <p>• <strong>편관·정관</strong> — 나를 지배하는 기운 (직장·명예·남편)</p>
-                <p>• <strong>편인·정인</strong> — 나를 도와주는 기운 (학문·어머니)</p>
+                <h3 class="glossary-term">??떊 (?곭쪥)</h3>
+                <p>?쇨컙??湲곗??쇰줈 ?ㅻⅨ 湲?먯???愿怨꾨? ?섑??대뒗 10媛吏 ?대쫫?낅땲??</p>
+                <p>??<strong>鍮꾧껄쨌寃곸옱</strong> ???섏? 媛숈? 湲곗슫 (?뺤젣쨌?숇즺쨌寃쎌웳)</p>
+                <p>??<strong>?앹떊쨌?곴?</strong> ???닿? 留뚮뱶??湲곗슫 (?ъ＜쨌?쒗쁽쨌?먮?)</p>
+                <p>??<strong>?몄옱쨌?뺤옱</strong> ???닿? 吏諛고븯??湲곗슫 (?щЪ쨌?꾨쾭吏)</p>
+                <p>??<strong>?멸?쨌?뺢?</strong> ???섎? 吏諛고븯??湲곗슫 (吏곸옣쨌紐낆삁쨌?⑦렪)</p>
+                <p>??<strong>?몄씤쨌?뺤씤</strong> ???섎? ?꾩?二쇰뒗 湲곗슫 (?숇Ц쨌?대㉧??</p>
             </div>
 
             <div class="glossary-item">
-                <h3 class="glossary-term">12운성 (十二運星)</h3>
-                <p>일간이 각 지지를 만났을 때의 에너지 상태를 나타냅니다. 태(胎)에서 시작하여
-                    양(養)·장생(長生)·목욕(沐浴)·관대(冠帶)·건록(建祿)·제왕(帝旺)·쇠(衰)·병(病)·사(死)·묘(墓)·절(絶)의 12단계 순환입니다.</p>
+                <h3 class="glossary-term">12?댁꽦 (?곦틠?뗦삜)</h3>
+                <p>?쇨컙??媛?吏吏瑜?留뚮궗???뚯쓽 ?먮꼫吏 ?곹깭瑜??섑??낅땲?? ?????먯꽌 ?쒖옉?섏뿬
+                    ??繞?쨌?μ깮(?루뵟)쨌紐⑹슃(亦먩뎬)쨌愿?(?졾마)쨌嫄대줉(兩븀?)쨌?쒖솗(躍앮뿺)쨌??烏?쨌蹂???쨌??閭?쨌臾?罌?쨌??永???12?④퀎 ?쒗솚?낅땲??</p>
             </div>
 
             <div class="glossary-item">
-                <h3 class="glossary-term">대운 (大運)</h3>
-                <p>사주에서 10년 주기로 바뀌는 큰 흐름의 운입니다. 대운이 바뀌면 인생의 전환기가 올 수 있으며, "몇 살부터 운이 좋아진다"는 이야기는 대운의 변화를 의미합니다.</p>
+                <h3 class="glossary-term">???(鸚㏝걢)</h3>
+                <p>?ъ＜?먯꽌 10??二쇨린濡?諛붾뚮뒗 ???먮쫫???댁엯?덈떎. ??댁씠 諛붾뚮㈃ ?몄깮???꾪솚湲곌? ?????덉쑝硫? "紐??대????댁씠 醫뗭븘吏꾨떎"???댁빞湲곕뒗 ??댁쓽 蹂?붾? ?섎??⑸땲??</p>
             </div>
 
             <div class="glossary-item">
-                <h3 class="glossary-term">세운 (歲運)</h3>
-                <p>매년 바뀌는 해의 운입니다. 2026년은 <strong>병오(丙午)년</strong>으로, 화(火)의 기운이 강한 해입니다. 세운은 그 해의 전체적인 분위기와 기회·위기를
-                    알려줍니다.</p>
+                <h3 class="glossary-term">?몄슫 (閭꿴걢)</h3>
+                <p>留ㅻ뀈 諛붾뚮뒗 ?댁쓽 ?댁엯?덈떎. 2026?꾩? <strong>蹂묒삤(訝쇿뜄)??/strong>?쇰줈, ??????湲곗슫??媛뺥븳 ?댁엯?덈떎. ?몄슫? 洹??댁쓽 ?꾩껜?곸씤 遺꾩쐞湲곗? 湲고쉶쨌?꾧린瑜?
+                    ?뚮젮以띾땲??</p>
             </div>
         </div>
     </section>
 
-    <!-- 푸터 -->
+    <!-- ?명꽣 -->
     <footer id="site-footer">
-        <p data-i18n="footerCopyright">&copy; 2026 도향(道香) — AI 사주명리 상담 서비스</p>
+        <p data-i18n="footerCopyright">&copy; 2026 ?꾪뼢(?볣쬂) ??AI ?ъ＜紐낅━ ?곷떞 ?쒕퉬??/p>
         <p class="footer-links" id="footer-links">
-            <a href="#about-section">서비스 소개</a> |
-            <a href="#faq-section">자주 묻는 질문</a> |
-            <a href="#policy-section">개인정보처리방침</a>
+            <a href="#about-section">?쒕퉬???뚭컻</a> |
+            <a href="#faq-section">?먯＜ 臾삳뒗 吏덈Ц</a> |
+            <a href="#policy-section">媛쒖씤?뺣낫泥섎━諛⑹묠</a>
         </p>
-        <p class="footer-disclaimer" data-i18n="footerDisclaimer">본 서비스는 재미와 참고 목적으로 제공되며, 전문적인 상담을 대체하지 않습니다.</p>
+        <p class="footer-disclaimer" data-i18n="footerDisclaimer">蹂??쒕퉬?ㅻ뒗 ?щ?? 李멸퀬 紐⑹쟻?쇰줈 ?쒓났?섎ŉ, ?꾨Ц?곸씤 ?곷떞???泥댄븯吏 ?딆뒿?덈떎.</p>
     </footer>
 
     <script src="lang.js"></script>
     <script src="chat.js"></script>
     <script>
-        // 페이지 로드 시 저장된 언어로 번역 적용
+        // ?섏씠吏 濡쒕뱶 ????λ맂 ?몄뼱濡?踰덉뿭 ?곸슜
         document.addEventListener('DOMContentLoaded', () => {
             applyTranslations();
         });
