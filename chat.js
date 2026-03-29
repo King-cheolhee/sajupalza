@@ -41,6 +41,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendChatBtn = document.getElementById('sendBtn');
     const BACKEND_URL = "http://127.0.0.1:5000/api/chat";
 
+    // === 세션 및 사주 정보 관리 ===
+    let sessionId = 'session-' + Date.now();
+    let sajuInfo = null;       // 사주 정보 저장
+    let isFirstMessage = true; // 첫 메시지 여부 (사주 정보 전달용)
+
     // 1. 모달 팝업
     btn12Ganji.addEventListener('click', () => modal12Ganji.classList.add('active'));
     btnYaja.addEventListener('click', () => modalYaja.classList.add('active'));
@@ -122,6 +127,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const timeStr = isUnknownTime ? "시간 모름" : `${ampm} ${time}`;
         resDetails1.innerText = `${cal} ${date.replace(/-/g, '/')} ${timeStr} ${gender}`;
 
+        // 사주 정보 저장 (AI 상담에 전달용)
+        sajuInfo = {
+            name: name,
+            gender: gender,
+            birthDate: date,
+            birthTime: timeStr,
+            calendar: cal
+        };
+        isFirstMessage = true;
+        sessionId = 'session-' + Date.now(); // 새 상담 시 세션 초기화
+
         // 화면 전환 로직 (입력 -> 로딩 -> 대기 -> 결과)
         inputScreen.classList.remove('active');
         loadingScreen.classList.add('active');
@@ -134,6 +150,9 @@ document.addEventListener('DOMContentLoaded', () => {
             isResultGenerated = true;
             forwardBtn.style.display = "flex";
             document.getElementById('navSpacer').style.display = "none";
+
+            // 자동으로 AI에게 첫 인사 전송 (사주 정보 포함)
+            autoSendFirstMessage();
         }, 2200); // 2.2초 대기
     });
 
@@ -161,6 +180,40 @@ document.addEventListener('DOMContentLoaded', () => {
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 
+    // 결과 화면 진입 시 자동으로 첫 메시지 전송
+    async function autoSendFirstMessage() {
+        const firstMessage = "제 사주를 봐주세요.";
+        appendChatMessage('user', firstMessage);
+
+        const loadId = 'load-' + Date.now();
+        const loadDiv = document.createElement('div');
+        loadDiv.id = loadId;
+        loadDiv.classList.add('message', 'bot');
+        loadDiv.innerHTML = '<div class="bubble">...</div>';
+        chatBox.appendChild(loadDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        try {
+            const res = await fetch(BACKEND_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    message: firstMessage,
+                    sessionId: sessionId,
+                    sajuInfo: sajuInfo
+                })
+            });
+            const data = await res.json();
+
+            document.getElementById(loadId).remove();
+            appendChatMessage('bot', data.reply);
+            isFirstMessage = false;
+        } catch (e) {
+            document.getElementById(loadId).remove();
+            appendChatMessage('bot', "하늘의 기운(서버)과 닿지 않고 있습니다. 잠시 후 다시 시도해주시지요.");
+        }
+    }
+
     async function sendChatMessage() {
         const text = chatInput.value.trim();
         if (!text) return;
@@ -180,12 +233,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const res = await fetch(BACKEND_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: text })
+                body: JSON.stringify({
+                    message: text,
+                    sessionId: sessionId,
+                    sajuInfo: isFirstMessage ? sajuInfo : null
+                })
             });
             const data = await res.json();
 
             document.getElementById(loadId).remove();
             appendChatMessage('bot', data.reply);
+            isFirstMessage = false;
         } catch (e) {
             document.getElementById(loadId).remove();
             appendChatMessage('bot', "하늘의 기운(서버)과 닿지 않고 있습니다. 잠시 후 다시 시도해주시지요.");
