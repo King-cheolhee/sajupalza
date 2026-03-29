@@ -1,6 +1,6 @@
-﻿/* ===============================
-   ?꾪뼢(?볣쬂) ?ъ＜紐낅━ ???꾨㈃ 媛쒗렪 ?붿옄??
-   ?뚮쭏: ?좊퉬濡??留??좊ː媛??덈뒗 ???몃뵒怨?+ 怨⑤뱶
+/* ===============================
+   도향(道香) 사주명리 — 전면 개편 디자인
+   테마: 신비롭지만 신뢰감 있는 딥 인디고 + 골드
 =============================== */
 * {
     box-sizing: border-box;
@@ -8,7 +8,7 @@
     padding: 0;
 }
 
-/* ?몄뼱 ?좏깮 諛????곗륫 ?곷떒 怨좎젙 */
+/* 언어 선택 바 — 우측 상단 고정 */
 #lang-bar {
     position: fixed;
     top: 12px;
@@ -45,7 +45,7 @@
     color: #e2d9c8;
 }
 
-/* ?꾩뿭 諛붾뵒 */
+/* 전역 바디 */
 body {
     font-family: 'Nanum Gothic', -apple-system, 'Segoe UI', sans-serif;
     background: #0f172a;
@@ -81,7 +81,7 @@ body {
 }
 
 /* ===============================
-   ?ㅻ퉬寃뚯씠??諛?
+   네비게이션 바
 =============================== */
 .top-nav.traditional {
     display: flex;
@@ -134,7 +134,7 @@ body {
 }
 
 /* ===============================
-   ?낅젰 ?붾㈃ ??Hero + ??移대뱶 援ъ“
+   입력 화면 — Hero + 폼 카드 구조
 =============================== */
 .form-wrapper.pattern-bg {
     padding: 0;
@@ -145,7 +145,7 @@ body {
     background: linear-gradient(180deg, #0f172a 0%, #1e1b4b 40%, #312e81 100%) !important;
 }
 
-/* ?덉뼱濡??곸뿭 */
+/* 히어로 영역 */
 .intro-decoration {
     text-align: center;
     padding: 48px 24px 28px;
@@ -159,7 +159,7 @@ body {
     line-height: 1.7;
 }
 
-/* ??洹몃９ ??移대뱶 ?ㅽ???*/
+/* 폼 그룹 — 카드 스타일 */
 .form-group {
     margin: 0 20px 16px;
 }
@@ -205,7 +205,7 @@ body {
     text-decoration: none;
 }
 
-/* ?명뭼 ?ㅽ???*/
+/* 인풋 스타일 */
 #userName,
 .date-time-box {
     background: rgba(255, 255, 255, 0.08);
@@ -235,7 +235,7 @@ body {
     font-family: inherit;
 }
 
-/* ?깅퀎 ?좉? */
+/* 성별 토글 */
 .toggle-group {
     display: flex;
     border: 1px solid rgba(255, 255, 255, 0.15);
@@ -263,7 +263,7 @@ body {
     font-weight: 700;
 }
 
-/* ?앸뀈?붿씪??諛뺤뒪 */
+/* 생년월일시 박스 */
 .date-time-box {
     display: flex;
     flex-direction: column;
@@ -312,7 +312,7 @@ body {
     margin: 0 10px;
 }
 
-/* 泥댄겕諛뺤뒪 */
+/* 체크박스 */
 .checkbox-row {
     display: flex;
     gap: 24px;
@@ -343,7 +343,7 @@ body {
 }
 
 .custom-chk input:checked+.chk-mark::after {
-    content: '??;
+    content: '✔';
     position: absolute;
     color: #c8a45a;
     font-size: 13px;
@@ -351,7 +351,7 @@ body {
     left: 2px;
 }
 
-/* CTA 踰꾪듉 ??Pill ?뺥깭 */
+/* CTA 버튼 — Pill 형태 */
 .bottom-btns {
     margin: 8px 20px 32px;
 }
@@ -382,7 +382,7 @@ body {
 }
 
 /* ===============================
-   濡쒕뵫 ?붾㈃
+   로딩 화면
 =============================== */
 .loading-theme {
     background: #0f172a;
@@ -461,7 +461,7 @@ body {
 }
 
 /* ===============================
-   寃곌낵 ?붾㈃ ??源붾걫??諛앹? ?뚮쭏
+   결과 화면 — 깔끔한 밝은 테마
 =============================== */
 #result-screen {
     background: #f8f6f1;
@@ -489,7 +489,7 @@ body {
     flex-direction: column;
 }
 
-/* ?꾨줈???붿빟 */
+/* 프로필 요약 */
 .profile-summary {
     padding: 20px;
     text-align: center;
@@ -511,7 +511,7 @@ body {
     font-weight: 500;
 }
 
-/* 留뚯꽭???뚯씠釉?*/
+/* 만세력 테이블 */
 .manseoryok-board {
     padding: 20px 12px;
     background: #ffffff;
@@ -651,7 +651,7 @@ body {
 }
 
 /* ===============================
-   梨꾪똿 ?곸뿭 ??媛????蹂댁씠?꾨줉 媛뺤“
+   채팅 영역 — 가장 잘 보이도록 강조
 =============================== */
 .chat-section {
     display: flex;
@@ -767,7 +767,7 @@ body {
 }
 
 /* ===============================
-   紐⑤떖
+   모달
 =============================== */
 .modal-overlay {
     position: fixed;
@@ -835,7 +835,7 @@ body {
 }
 
 /* ===============================
-   援ш? ?좊뱶?쇱뒪 肄섑뀗痢??뱀뀡
+   정보 콘텐츠 섹션
 =============================== */
 .info-section {
     background: #f8f6f1;
@@ -882,14 +882,14 @@ body {
 }
 
 .info-section ul li::before {
-    content: '??;
+    content: '✓';
     position: absolute;
     left: 0;
     color: #c8a45a;
     font-weight: 700;
 }
 
-/* FAQ 移대뱶 */
+/* FAQ 카드 */
 .faq-item {
     margin-bottom: 12px;
     padding: 16px 18px;
@@ -917,7 +917,7 @@ body {
     margin-bottom: 0;
 }
 
-/* Policy 釉붾줉 */
+/* Policy 블록 */
 .policy-block {
     margin-bottom: 20px;
     padding: 18px;
@@ -939,7 +939,7 @@ body {
     margin-bottom: 6px;
 }
 
-/* ?명꽣 */
+/* 푸터 */
 #site-footer {
     background: linear-gradient(135deg, #0f172a, #1e1b4b);
     color: #94a3b8;
@@ -974,7 +974,7 @@ body {
 }
 
 /* ===============================
-   ?ъ＜ ?⑹뼱 ?ㅻ챸 ?뱀뀡
+   사주 용어 설명 섹션
 =============================== */
 .glossary-item {
     margin-bottom: 16px;
@@ -1005,7 +1005,7 @@ body {
     margin-bottom: 8px;
 }
 
-/* ?ㅽ뻾 諛곗? */
+/* 오행 배지 */
 .ohang-grid {
     display: flex;
     gap: 8px;
