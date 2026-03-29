@@ -47,14 +47,17 @@
 
 /* 전역 바디 */
 body {
-    font-family: 'Nanum Gothic', "Malgun Gothic", "맑은 고딕", -apple-system, sans-serif;
+    font-family: 'Nanum Gothic', -apple-system, 'Segoe UI', sans-serif;
     background: #0f172a;
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
     color: #1e293b;
-    line-height: 1.6;
+    line-height: 1.7;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 #app-container {
@@ -836,7 +839,7 @@ body {
 =============================== */
 .adsense-section {
     background: #f8f6f1;
-    padding: 40px 20px;
+    padding: 36px 24px;
     border-top: 1px solid #e8e0d4;
     width: 100%;
     max-width: 520px;
@@ -850,8 +853,8 @@ body {
 .section-title {
     font-size: 20px;
     font-weight: 800;
-    color: #312e81;
-    margin-bottom: 20px;
+    color: #1e1b4b;
+    margin-bottom: 18px;
     padding-bottom: 10px;
     border-bottom: 2px solid #c8a45a;
     letter-spacing: 1px;
@@ -860,8 +863,8 @@ body {
 .adsense-section p {
     font-size: 14px;
     line-height: 1.8;
-    color: #475569;
-    margin-bottom: 8px;
+    color: #334155;
+    margin-bottom: 10px;
 }
 
 .adsense-section ul {
@@ -902,15 +905,15 @@ body {
 
 .faq-q {
     font-size: 15px;
-    font-weight: 700;
-    color: #312e81;
-    margin-bottom: 6px;
+    font-weight: 800;
+    color: #1e1b4b;
+    margin-bottom: 8px;
 }
 
 .faq-a {
     font-size: 14px;
-    color: #475569;
-    line-height: 1.7;
+    color: #334155;
+    line-height: 1.8;
     margin-bottom: 0;
 }
 
@@ -968,4 +971,83 @@ body {
     font-size: 11px;
     color: #64748b;
     margin-top: 6px;
+}
+
+/* ===============================
+   사주 용어 설명 섹션
+=============================== */
+.glossary-item {
+    margin-bottom: 16px;
+    padding: 18px 20px;
+    background: #ffffff;
+    border: 1px solid #e2e0f0;
+    border-radius: 12px;
+    transition: 0.2s;
+}
+
+.glossary-item:hover {
+    box-shadow: 0 4px 12px rgba(49, 46, 129, 0.08);
+}
+
+.glossary-term {
+    font-size: 16px;
+    font-weight: 800;
+    color: #1e1b4b;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #e8e0d4;
+}
+
+.glossary-item p {
+    font-size: 14px;
+    color: #334155;
+    line-height: 1.8;
+    margin-bottom: 8px;
+}
+
+/* 오행 배지 */
+.ohang-grid {
+    display: flex;
+    gap: 8px;
+    margin: 12px 0;
+    flex-wrap: wrap;
+}
+
+.ohang-badge {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 800;
+    text-align: center;
+    min-width: 70px;
+}
+
+.ohang-badge.wood {
+    background: #f0fdf4;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+}
+
+.ohang-badge.fire {
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+}
+
+.ohang-badge.earth {
+    background: #fefce8;
+    color: #a16207;
+    border: 1px solid #fef08a;
+}
+
+.ohang-badge.metal {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+}
+
+.ohang-badge.water {
+    background: #eff6ff;
+    color: #2563eb;
+    border: 1px solid #bfdbfe;
 }
