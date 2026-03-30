@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import google.generativeai as genai
 import os
+import time
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -126,12 +127,44 @@ SAJU_SYSTEM_PROMPT = """당신은 '도향(道香) 선생'입니다. 30년 이상
 """
 
 model = genai.GenerativeModel(
-    model_name='gemini-2.0-flash',
+    model_name='gemini-2.5-flash',
     system_instruction=SAJU_SYSTEM_PROMPT
 )
 
 # 세션별 대화 히스토리 저장 (메모리 기반)
+# 구조: { session_id: { 'chat': chat_object, 'last_active': timestamp } }
 chat_sessions = {}
+SESSION_TTL = 1800  # 30분 (초)
+MAX_SESSIONS = 2000  # 최대 세션 수
+
+def cleanup_sessions():
+    """만료된 세션 자동 정리"""
+    now = time.time()
+    expired = [sid for sid, s in chat_sessions.items() if now - s['last_active'] > SESSION_TTL]
+    for sid in expired:
+        del chat_sessions[sid]
+    # 최대 개수 초과 시 가장 오래된 세션부터 삭제
+    if len(chat_sessions) > MAX_SESSIONS:
+        sorted_sessions = sorted(chat_sessions.items(), key=lambda x: x[1]['last_active'])
+        for sid, _ in sorted_sessions[:len(chat_sessions) - MAX_SESSIONS]:
+            del chat_sessions[sid]
+
+def call_gemini_with_retry(chat, message, max_retries=3):
+    """Gemini API 호출 + 429 에러 시 자동 재시도 (지수 백오프)"""
+    for attempt in range(max_retries):
+        try:
+            response = chat.send_message(message)
+            return response
+        except Exception as e:
+            error_str = str(e)
+            if '429' in error_str or 'RESOURCE_EXHAUSTED' in error_str:
+                wait_time = (2 ** attempt) * 2  # 2초, 4초, 8초
+                print(f"[재시도 {attempt+1}/{max_retries}] Rate limit 초과, {wait_time}초 대기...")
+                time.sleep(wait_time)
+                if attempt == max_retries - 1:
+                    raise
+            else:
+                raise
 
 @app.route('/api/chat', methods=['POST'])
 def chat_with_gemini():
@@ -157,11 +190,19 @@ def chat_with_gemini():
     # 4. 캐싱(추후 검토): 1990년생 등 자주 묻는 데이터의 응답 캐싱
 
     try:
+        # 만료 세션 정리
+        cleanup_sessions()
+
         # 세션별 채팅 객체 관리
         if session_id not in chat_sessions:
-            chat_sessions[session_id] = model.start_chat(history=[])
+            chat_sessions[session_id] = {
+                'chat': model.start_chat(history=[]),
+                'last_active': time.time()
+            }
         
-        chat = chat_sessions[session_id]
+        session = chat_sessions[session_id]
+        session['last_active'] = time.time()
+        chat = session['chat']
         
         # 첫 메시지에 사주 정보 포함
         if saju_info:
@@ -175,9 +216,9 @@ def chat_with_gemini():
                 f"상담자의 첫 질문: {user_message}"
                 f"{lang_instruction}"
             )
-            response = chat.send_message(context_message)
+            response = call_gemini_with_retry(chat, context_message)
         else:
-            response = chat.send_message(user_message + lang_instruction)
+            response = call_gemini_with_retry(chat, user_message + lang_instruction)
         
         bot_reply = response.text
         
@@ -185,6 +226,9 @@ def chat_with_gemini():
     
     except Exception as e:
         print(f"Gemini API 오류: {e}")
+        error_str = str(e)
+        if '429' in error_str or 'RESOURCE_EXHAUSTED' in error_str:
+            return jsonify({"reply": "현재 많은 분이 상담 중이십니다. 잠시 후 다시 말씀해 주시겠습니까?"}), 503
         return jsonify({"reply": "잠시 기운이 흐트러졌습니다. 잠시 후 다시 말씀해 주시겠습니까?"}), 500
 
 if __name__ == '__main__':
