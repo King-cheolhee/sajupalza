@@ -744,6 +744,16 @@ a:hover {
     gap: 24px;
 }
 
+a.blog-card {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+a.blog-card:hover {
+    color: inherit;
+}
+
 .blog-card {
     background: var(--bg);
     border-radius: var(--radius);
