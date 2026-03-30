@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatBox = document.getElementById('chatBox');
     const chatInput = document.getElementById('userInput');
     const sendChatBtn = document.getElementById('sendBtn');
-    const BACKEND_URL = "http://127.0.0.1:5000/api/chat";
+    const BACKEND_URL = "http://127.0.0.1:5000/api/chat/stream";
 
     // === 세션 및 사주 정보 관리 ===
     let sessionId = 'session-' + Date.now();
@@ -184,12 +184,14 @@ document.addEventListener('DOMContentLoaded', () => {
     async function autoSendFirstMessage() {
         const firstMessage = "이 사람의 사주를 분석하고, 첫 응답 형식에 따라 유명인 소개, 사주 특성, 총운 한줄, 질문 카테고리를 안내해 주세요.";
 
-        const loadId = 'load-' + Date.now();
-        const loadDiv = document.createElement('div');
-        loadDiv.id = loadId;
-        loadDiv.classList.add('message', 'bot');
-        loadDiv.innerHTML = '<div class="bubble">...</div>';
-        chatBox.appendChild(loadDiv);
+        // 빈 말풍선 생성 (스트리밍으로 채워질 예정)
+        const botDiv = document.createElement('div');
+        botDiv.classList.add('message', 'bot');
+        const bubble = document.createElement('div');
+        bubble.classList.add('bubble');
+        bubble.innerHTML = '...';
+        botDiv.appendChild(bubble);
+        chatBox.appendChild(botDiv);
         chatBox.scrollTop = chatBox.scrollHeight;
 
         try {
@@ -203,14 +205,31 @@ document.addEventListener('DOMContentLoaded', () => {
                     language: currentLang || 'ko'
                 })
             });
-            const data = await res.json();
 
-            document.getElementById(loadId).remove();
-            appendChatMessage('bot', data.reply);
+            const reader = res.body.getReader();
+            const decoder = new TextDecoder();
+            let fullText = '';
+            bubble.innerHTML = '';
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                const chunk = decoder.decode(value, { stream: true });
+                const lines = chunk.split('\n');
+                for (const line of lines) {
+                    if (line.startsWith('data: ')) {
+                        const text = line.slice(6);
+                        if (text === '[DONE]') continue;
+                        fullText += text;
+                        bubble.innerHTML = fullText.replace(/\n/g, '<br>');
+                        chatBox.scrollTop = chatBox.scrollHeight;
+                    }
+                }
+            }
             isFirstMessage = false;
         } catch (e) {
-            document.getElementById(loadId).remove();
-            appendChatMessage('bot', "하늘의 기운(서버)과 닿지 않고 있습니다. 잠시 후 다시 시도해주시지요.");
+            bubble.innerHTML = "하늘의 기운(서버)과 닿지 않고 있습니다. 잠시 후 다시 시도해주시지요.";
         }
     }
 
@@ -221,12 +240,14 @@ document.addEventListener('DOMContentLoaded', () => {
         appendChatMessage('user', text);
         chatInput.value = '';
 
-        const loadId = 'load-' + Date.now();
-        const loadDiv = document.createElement('div');
-        loadDiv.id = loadId;
-        loadDiv.classList.add('message', 'bot');
-        loadDiv.innerHTML = '<div class="bubble">...</div>';
-        chatBox.appendChild(loadDiv);
+        // 빈 말풍선 생성 (스트리밍으로 채워질 예정)
+        const botDiv = document.createElement('div');
+        botDiv.classList.add('message', 'bot');
+        const bubble = document.createElement('div');
+        bubble.classList.add('bubble');
+        bubble.innerHTML = '...';
+        botDiv.appendChild(bubble);
+        chatBox.appendChild(botDiv);
         chatBox.scrollTop = chatBox.scrollHeight;
 
         try {
@@ -240,14 +261,31 @@ document.addEventListener('DOMContentLoaded', () => {
                     language: currentLang || 'ko'
                 })
             });
-            const data = await res.json();
 
-            document.getElementById(loadId).remove();
-            appendChatMessage('bot', data.reply);
+            const reader = res.body.getReader();
+            const decoder = new TextDecoder();
+            let fullText = '';
+            bubble.innerHTML = '';
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                const chunk = decoder.decode(value, { stream: true });
+                const lines = chunk.split('\n');
+                for (const line of lines) {
+                    if (line.startsWith('data: ')) {
+                        const text = line.slice(6);
+                        if (text === '[DONE]') continue;
+                        fullText += text;
+                        bubble.innerHTML = fullText.replace(/\n/g, '<br>');
+                        chatBox.scrollTop = chatBox.scrollHeight;
+                    }
+                }
+            }
             isFirstMessage = false;
         } catch (e) {
-            document.getElementById(loadId).remove();
-            appendChatMessage('bot', getTranslation('chatError'));
+            bubble.innerHTML = getTranslation('chatError');
         }
     }
 

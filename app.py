@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, Response, stream_with_context
 from flask_cors import CORS
 import google.generativeai as genai
 import os
@@ -127,7 +127,7 @@ SAJU_SYSTEM_PROMPT = """당신은 '도향(道香) 선생'입니다. 30년 이상
 """
 
 model = genai.GenerativeModel(
-    model_name='gemini-2.5-flash',
+    model_name='gemini-2.5-flash-lite',
     system_instruction=SAJU_SYSTEM_PROMPT
 )
 
@@ -230,6 +230,70 @@ def chat_with_gemini():
         if '429' in error_str or 'RESOURCE_EXHAUSTED' in error_str:
             return jsonify({"reply": "현재 많은 분이 상담 중이십니다. 잠시 후 다시 말씀해 주시겠습니까?"}), 503
         return jsonify({"reply": "잠시 기운이 흐트러졌습니다. 잠시 후 다시 말씀해 주시겠습니까?"}), 500
+
+@app.route('/api/chat/stream', methods=['POST'])
+def chat_stream():
+    """스트리밍 API — SSE로 실시간 응답 전송"""
+    data = request.json
+    user_message = data.get('message', '')
+    session_id = data.get('sessionId', 'default')
+    saju_info = data.get('sajuInfo', None)
+    language = data.get('language', 'ko')
+
+    LANG_INSTRUCTIONS = {
+        'ko': '',
+        'en': '\n\n[IMPORTANT: Respond entirely in English.]',
+        'ja': '\n\n[IMPORTANT: すべて日本語で応答してください。]',
+        'zh': '\n\n[IMPORTANT: 请全部用中文回答。]'
+    }
+    lang_instruction = LANG_INSTRUCTIONS.get(language, '')
+
+    def generate():
+        try:
+            cleanup_sessions()
+
+            if session_id not in chat_sessions:
+                chat_sessions[session_id] = {
+                    'chat': model.start_chat(history=[]),
+                    'last_active': time.time()
+                }
+
+            session = chat_sessions[session_id]
+            session['last_active'] = time.time()
+            chat = session['chat']
+
+            if saju_info:
+                message = (
+                    f"[상담자 정보]\n"
+                    f"이름: {saju_info.get('name', '미상')}\n"
+                    f"성별: {saju_info.get('gender', '미상')}\n"
+                    f"생년월일: {saju_info.get('birthDate', '미상')}\n"
+                    f"생시: {saju_info.get('birthTime', '시간 모름')}\n"
+                    f"역법: {saju_info.get('calendar', '양력')}\n\n"
+                    f"상담자의 첫 질문: {user_message}"
+                    f"{lang_instruction}"
+                )
+            else:
+                message = user_message + lang_instruction
+
+            # 스트리밍 응답
+            response = chat.send_message(message, stream=True)
+            for chunk in response:
+                if chunk.text:
+                    yield f"data: {chunk.text}\n\n"
+            yield "data: [DONE]\n\n"
+
+        except Exception as e:
+            print(f"스트리밍 오류: {e}")
+            error_str = str(e)
+            if '429' in error_str or 'RESOURCE_EXHAUSTED' in error_str:
+                yield f"data: 현재 많은 분이 상담 중이십니다. 잠시 후 다시 말씀해 주시겠습니까?\n\n"
+            else:
+                yield f"data: 잠시 기운이 흐트러졌습니다. 잠시 후 다시 말씀해 주시겠습니까?\n\n"
+            yield "data: [DONE]\n\n"
+
+    return Response(stream_with_context(generate()), mimetype='text/event-stream',
+                    headers={'Cache-Control': 'no-cache', 'X-Accel-Buffering': 'no'})
 
 if __name__ == '__main__':
     # 테스트 구동 허용
