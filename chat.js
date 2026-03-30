@@ -148,6 +148,10 @@ document.addEventListener('DOMContentLoaded', () => {
     backBtn.addEventListener('click', () => {
         resultScreen.classList.remove('active');
         inputScreen.classList.add('active');
+        // 채팅 내역 초기화 (다시 입력 시 중복 방지)
+        chatBox.innerHTML = '';
+        isFirstMessage = true;
+        isResultGenerated = false;
     });
 
 
