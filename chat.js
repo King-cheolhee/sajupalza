@@ -43,6 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let sessionId = 'session-' + Date.now();
     let sajuInfo = null;       // 사주 정보 저장
     let isFirstMessage = true; // 첫 메시지 여부 (사주 정보 전달용)
+    let cachedFirstResponse = null;  // 첫 응답 캐시 (유명인 일관성 보장)
+    let cachedSajuKey = null;        // 캐시 키 (사주 정보 해시)
 
     // 1. 모달 팝업
     btn12Ganji.addEventListener('click', () => modal12Ganji.classList.add('active'));
@@ -166,6 +168,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 결과 화면 진입 시 자동으로 사주 분석 요청 (사용자 메시지 없이 AI가 바로 분석 시작)
     async function autoSendFirstMessage() {
+        // 동일 사주 정보면 캐시된 응답 재사용 (유명인 일관성 보장)
+        const currentSajuKey = JSON.stringify(sajuInfo);
+        if (cachedFirstResponse && cachedSajuKey === currentSajuKey) {
+            const botDiv = document.createElement('div');
+            botDiv.classList.add('message', 'bot');
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+            bubble.innerHTML = cachedFirstResponse.replace(/\n/g, '<br>');
+            botDiv.appendChild(bubble);
+            chatBox.appendChild(botDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            isFirstMessage = false;
+            return;
+        }
+
         const firstMessage = "이 사람의 사주를 분석하고, 첫 응답 형식에 따라 유명인 소개, 사주 특성, 총운 한줄, 질문 카테고리를 안내해 주세요.";
 
         // 빈 말풍선 생성 (스트리밍으로 채워질 예정)
@@ -212,6 +229,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             isFirstMessage = false;
+            // 첫 응답 캐싱 (다시 입력하기 시 동일 응답 보장)
+            cachedFirstResponse = fullText;
+            cachedSajuKey = currentSajuKey;
         } catch (e) {
             bubble.innerHTML = "하늘의 기운(서버)과 닿지 않고 있습니다. 잠시 후 다시 시도해주시지요.";
         }
