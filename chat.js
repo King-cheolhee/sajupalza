@@ -7,8 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 네비게이션
     const backBtn = document.getElementById('backBtn');
-    const mainBackBtn = document.getElementById('mainBackBtn');
-    const forwardBtn = document.getElementById('forwardBtn'); // 앞으로 가기(상태유지)
 
     // 모달 관련
     const btn12Ganji = document.getElementById('btn12Ganji');
@@ -16,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const btnYaja = document.getElementById('btnYaja');
     const modalYaja = document.getElementById('modal-yaja');
-    const closeBtns = document.querySelectorAll('.modal-close-btn');
+    const closeBtns = document.querySelectorAll('.modal-close');
 
     // === 폼 변수 ===
     let isResultGenerated = false; // 사주 계산이 한 번이라도 되었는지 상태 보존
@@ -93,20 +91,12 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             timeInput.disabled = false;
             ampmSelect.disabled = false;
-            timeInput.style.color = "#f0ebd8";
-            ampmSelect.style.color = "#f0ebd8";
+            timeInput.style.color = "var(--text-sub)";
+            ampmSelect.style.color = "var(--text-sub)";
             yajaCheckbox.disabled = false;
         }
     });
 
-    // 메인 화면 뒤로 가기
-    mainBackBtn.addEventListener('click', () => {
-        if (window.history.length > 1) {
-            window.history.back();
-        } else {
-            alert("첫 화면입니다.");
-        }
-    });
 
     // 6. 만세력 보러가기 (제출) -> 로딩 2~3초 -> 결과화면
     submitBtn.addEventListener('click', () => {
@@ -146,10 +136,8 @@ document.addEventListener('DOMContentLoaded', () => {
             loadingScreen.classList.remove('active');
             resultScreen.classList.add('active');
 
-            // 상태 보존 활성화 (이후 뒤로가기 누르면 앞으로가기 버튼 표출)
+            // 상태 보존 활성화
             isResultGenerated = true;
-            forwardBtn.style.display = "flex";
-            document.getElementById('navSpacer').style.display = "none";
 
             // 자동으로 AI에게 첫 인사 전송 (사주 정보 포함)
             autoSendFirstMessage();
@@ -162,14 +150,6 @@ document.addEventListener('DOMContentLoaded', () => {
         inputScreen.classList.add('active');
     });
 
-    // 8. 첫 화면에서 다시 앞으로 가기 (상태 보존)
-    forwardBtn.addEventListener('click', () => {
-        if (isResultGenerated) {
-            inputScreen.classList.remove('active');
-            // 로딩 스킵하고 바로 결과화면으로
-            resultScreen.classList.add('active');
-        }
-    });
 
     // 9. API 연동 부분
     function appendChatMessage(sender, text) {

@@ -4,504 +4,452 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>사주명리 - 도향(道香) | 무료 AI 사주풀이 상담</title>
-    <meta name="description"
-        content="도향(道香) - 무료 AI 사주팔자 상담 서비스. 생년월일시를 입력하면 AI 사주 전문가가 올해 운세, 직장운, 연애운, 결혼운을 대화형으로 풀어드립니다.">
-    <meta name="keywords" content="사주, 사주팔자, 무료 운세, AI 사주, 만세력, 오행, 사주풀이, 도향">
-    <meta property="og:title" content="도향(道香) - 무료 AI 사주풀이 상담">
-    <meta property="og:description" content="AI 사주 전문가와 대화하며 나의 운세를 알아보세요. 무료, 회원가입 없이 바로 시작!">
-    <meta property="og:type" content="website">
-    <link rel="stylesheet" href="style.css">
-    <!-- 나눔고딕 Google Fonts -->
+    <title>도향(道香) — AI 사주명리 상담 | 무료 사주팔자 풀이</title>
+    <meta name="description" content="도향(道香)은 AI 기반 무료 사주팔자 상담 서비스입니다. 생년월일시를 입력하면 정통 명리학 AI가 대화형으로 운세를 풀어드립니다.">
+    <meta name="keywords" content="사주, 사주팔자, 무료사주, AI사주, 운세, 명리학, 오행, 만세력, 도향">
+
+    <!-- Google Fonts: 고운바탕 + Noto Sans KR -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <!-- 언어 선택 바 -->
-    <div id="lang-bar">
-        <button class="lang-btn active" data-lang="ko" onclick="switchLanguage('ko')">KO</button>
-        <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')">EN</button>
-        <button class="lang-btn" data-lang="ja" onclick="switchLanguage('ja')">JA</button>
-        <button class="lang-btn" data-lang="zh" onclick="switchLanguage('zh')">ZH</button>
-    </div>
-    <div id="page-layout">
-        <!-- 좌측: 사주 입력 폼 -->
-        <div id="app-container">
-            <!-- ===============================
-              1. 프로필 입력 화면
-        ================================ -->
+
+    <!-- ===========================
+         GNB (Global Navigation Bar)
+    ============================ -->
+    <nav id="gnb">
+        <div class="gnb-inner">
+            <a href="index.html" class="gnb-logo">道香</a>
+            <ul class="gnb-menu">
+                <li><a href="#hero" data-i18n="navHome">홈</a></li>
+                <li><a href="#saju-section" data-i18n="navConsult">사주상담</a></li>
+                <li><a href="#blog-section" data-i18n="navBlog">사주 이야기</a></li>
+                <li><a href="#glossary-section" data-i18n="navGlossary">용어사전</a></li>
+            </ul>
+            <div class="gnb-right">
+                <div id="lang-bar">
+                    <button class="lang-btn active" data-lang="ko" onclick="switchLanguage('ko')">KO</button>
+                    <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')">EN</button>
+                    <button class="lang-btn" data-lang="ja" onclick="switchLanguage('ja')">JA</button>
+                    <button class="lang-btn" data-lang="zh" onclick="switchLanguage('zh')">ZH</button>
+                </div>
+            </div>
+            <button class="gnb-mobile-toggle" id="mobileMenuToggle">☰</button>
+        </div>
+    </nav>
+
+    <!-- ===========================
+         Hero 섹션
+    ============================ -->
+    <section id="hero">
+        <div class="hero-inner">
+            <p class="hero-subtitle" data-i18n="heroSubtitle">AI 사주명리 상담 서비스</p>
+            <h1 class="hero-title">道香<span class="hero-title-sub">도향</span></h1>
+            <p class="hero-desc" data-i18n="heroDesc">30년 경력의 명리학 AI가<br>당신의 사주를 대화형으로 풀어드립니다</p>
+            <a href="#saju-section" class="hero-cta" data-i18n="heroCTA">무료 사주풀이 시작</a>
+        </div>
+    </section>
+
+    <!-- ===========================
+         사주 상담 섹션
+    ============================ -->
+    <section id="saju-section">
+        <div class="section-inner">
+
+            <!-- === 1. 프로필 입력 화면 === -->
             <div id="input-screen" class="screen active">
-                <header class="top-nav traditional">
-                    <button class="icon-btn bold-back" id="mainBackBtn">⟨</button>
-                    <h1 class="nav-title" data-i18n="navTitle">사주팔자</h1>
-                    <button class="icon-btn bold-forward" id="forwardBtn" style="display:none;"
-                        data-i18n="navForward">결과보기
-                        ⟩</button>
-                    <div id="navSpacer" style="width:24px;"></div>
-                </header>
+                <div class="input-card">
+                    <h2 class="card-heading" data-i18n="inputTitle">사주 정보 입력</h2>
+                    <p class="card-sub" data-i18n="inputSub">생년월일시를 입력하시면 AI가 분석을 시작합니다</p>
 
-                <main class="form-wrapper pattern-bg"
-                    style="background: radial-gradient(circle at 50% 10%, rgba(30, 40, 61, 0.85) 0%, rgba(11, 15, 25, 0.95) 100%), url('참고사진/Gemini_Generated_Image_cjkkfvcjkkfvcjkk.png') center/cover no-repeat; background-blend-mode: multiply;">
-                    <!-- 상단 여백 (기존 쌩뚱맞은 이미지 제거 및 차분한 여백 배치) -->
-                    <div class="intro-decoration">
-                        <p class="intro-text" data-i18n="introText">한치 앞을 모르는 인생의 길, 알고 가면 쉬워집니다.</p>
-                    </div>
-
-                    <div class="form-group box-style">
+                    <!-- 이름 -->
+                    <div class="form-group">
                         <label data-i18n="labelName">이름</label>
-                        <input type="text" id="userName" placeholder="성함을 기입해 주십시오" data-i18n="placeholderName"
-                            autocomplete="off">
+                        <input type="text" id="userName" class="form-input" placeholder="성함을 기입해 주십시오"
+                            data-i18n="placeholderName" autocomplete="off">
                     </div>
 
-                    <div class="form-group box-style">
+                    <!-- 성별 -->
+                    <div class="form-group">
                         <label data-i18n="labelGender">성별</label>
                         <div class="toggle-group" id="genderToggle">
                             <button type="button" class="toggle-btn active" data-val="female"
-                                data-i18n="genderFemale">여성
-                                (坤)</button>
+                                data-i18n="genderFemale">여성 (坤)</button>
                             <button type="button" class="toggle-btn" data-val="male" data-i18n="genderMale">남성
                                 (乾)</button>
                         </div>
                     </div>
 
-                    <div class="form-group box-style">
+                    <!-- 생년월일시 -->
+                    <div class="form-group">
                         <label>
                             <span data-i18n="labelBirthInfo">생년월일시</span>
                             <span class="help-text" id="btn12Ganji" data-i18n="btn12Ganji">12간지 시간표 🔍</span>
                         </label>
 
-                        <div class="date-time-box">
-                            <div class="dt-row">
-                                <span class="dt-label" data-i18n="labelCalendar">역법</span>
-                                <select id="calendarType" class="clean-input">
-                                    <option value="solar" data-i18n="calSolar">양력 (陽曆)</option>
-                                    <option value="lunar" data-i18n="calLunar">음력 (陰曆)</option>
+                        <div class="birth-grid">
+                            <div class="birth-row">
+                                <span class="birth-label" data-i18n="labelCalendar">역법</span>
+                                <select id="calendarType" class="form-input form-select">
+                                    <option value="solar" data-i18n="optionSolar">양력</option>
+                                    <option value="lunar" data-i18n="optionLunar">음력</option>
                                 </select>
                             </div>
-                            <div class="dt-divider"></div>
-                            <div class="dt-row">
-                                <span class="dt-label" data-i18n="labelDate">날짜</span>
-                                <input type="text" id="birthDate" class="clean-input auto-format-date"
-                                    placeholder="YYYY-MM-DD (숫자 8자리 기입)" data-i18n="placeholderDate" autocomplete="off"
-                                    maxlength="10">
+                            <div class="birth-row">
+                                <span class="birth-label" data-i18n="labelDate">생년월일</span>
+                                <input type="text" id="birthDate" class="form-input" placeholder="YYYY-MM-DD"
+                                    data-i18n="placeholderDate" maxlength="10">
                             </div>
-                            <div class="dt-divider"></div>
-                            <div class="dt-row">
-                                <span class="dt-label" data-i18n="labelTime">시간</span>
-                                <select id="ampmType" class="clean-input ampm-select">
-                                    <option value="am" data-i18n="amLabel">오전</option>
-                                    <option value="pm" data-i18n="pmLabel">오후</option>
-                                </select>
-                                <input type="text" id="birthTime" class="clean-input auto-format-time"
-                                    placeholder="HH:MM (숫자 4자리)" data-i18n="placeholderTime" autocomplete="off"
-                                    maxlength="5">
+                            <div class="birth-row">
+                                <span class="birth-label" data-i18n="labelTime">시간</span>
+                                <div class="time-inputs">
+                                    <select id="ampmType" class="form-input form-select ampm-sel">
+                                        <option value="am" data-i18n="optionAM">오전</option>
+                                        <option value="pm" data-i18n="optionPM">오후</option>
+                                    </select>
+                                    <input type="text" id="birthTime" class="form-input" placeholder="HH:MM"
+                                        data-i18n="placeholderTime" maxlength="5">
+                                </div>
                             </div>
                         </div>
 
                         <div class="checkbox-row">
                             <label class="custom-chk"><input type="checkbox" id="unknownTime"> <span
-                                    class="chk-mark"></span> <span data-i18n="unknownTime">시간 모름</span></label>
-                            <label class="custom-chk"><input type="checkbox" id="yajaTime"> <span
-                                    class="chk-mark"></span>
+                                    data-i18n="unknownTime">시간 모름</span></label>
+                            <label class="custom-chk"><input type="checkbox" id="yajaTime">
                                 <span data-i18n="yajaTime">야자시/조자시</span> <span class="help-icon"
                                     id="btnYaja">🔍</span></label>
                         </div>
                     </div>
 
-                    <div class="bottom-btns">
-                        <!-- 요청: '운명의 문 열기' -> '사주풀이 시작', 볼드체 반영 -->
-                        <button type="button" id="submitBtn" class="primary-btn" data-i18n="submitBtn">사주풀이 시작</button>
-                    </div>
-                </main>
+                    <!-- 제출 -->
+                    <button type="button" id="submitBtn" class="primary-btn" data-i18n="submitBtn">사주풀이 시작</button>
+                </div>
             </div>
 
-            <!-- ===============================
-              1.5 로딩 화면 (분석 중 느낌)
-        ================================ -->
+            <!-- === 1.5 로딩 화면 === -->
             <div id="loading-screen" class="screen loading-theme">
                 <div class="loading-overlay">
-                    <!-- 책이나 서책을 펴는 듯한 시각적 효과 (CSS 애니메이션) -->
-                    <div class="book-animation">
-                        <div class="book-page left-page"></div>
-                        <div class="book-page right-page"></div>
+                    <div class="loading-text">
+                        <p class="loading-title" data-i18n="loadingTitle">사주 해석 중...</p>
+                        <p class="loading-sub" data-i18n="loadingSub">하늘의 기운을 살피고 있습니다</p>
                     </div>
-                    <h2 class="loading-text" data-i18n="loadingText">사주팔자를 분석합니다...</h2>
                     <div class="loading-spinner"></div>
                 </div>
             </div>
 
-            <!-- ===============================
-              2. 결과 (만세력 & 채팅) 화면
-        ================================ -->
-            <div id="result-screen" class="screen result-theme">
-                <header class="top-nav traditional panel-nav">
-                    <button class="icon-btn bold-back" id="backBtn">⟨</button>
-                    <h1 class="nav-title" data-i18n="navResult">명식 대조(對照)</h1>
-                    <div style="width:24px;"></div>
-                </header>
-
-                <main class="result-wrapper">
-                    <div class="profile-summary">
-                        <div class="profile-info">
-                            <h2 id="resName">이름</h2>
-                            <p class="res-desc" id="resDetails1">양력 1990/01/01 12:00 여성</p>
-                        </div>
+            <!-- === 2. 결과 (AI 채팅) 화면 === -->
+            <div id="result-screen" class="screen">
+                <div class="result-layout">
+                    <!-- 결과 헤더 -->
+                    <div class="result-header">
+                        <button class="back-btn" id="backBtn" data-i18n="backBtn">← 다시 입력</button>
+                        <h2 class="result-name" id="resName"></h2>
+                        <p class="result-details" id="resDetails1"></p>
                     </div>
 
-                    <div class="manseoryok-board">
-                        <table class="m-table">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>생시</th>
-                                    <th>생일</th>
-                                    <th>생월</th>
-                                    <th>생년</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- 천간 -->
-                                <tr class="hanja-row upper">
-                                    <td class="label">천간</td>
-                                    <td>
-                                        <div class="elem wood-txt">-목</div>
-                                        <div class="hanja wood-txt">乙</div>
-                                        <div class="hangul wood-txt">을</div>
-                                    </td>
-                                    <td>
-                                        <div class="elem water-txt">+수</div>
-                                        <div class="hanja water-txt">壬</div>
-                                        <div class="hangul water-txt">임</div>
-                                    </td>
-                                    <td>
-                                        <div class="elem metal-txt">-금</div>
-                                        <div class="hanja metal-txt">辛</div>
-                                        <div class="hangul metal-txt">신</div>
-                                    </td>
-                                    <td>
-                                        <div class="elem wood-txt">+목</div>
-                                        <div class="hanja wood-txt">甲</div>
-                                        <div class="hangul wood-txt">갑</div>
-                                    </td>
-                                </tr>
-                                <tr class="sibsung-row">
-                                    <td class="label">십성</td>
-                                    <td class="wood-bg">상관</td>
-                                    <td class="water-bg">비견</td>
-                                    <td class="metal-bg">정인</td>
-                                    <td class="wood-bg">식신</td>
-                                </tr>
-                                <!-- 지지 -->
-                                <tr class="hanja-row lower">
-                                    <td class="label">지지</td>
-                                    <td>
-                                        <div class="elem fire-txt">+화</div>
-                                        <div class="hanja fire-txt">巳</div>
-                                        <div class="hangul fire-txt">사</div>
-                                    </td>
-                                    <td>
-                                        <div class="elem earth-txt">+토</div>
-                                        <div class="hanja earth-txt">戌</div>
-                                        <div class="hangul earth-txt">술</div>
-                                    </td>
-                                    <td>
-                                        <div class="elem earth-txt">-토</div>
-                                        <div class="hanja earth-txt">未</div>
-                                        <div class="hangul earth-txt">미</div>
-                                    </td>
-                                    <td>
-                                        <div class="elem earth-txt">+토</div>
-                                        <div class="hanja earth-txt">戌</div>
-                                        <div class="hangul earth-txt">술</div>
-                                    </td>
-                                </tr>
-                                <tr class="sibsung-row">
-                                    <td class="label">십성</td>
-                                    <td class="fire-bg">편재</td>
-                                    <td class="earth-bg">편관</td>
-                                    <td class="earth-bg">정관</td>
-                                    <td class="earth-bg">편관</td>
-                                </tr>
-                                <!-- 지장간, 12운성, etc -->
-                                <tr class="detail-row">
-                                    <td class="label">지장간</td>
-                                    <td>무경병</td>
-                                    <td>신정무</td>
-                                    <td>정을기</td>
-                                    <td>신정무</td>
-                                </tr>
-                                <tr class="detail-row">
-                                    <td class="label">12운성</td>
-                                    <td>절</td>
-                                    <td>관대</td>
-                                    <td>양</td>
-                                    <td>관대</td>
-                                </tr>
-                                <!-- ... -->
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="chat-section">
-                        <div class="chat-header-bar roof-theme" data-i18n="chatHeader">
-                            명리 심층 분석 (도사님 대화)
-                        </div>
-                        <div class="chat-box scroll-bg" id="chatBox">
-                            <div class="message bot">
-                                <div class="bubble" data-i18n="chatWelcome">사주 8글자 셋업을 완료했습니다. <br>금년의 길흉화복이나 평생지기의 조언 등
-                                    편하게
-                                    질문해 주십시오.</div>
-                            </div>
-                        </div>
-                        <div class="chat-input-area">
-                            <input type="text" id="userInput" placeholder="조언을 구해봅니다..." data-i18n="chatPlaceholder"
-                                autocomplete="off">
-                            <button id="sendBtn" data-i18n="chatSendBtn">여쭙기</button>
+                    <!-- 채팅 영역 -->
+                    <div class="chat-container">
+                        <div id="chatBox" class="chat-box"></div>
+                        <div class="chat-input-bar">
+                            <input type="text" id="userInput" class="chat-input" placeholder="궁금한 것을 물어보세요..."
+                                data-i18n="chatPlaceholder" autocomplete="off">
+                            <button id="sendBtn" class="send-btn" data-i18n="sendBtn">전송</button>
                         </div>
                     </div>
-                </main>
-            </div>
-        </div>
-
-        <!-- 모달: 12간지 시간표 -->
-        <div id="modal-12ganji" class="modal-overlay">
-            <div class="modal-content">
-                <h3 class="modal-title">12간지 시간표 (十二支)</h3>
-                <div class="modal-body">
-                    <p><strong>자시(子)</strong>: 23:30 ~ 01:29</p>
-                    <p><strong>축시(丑)</strong>: 01:30 ~ 03:29</p>
-                    <p><strong>인시(寅)</strong>: 03:30 ~ 05:29</p>
-                    <p><strong>묘시(卯)</strong>: 05:30 ~ 07:29</p>
-                    <p><strong>진시(辰)</strong>: 07:30 ~ 09:29</p>
-                    <p><strong>사시(巳)</strong>: 09:30 ~ 11:29</p>
-                    <p><strong>오시(午)</strong>: 11:30 ~ 13:29</p>
-                    <p><strong>미시(未)</strong>: 13:30 ~ 15:29</p>
-                    <p><strong>신시(申)</strong>: 15:30 ~ 17:29</p>
-                    <p><strong>유시(酉)</strong>: 17:30 ~ 19:29</p>
-                    <p><strong>술시(戌)</strong>: 19:30 ~ 21:29</p>
-                    <p><strong>해시(亥)</strong>: 21:30 ~ 23:29</p>
                 </div>
-                <button class="modal-close-btn" data-target="modal-12ganji">확인</button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===========================
+         모달: 12간지 시간표
+    ============================ -->
+    <div class="modal-overlay" id="modal-12ganji">
+        <div class="modal-card">
+            <h3 class="modal-title">12간지 시간표</h3>
+            <div class="modal-body">
+                <table class="ganji-table">
+                    <thead>
+                        <tr>
+                            <th>시간</th>
+                            <th>간지</th>
+                            <th>시간</th>
+                            <th>간지</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>23:30~01:30</td>
+                            <td>子시</td>
+                            <td>11:30~13:30</td>
+                            <td>午시</td>
+                        </tr>
+                        <tr>
+                            <td>01:30~03:30</td>
+                            <td>丑시</td>
+                            <td>13:30~15:30</td>
+                            <td>未시</td>
+                        </tr>
+                        <tr>
+                            <td>03:30~05:30</td>
+                            <td>寅시</td>
+                            <td>15:30~17:30</td>
+                            <td>申시</td>
+                        </tr>
+                        <tr>
+                            <td>05:30~07:30</td>
+                            <td>卯시</td>
+                            <td>17:30~19:30</td>
+                            <td>酉시</td>
+                        </tr>
+                        <tr>
+                            <td>07:30~09:30</td>
+                            <td>辰시</td>
+                            <td>19:30~21:30</td>
+                            <td>戌시</td>
+                        </tr>
+                        <tr>
+                            <td>09:30~11:30</td>
+                            <td>巳시</td>
+                            <td>21:30~23:30</td>
+                            <td>亥시</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button class="modal-close" data-target="modal-12ganji">확인</button>
+        </div>
+    </div>
+
+    <!-- 모달: 야자시 -->
+    <div class="modal-overlay" id="modal-yaja">
+        <div class="modal-card">
+            <h3 class="modal-title">야자시와 조자시의 구분</h3>
+            <div class="modal-body">
+                <p>명리학에서 자시(밤 11시 ~ 새벽 1시)에 태어난 경우 날짜의 경계를 어찌할지에 대한 논의가 있습니다.</p>
+                <br>
+                <p><strong>• 야자시 (夜子時)</strong>: 23:30 ~ 00:00 이전. <strong>오늘의 명식</strong>을 따릅니다.</p>
+                <p><strong>• 조자시 (朝子時)</strong>: 00:00 ~ 01:30 이전. <strong>내일의 명식</strong>을 따릅니다.</p>
+            </div>
+            <button class="modal-close" data-target="modal-yaja">확인</button>
+        </div>
+    </div>
+
+    <!-- ===========================
+         사주 이야기 (블로그 섹션)
+    ============================ -->
+    <section id="blog-section">
+        <div class="section-inner">
+            <h2 class="section-heading" data-i18n="blogTitle">사주 이야기</h2>
+            <p class="section-sub" data-i18n="blogSub">명리학의 지혜를 일상에서 만나보세요</p>
+
+            <div class="blog-grid">
+                <article class="blog-card">
+                    <div class="blog-tag">입문</div>
+                    <h3>사주팔자란 무엇인가?</h3>
+                    <p>생년월일시 네 기둥, 여덟 글자로 읽는 인생의 설계도. 사주명리학의 기본 개념을 알기 쉽게 풀어봅니다.</p>
+                </article>
+                <article class="blog-card">
+                    <div class="blog-tag">오행</div>
+                    <h3>나에게 부족한 오행 채우는 법</h3>
+                    <p>목·화·토·금·수 다섯 가지 기운의 균형이 곧 운의 균형. 부족한 오행을 일상에서 보충하는 실천법을 소개합니다.</p>
+                </article>
+                <article class="blog-card">
+                    <div class="blog-tag">운세</div>
+                    <h3>2026년 병오년, 올해의 기운</h3>
+                    <p>화(火)의 기운이 강한 병오년. 각 일간별로 올해 주의할 점과 기회의 시기를 정리했습니다.</p>
+                </article>
+                <article class="blog-card">
+                    <div class="blog-tag">격국</div>
+                    <h3>격국과 용신이란?</h3>
+                    <p>월령을 기준으로 성립하는 격국과, 사주의 균형을 잡아주는 용신. 자평진전의 핵심 논리를 해설합니다.</p>
+                </article>
+                <article class="blog-card">
+                    <div class="blog-tag">궁합</div>
+                    <h3>사주로 보는 궁합의 원리</h3>
+                    <p>단순 띠 궁합을 넘어서, 일간의 합·충과 오행의 상생상극으로 보는 진짜 궁합의 세계.</p>
+                </article>
+                <article class="blog-card">
+                    <div class="blog-tag">신살</div>
+                    <h3>도화살, 정말 나쁜 걸까?</h3>
+                    <p>현대 명리학에서 도화살은 '매력 자본'으로 재해석됩니다. 연예인과 인플루언서에게 많은 이 기운의 진실.</p>
+                </article>
             </div>
         </div>
+    </section>
 
-        <!-- 모달: 야자시/조자시 설명 -->
-        <div id="modal-yaja" class="modal-overlay">
-            <div class="modal-content">
-                <h3 class="modal-title">야자시와 조자시의 구분</h3>
-                <div class="modal-body">
-                    <p>명리학에서 자시(밤 11시 ~ 새벽 1시)에 태어난 경우 날짜의 경계를 어찌할지에 대한 논의가 있습니다.</p>
-                    <br>
-                    <p><strong>• 야자시 (夜子時)</strong>: 23:30 ~ 00:00 이전. <strong>오늘의 명식</strong>을 따릅니다.</p>
-                    <p><strong>• 조자시 (朝子時)</strong>: 00:00 ~ 01:30 이전. <strong>내일의 명식</strong>을 따릅니다.</p>
+    <!-- ===========================
+         용어 사전
+    ============================ -->
+    <section id="glossary-section">
+        <div class="section-inner">
+            <h2 class="section-heading" data-i18n="glossaryTitle">사주 용어 사전</h2>
+            <p class="section-sub">명리학의 핵심 용어를 쉽게 이해해 보세요</p>
+
+            <div class="glossary-grid">
+                <div class="glossary-card">
+                    <h4>사주팔자 (四柱八字)</h4>
+                    <p>태어난 연·월·일·시의 네 기둥(四柱)과 각 기둥의 천간·지지 여덟 글자(八字)를 말합니다.</p>
                 </div>
-                <button class="modal-close-btn" data-target="modal-yaja">확인</button>
-            </div>
-        </div>
-
-        <!-- 우측: 정보 뷰어 패널 (기본 숨김, 클릭 시만 표시) -->
-        <div id="right-panel">
-            <div id="panel-header">
-                <span id="panel-title">서비스 소개</span>
-                <button id="panel-close-btn">✕</button>
-            </div>
-            <div id="panel-body">
-                <!-- 클릭된 섹션의 내용이 여기에 복제됨 -->
-            </div>
-        </div>
-    </div><!-- /page-layout -->
-
-    <!-- 서비스 소개 (About) -->
-    <section id="about-section" class="info-section">
-        <div class="info-content">
-            <h2 class="section-title">도향(道香)이란?</h2>
-            <p>도향(道香)은 AI 기반 무료 사주팔자 상담 서비스입니다. 생년월일시를 입력하시면 만세력을 기반으로 사주팔자를 분석하고, AI 사주 전문가 '도향 선생'이 대화형으로 운세를
-                풀어드립니다.
-            </p>
-            <p>기존의 운세 서비스와 달리, 일방적인 결과 제공이 아닌 <strong>1:1 상담 형태</strong>로 진행되어 궁금한 점을 자유롭게 질문하실 수 있습니다.</p>
-            <ul>
-                <li>회원가입 없이 무료로 이용 가능</li>
-                <li>AI 기반 대화형 사주 상담</li>
-                <li>올해 운세, 직장운, 연애운, 결혼운 등 상담</li>
-                <li>만세력 기반 사주팔자 명식 제공</li>
-            </ul>
-        </div>
-    </section>
-
-    <!-- 자주 묻는 질문 (FAQ) -->
-    <section id="faq-section" class="info-section">
-        <div class="info-content">
-            <h2 class="section-title">자주 묻는 질문 (FAQ)</h2>
-
-            <div class="faq-item">
-                <h3 class="faq-q">Q. 이 서비스는 무료인가요?</h3>
-                <p class="faq-a">네, 도향(道香)은 완전 무료 서비스입니다. 회원가입이나 결제 없이 바로 이용하실 수 있습니다.</p>
-            </div>
-
-            <div class="faq-item">
-                <h3 class="faq-q">Q. 사주풀이 결과는 정확한가요?</h3>
-                <p class="faq-a">도향은 전통 사주명리학의 원리(오행, 십신, 12운성 등)를 기반으로 AI가 분석합니다. 재미와 참고 목적으로 이용해 주시기 바라며, 중요한
-                    결정은 반드시
-                    전문가와 상의하시기 바랍니다.</p>
-            </div>
-
-            <div class="faq-item">
-                <h3 class="faq-q">Q. 어떤 정보를 입력해야 하나요?</h3>
-                <p class="faq-a">이름, 성별, 생년월일, 태어난 시간을 입력합니다. 태어난 시간을 모르시면 '시간 모름'을 체크하고 이용하실 수 있습니다.</p>
-            </div>
-
-            <div class="faq-item">
-                <h3 class="faq-q">Q. 양력과 음력 중 어떤 것을 선택해야 하나요?</h3>
-                <p class="faq-a">주민등록등본 또는 출생증명서에 기재된 역법을 기준으로 선택해 주세요. 일반적으로 병원 출생 기록은 양력입니다.</p>
-            </div>
-
-            <div class="faq-item">
-                <h3 class="faq-q">Q. 개인정보는 안전한가요?</h3>
-                <p class="faq-a">입력하신 정보는 사주 분석 목적으로만 사용되며, 서버에 영구 저장되지 않습니다. 대화가 종료되면 세션 데이터는 자동으로 삭제됩니다.</p>
-            </div>
-
-            <div class="faq-item">
-                <h3 class="faq-q">Q. AI가 어떤 운세를 봐주나요?</h3>
-                <p class="faq-a">사업운/직장운, 결혼운, 연애운, 행운 및 주의 시기 등 4가지 카테고리를 중심으로 상담하며, 자유 질문도 가능합니다.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- 면책조항 및 개인정보처리방침 -->
-    <section id="policy-section" class="info-section">
-        <div class="info-content">
-            <h2 class="section-title">이용 안내</h2>
-
-            <div class="policy-block">
-                <h3>면책조항</h3>
-                <p>본 서비스는 전통 사주명리학을 기반으로 한 AI 엔터테인먼트 서비스이며, <strong>재미와 참고 목적</strong>으로 제공됩니다. 본 서비스의 상담 내용은
-                    의학적, 법률적,
-                    재정적 전문 조언을 대체하지 않습니다. 중요한 결정을 내리실 때는 반드시 해당 분야의 전문가와 상의하시기 바랍니다.</p>
-            </div>
-
-            <div class="policy-block">
-                <h3>개인정보처리방침</h3>
-                <p><strong>수집하는 정보:</strong> 이름, 성별, 생년월일, 태어난 시간 (사주 분석 목적에 한함)</p>
-                <p><strong>정보의 이용:</strong> 입력하신 정보는 AI 사주 분석을 위한 목적으로만 사용됩니다.</p>
-                <p><strong>정보의 보관:</strong> 입력 정보는 서버 메모리에 임시 저장되며, 세션 종료 시 자동으로 삭제됩니다. 데이터베이스에 영구 저장하지 않습니다.
-                </p>
-                <p><strong>제3자 제공:</strong> 수집된 개인정보는 어떠한 제3자에게도 제공되지 않습니다.</p>
-                <p><strong>문의:</strong> 서비스 관련 문의는 이메일(contact@dohyang.com)로 연락 주시기 바랍니다.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- 사주 기본 용어 및 상식 -->
-    <section id="glossary-section" class="info-section">
-        <div class="info-content">
-            <h2 class="section-title">사주 기본 용어 & 상식</h2>
-
-            <div class="glossary-item">
-                <h3 class="glossary-term">사주팔자 (四柱八字)</h3>
-                <p>태어난 <strong>연(年)·월(月)·일(日)·시(時)</strong>의 네 기둥(四柱)에 각각 천간과 지지 두 글자씩, 총 여덟 글자(八字)로 운명을 읽는 동양
-                    철학입니다.
-                    '사주를 본다'는 것은 이 8글자의 조합을 분석하는 것입니다.</p>
-            </div>
-
-            <div class="glossary-item">
-                <h3 class="glossary-term">오행 (五行)</h3>
-                <p>만물을 구성하는 다섯 가지 기운입니다.</p>
-                <div class="ohang-grid">
-                    <span class="ohang-badge wood">木 목</span>
-                    <span class="ohang-badge fire">火 화</span>
-                    <span class="ohang-badge earth">土 토</span>
-                    <span class="ohang-badge metal">金 금</span>
-                    <span class="ohang-badge water">水 수</span>
+                <div class="glossary-card">
+                    <h4>오행 (五行)</h4>
+                    <p>목(木)·화(火)·토(土)·금(金)·수(水). 우주 만물을 구성하는 다섯 가지 기운입니다.</p>
                 </div>
-                <p>이 다섯 요소가 서로 돕거나(상생) 억제하며(상극) 균형을 이루는 것이 중요합니다. 사주에서 특정 오행이 과하거나 부족하면 성격·건강·운세에 영향을 줍니다.</p>
-            </div>
-
-            <div class="glossary-item">
-                <h3 class="glossary-term">천간 (天干) & 지지 (地支)</h3>
-                <p><strong>천간</strong>은 하늘의 기운 10가지: 갑(甲)·을(乙)·병(丙)·정(丁)·무(戊)·기(己)·경(庚)·신(辛)·임(壬)·계(癸)</p>
-                <p><strong>지지</strong>는 땅의 기운 12가지: 자(子)·축(丑)·인(寅)·묘(卯)·진(辰)·사(巳)·오(午)·미(未)·신(申)·유(酉)·술(戌)·해(亥)
-                </p>
-                <p>천간과 지지가 조합되어 '갑자(甲子)', '을축(乙丑)' 같은 60갑자를 이룹니다.</p>
-            </div>
-
-            <div class="glossary-item">
-                <h3 class="glossary-term">일간 (日干)</h3>
-                <p>사주팔자에서 <strong>나 자신</strong>을 대표하는 글자입니다. 일주(日柱)의 천간이 '나'이며, 나머지 7글자와의 관계를 통해 성격·재능·인생 흐름을
-                    파악합니다.</p>
-            </div>
-
-            <div class="glossary-item">
-                <h3 class="glossary-term">십신 (十神)</h3>
-                <p>일간을 기준으로 다른 글자와의 관계를 나타내는 10가지 이름입니다.</p>
-                <p>• <strong>비견·겁재</strong> — 나와 같은 기운 (형제·동료·경쟁)</p>
-                <p>• <strong>식신·상관</strong> — 내가 만드는 기운 (재주·표현·자녀)</p>
-                <p>• <strong>편재·정재</strong> — 내가 지배하는 기운 (재물·아버지)</p>
-                <p>• <strong>편관·정관</strong> — 나를 지배하는 기운 (직장·명예·남편)</p>
-                <p>• <strong>편인·정인</strong> — 나를 도와주는 기운 (학문·어머니)</p>
-            </div>
-
-            <div class="glossary-item">
-                <h3 class="glossary-term">12운성 (十二運星)</h3>
-                <p>일간이 각 지지를 만났을 때의 에너지 상태를 나타냅니다. 태(胎)에서 시작하여
-                    양(養)·장생(長生)·목욕(沐浴)·관대(冠帶)·건록(建祿)·제왕(帝旺)·쇠(衰)·병(病)·사(死)·묘(墓)·절(絶)의 12단계 순환입니다.</p>
-            </div>
-
-            <div class="glossary-item">
-                <h3 class="glossary-term">대운 (大運)</h3>
-                <p>사주에서 10년 주기로 바뀌는 큰 흐름의 운입니다. 대운이 바뀌면 인생의 전환기가 올 수 있으며, "몇 살부터 운이 좋아진다"는 이야기는 대운의 변화를 의미합니다.
-                </p>
-            </div>
-
-            <div class="glossary-item">
-                <h3 class="glossary-term">세운 (歲運)</h3>
-                <p>매년 바뀌는 해의 운입니다. 2026년은 <strong>병오(丙午)년</strong>으로, 화(火)의 기운이 강한 해입니다. 세운은 그 해의 전체적인 분위기와
-                    기회·위기를
-                    알려줍니다.</p>
+                <div class="glossary-card">
+                    <h4>일간 (日干)</h4>
+                    <p>사주의 중심. 태어난 날의 천간으로, 나 자신을 대표하는 글자입니다.</p>
+                </div>
+                <div class="glossary-card">
+                    <h4>격국 (格局)</h4>
+                    <p>월령을 기준으로 성립하는 사주의 구조. 정관격, 편재격, 식신격 등 10가지 내격이 있습니다.</p>
+                </div>
+                <div class="glossary-card">
+                    <h4>용신 (用神)</h4>
+                    <p>사주의 균형을 잡아주는 핵심 글자. 용신이 강하면 운이 트이고, 약하면 고비가 옵니다.</p>
+                </div>
+                <div class="glossary-card">
+                    <h4>대운 (大運)</h4>
+                    <p>10년 단위로 바뀌는 큰 운의 흐름. 인생의 봄·여름·가을·겨울과 같습니다.</p>
+                </div>
+                <div class="glossary-card">
+                    <h4>세운 (歲運)</h4>
+                    <p>매년 바뀌는 해의 운. 2026년은 병오(丙午)년으로, 화(火)의 기운이 강한 해입니다.</p>
+                </div>
+                <div class="glossary-card">
+                    <h4>십신 (十神)</h4>
+                    <p>일간을 기준으로 다른 글자와의 관계를 10가지로 분류한 것. 비겁·식상·재성·관성·인성으로 나뉩니다.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- 푸터 -->
+    <!-- ===========================
+         FAQ
+    ============================ -->
+    <section id="faq-section">
+        <div class="section-inner">
+            <h2 class="section-heading">자주 묻는 질문</h2>
+
+            <div class="faq-list">
+                <details class="faq-item">
+                    <summary>사주풀이 결과는 얼마나 정확한가요?</summary>
+                    <p>본 서비스는 전통 명리학 이론을 기반으로 한 AI 엔터테인먼트입니다. 재미와 참고 용도로 활용해 주시고, 중요한 결정은 전문가와 상의하시기 바랍니다.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>태어난 시간을 모르면 어떻게 하나요?</summary>
+                    <p>"시간 모름"을 체크하시면 시주(時柱)를 제외한 3주(연·월·일)로 분석합니다. 정확도는 다소 낮아질 수 있습니다.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>입력한 개인정보는 안전한가요?</summary>
+                    <p>입력하신 정보는 서버에 영구 저장되지 않습니다. 대화 세션 종료 후 30분 내에 자동 삭제됩니다.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>하루에 몇 번까지 상담할 수 있나요?</summary>
+                    <p>횟수 제한 없이 무료로 이용하실 수 있습니다.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>영어나 일본어로도 상담받을 수 있나요?</summary>
+                    <p>네, 상단의 언어 전환 버튼으로 영어(EN), 일본어(JA), 중국어(ZH)를 선택하시면 해당 언어로 상담이 진행됩니다.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================
+         Footer
+    ============================ -->
     <footer id="site-footer">
-        <p data-i18n="footerCopyright">&copy; 2026 도향(道香) — AI 사주명리 상담 서비스</p>
-        <p class="footer-links" id="footer-links">
-            <a href="#about-section">서비스 소개</a> |
-            <a href="#faq-section">자주 묻는 질문</a> |
-            <a href="#policy-section">개인정보처리방침</a>
-        </p>
-        <p class="footer-disclaimer" data-i18n="footerDisclaimer">본 서비스는 재미와 참고 목적으로 제공되며, 전문적인 상담을 대체하지 않습니다.
-        </p>
+        <div class="footer-inner">
+            <div class="footer-col">
+                <h4>道香</h4>
+                <p>AI 기반 무료 사주명리 상담 서비스.<br>전통의 지혜를 현대 기술로 만나보세요.</p>
+            </div>
+            <div class="footer-col">
+                <h4>서비스</h4>
+                <ul>
+                    <li><a href="#saju-section">사주 상담</a></li>
+                    <li><a href="#blog-section">사주 이야기</a></li>
+                    <li><a href="#glossary-section">용어 사전</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>법적 고지</h4>
+                <ul>
+                    <li><a href="pages/privacy.html">개인정보처리방침</a></li>
+                    <li><a href="pages/terms.html">이용약관</a></li>
+                    <li><a href="pages/about.html">서비스 소개</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>문의</h4>
+                <ul>
+                    <li><a href="pages/contact.html">문의하기</a></li>
+                    <li>support@dohyang.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 도향(道香) — AI 사주명리 상담 서비스. 본 서비스는 엔터테인먼트 목적으로 제공됩니다.</p>
+        </div>
     </footer>
 
+    <!-- Scripts -->
     <script src="lang.js"></script>
     <script src="chat.js"></script>
     <script>
-        // 페이지 로드 시 저장된 언어로 번역 적용 + 우측 패널 로직
+        // 페이지 로드 시 번역 적용 + 모달/GNB 로직
         document.addEventListener('DOMContentLoaded', () => {
             applyTranslations();
 
-            const rightPanel = document.getElementById('right-panel');
-            const panelBody = document.getElementById('panel-body');
-            const panelTitle = document.getElementById('panel-title');
-            const panelCloseBtn = document.getElementById('panel-close-btn');
+            // GNB 스크롤 효과
+            window.addEventListener('scroll', () => {
+                const gnb = document.getElementById('gnb');
+                gnb.classList.toggle('scrolled', window.scrollY > 50);
+            });
 
-            // 하단 섹션 제목 클릭 시 우측 패널에 내용 표시
-            document.querySelectorAll('.section-title').forEach(title => {
-                title.style.cursor = 'pointer';
-                title.addEventListener('click', () => {
-                    const section = title.closest('.info-section');
-                    if (!section) return;
-                    panelTitle.textContent = title.textContent;
-                    panelBody.innerHTML = section.querySelector('.info-content').innerHTML;
-                    rightPanel.classList.add('open');
+            // 모바일 메뉴 토글
+            const mobileToggle = document.getElementById('mobileMenuToggle');
+            const gnbMenu = document.querySelector('.gnb-menu');
+            if (mobileToggle) {
+                mobileToggle.addEventListener('click', () => {
+                    gnbMenu.classList.toggle('open');
+                });
+            }
+
+            // 모달 열기/닫기
+            document.querySelectorAll('.modal-close').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetId = btn.getAttribute('data-target');
+                    document.getElementById(targetId).classList.remove('active');
+                });
+            });
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target === overlay) overlay.classList.remove('active');
                 });
             });
 
-            // 닫기 버튼
-            panelCloseBtn.addEventListener('click', () => {
-                rightPanel.classList.remove('open');
+            // 스무스 스크롤
+            document.querySelectorAll('a[href^="#"]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const target = document.querySelector(link.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        gnbMenu.classList.remove('open');
+                    }
+                });
             });
         });
     </script>
