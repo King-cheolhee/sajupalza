@@ -27,7 +27,7 @@ const TRANSLATIONS = {
         labelTime: "시간",
         amLabel: "오전",
         pmLabel: "오후",
-        placeholderTime: "HH:MM (숫자 4자리)",
+        placeholderTime: "HH:MM (예: 14:30)",
         unknownTime: "시간 모름",
         yajaTime: "야자시/조자시",
         submitBtn: "사주풀이 시작",
