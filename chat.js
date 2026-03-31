@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const firstMessage = "이 사람의 사주를 분석해주세요. 유명인 비교, 사주 핵심(일간 기준), 대운 흐름, 올해 총운을 짧게 요약하고, 마지막에 반드시 (1)~(4) 질문 카테고리와 함께 '그럼 질문하시지요.'를 볼드로 출력해 주세요.";
+        const firstMessage = "이 사람의 사주를 짧게 분석해주세요. 유명인 비교, 사주 핵심(일간 기준), 현재 대운, 올해 총운만 10문장 이내로 요약해 주세요.";
 
         // 빈 말풍선 생성 (스트리밍으로 채워질 예정)
         const botDiv = document.createElement('div');
@@ -263,6 +263,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             isFirstMessage = false;
+
+            // 질문 카테고리가 잘렸을 경우 프론트엔드에서 강제 추가
+            const QUESTION_SUFFIX = '<br><br>(1) 사업운/직장운<br>(2) 결혼운<br>(3) 연애운<br>(4) 행운/주의 시기<br><br><b>그럼 질문하시지요.</b>';
+            if (!fullText.includes('(1)') || !fullText.includes('(4)')) {
+                fullText += QUESTION_SUFFIX;
+                bubble.innerHTML = fullText.replace(/\n/g, '<br>');
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+
             // 첫 응답 캐싱 (다시 입력하기 시 동일 응답 보장)
             cachedFirstResponse = fullText;
             cachedSajuKey = currentSajuKey;
