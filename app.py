@@ -227,7 +227,6 @@ def chat_with_gemini():
                 f"상담자의 첫 질문: {user_message}"
                 f"{lang_instruction}"
             )
-            print(f"\n=== [DEBUG] Gemini에 전달되는 메시지 ===\n{context_message}\n===================================\n")
             response = call_gemini_with_retry(chat, context_message)
         else:
             response = call_gemini_with_retry(chat, user_message + lang_instruction)
