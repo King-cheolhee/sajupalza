@@ -130,6 +130,18 @@ document.addEventListener('DOMContentLoaded', () => {
         isFirstMessage = true;
         sessionId = 'session-' + Date.now(); // 새 상담 시 세션 초기화
 
+        // 만세력 계산 (양력 기준)
+        const [bYear, bMonth, bDay] = date.split('-').map(Number);
+        let bHour = null, bMinute = 0;
+        if (!isUnknownTime && time.length === 5) {
+            const [h, m] = time.split(':').map(Number);
+            // 오전/오후 → 24시간 변환
+            if (ampm === '오후' && h < 12) bHour = h + 12;
+            else if (ampm === '오전' && h === 12) bHour = 0;
+            else bHour = h;
+            bMinute = m;
+        }
+
         // 화면 전환 로직 (입력 -> 로딩 -> 대기 -> 결과)
         inputScreen.classList.remove('active');
         loadingScreen.classList.add('active');
@@ -137,6 +149,13 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             loadingScreen.classList.remove('active');
             resultScreen.classList.add('active');
+
+            // 만세력 렌더링
+            const sajuChartArea = document.getElementById('sajuChartArea');
+            if (typeof SajuCalc !== 'undefined') {
+                const sajuResult = SajuCalc.calculate(bYear, bMonth, bDay, bHour, bMinute);
+                sajuChartArea.innerHTML = SajuCalc.renderHTML(sajuResult);
+            }
 
             // 상태 보존 활성화
             isResultGenerated = true;

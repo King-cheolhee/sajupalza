@@ -1122,3 +1122,92 @@ a.blog-card:hover {
         width: 100%;
     }
 }
+
+/* === 만세력 (사주 원국) 차트 === */
+.saju-chart {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin: 0 0 16px 0;
+    border: 1px solid var(--border);
+}
+
+.saju-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.saju-table th {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-sub);
+    padding: 6px 4px;
+    border-bottom: 2px solid var(--red);
+}
+
+.saju-cell {
+    padding: 12px 4px;
+    border: 1px solid var(--border);
+    vertical-align: middle;
+}
+
+.saju-cell .saju-hanja {
+    display: block;
+    font-family: 'Gowun Batang', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+}
+
+.saju-cell .saju-hangul {
+    display: block;
+    font-size: 11px;
+    color: var(--text-sub);
+    margin-top: 2px;
+}
+
+.saju-cell .saju-ohaeng {
+    display: block;
+    font-size: 10px;
+    color: var(--red);
+    margin-top: 2px;
+    font-weight: 500;
+}
+
+.saju-me {
+    background: rgba(139, 69, 69, 0.08);
+    position: relative;
+}
+
+.saju-me-label {
+    display: block;
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--red);
+    margin-top: 4px;
+    text-transform: uppercase;
+}
+
+.saju-unknown {
+    font-size: 13px;
+    color: var(--text-sub);
+    font-style: italic;
+}
+
+.saju-tti {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-sub);
+    margin-top: 12px;
+    margin-bottom: 0;
+}
+
+.saju-row-stem .saju-cell {
+    border-bottom: none;
+}
+
+.saju-row-branch .saju-cell {
+    border-top: 1px dashed var(--border);
+}
