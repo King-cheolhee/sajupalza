@@ -150,11 +150,13 @@ document.addEventListener('DOMContentLoaded', () => {
             loadingScreen.classList.remove('active');
             resultScreen.classList.add('active');
 
-            // 만세력 렌더링
-            const sajuChartArea = document.getElementById('sajuChartArea');
+            // 만세력을 chatBox 내부 첫 요소로 삽입 (스크롤과 함께 이동)
             if (typeof SajuCalc !== 'undefined') {
                 const sajuResult = SajuCalc.calculate(bYear, bMonth, bDay, bHour, bMinute);
-                sajuChartArea.innerHTML = SajuCalc.renderHTML(sajuResult);
+                const chartDiv = document.createElement('div');
+                chartDiv.classList.add('message', 'saju-chart-msg');
+                chartDiv.innerHTML = SajuCalc.renderHTML(sajuResult);
+                chatBox.appendChild(chartDiv);
             }
 
             // 상태 보존 활성화

@@ -20,6 +20,9 @@ const SajuCalc = (() => {
     // 띠 동물
     const TTI = ['쥐', '소', '호랑이', '토끼', '용', '뱀', '말', '양', '원숭이', '닭', '개', '돼지'];
 
+    // 십신 (十神) 이름 — 일간 기준 오프셋 순서
+    const SIPSIN = ['비견', '겁재', '식신', '상관', '편재', '정재', '편관', '정관', '편인', '정인'];
+
     // 절기 기반 월 경계 (양력 기준 대략적 날짜, 일(day) 기준)
     // 각 월의 절기 시작일 (근사치)
     const JEOLGI_DAYS = [
@@ -162,13 +165,18 @@ const SajuCalc = (() => {
     }
 
     /**
+     * 십신 계산 (일간 기준)
+     * @param {number} dayStem - 일간 인덱스 (0~9)
+     * @param {number} targetStem - 대상 천간 인덱스 (0~9)
+     * @returns {string} 십신 이름
+     */
+    function getSipsin(dayStem, targetStem) {
+        const diff = ((targetStem - dayStem) + 10) % 10;
+        return SIPSIN[diff];
+    }
+
+    /**
      * 전체 사주 원국 계산
-     * @param {number} year - 양력 년도
-     * @param {number} month - 양력 월 (1~12)
-     * @param {number} day - 양력 일
-     * @param {number|null} hour - 24시간 형식 (0~23), null이면 시주 생략
-     * @param {number} minute - 분 (0~59)
-     * @returns {Object} 사주 원국 정보
      */
     function calculate(year, month, day, hour, minute) {
         const yearP = getYearPillar(year, month, day);
@@ -185,14 +193,14 @@ const SajuCalc = (() => {
                 branchHanja: JIJI_HANJA[pillar.branch],
                 stemOhaeng: CHEONGAN_OHAENG[pillar.stem],
                 branchOhaeng: JIJI_OHAENG[pillar.branch],
+                stemIdx: pillar.stem,
                 text: CHEONGAN[pillar.stem] + JIJI[pillar.branch],
                 hanjaText: CHEONGAN_HANJA[pillar.stem] + JIJI_HANJA[pillar.branch]
             };
         };
 
         const tti = TTI[yearP.branch];
-
-        return {
+        const formatted = {
             year: format(yearP),
             month: format(monthP),
             day: format(dayP),
@@ -201,10 +209,17 @@ const SajuCalc = (() => {
             ilgan: CHEONGAN[dayP.stem],
             ilganHanja: CHEONGAN_HANJA[dayP.stem]
         };
+
+        // 십신 계산 (일간 기준)
+        formatted.yearSipsin = getSipsin(dayP.stem, yearP.stem);
+        formatted.monthSipsin = getSipsin(dayP.stem, monthP.stem);
+        formatted.hourSipsin = hourP ? getSipsin(dayP.stem, hourP.stem) : null;
+
+        return formatted;
     }
 
     /**
-     * HTML 테이블로 만세력 렌더링 (4열: 시주/일주/월주/연주)
+     * HTML 테이블로 만세력 렌더링 (이전 디자인: 천간/지지/십성 3행)
      */
     function renderHTML(saju) {
         const cell = (hanja, hangul, ohaeng, extra) =>
@@ -216,28 +231,14 @@ const SajuCalc = (() => {
             </td>`;
 
         const emptyCell = `<td class="saju-cell saju-unknown">?</td>`;
-
-        // 천간 행 (위)
-        const stemRow = `<tr class="saju-row-stem">
-            ${saju.hour ? cell(saju.hour.stemHanja, saju.hour.stem, saju.hour.stemOhaeng) : emptyCell}
-            ${cell(saju.day.stemHanja, saju.day.stem, saju.day.stemOhaeng, ' saju-me')}
-            ${cell(saju.month.stemHanja, saju.month.stem, saju.month.stemOhaeng)}
-            ${cell(saju.year.stemHanja, saju.year.stem, saju.year.stemOhaeng)}
-        </tr>`;
-
-        // 지지 행 (아래)
-        const branchRow = `<tr class="saju-row-branch">
-            ${saju.hour ? cell(saju.hour.branchHanja, saju.hour.branch, saju.hour.branchOhaeng) : emptyCell}
-            ${cell(saju.day.branchHanja, saju.day.branch, saju.day.branchOhaeng)}
-            ${cell(saju.month.branchHanja, saju.month.branch, saju.month.branchOhaeng)}
-            ${cell(saju.year.branchHanja, saju.year.branch, saju.year.branchOhaeng)}
-        </tr>`;
+        const sipsinCell = (text) => `<td class="saju-sipsin">${text || ''}</td>`;
 
         return `
         <div class="saju-chart">
             <table class="saju-table">
                 <thead>
                     <tr>
+                        <th></th>
                         <th>시주(時)</th>
                         <th>일주(日)</th>
                         <th>월주(月)</th>
@@ -245,8 +246,27 @@ const SajuCalc = (() => {
                     </tr>
                 </thead>
                 <tbody>
-                    ${stemRow}
-                    ${branchRow}
+                    <tr class="saju-row-stem">
+                        <th class="saju-row-label">천간</th>
+                        ${saju.hour ? cell(saju.hour.stemHanja, saju.hour.stem, saju.hour.stemOhaeng) : emptyCell}
+                        ${cell(saju.day.stemHanja, saju.day.stem, saju.day.stemOhaeng, ' saju-me')}
+                        ${cell(saju.month.stemHanja, saju.month.stem, saju.month.stemOhaeng)}
+                        ${cell(saju.year.stemHanja, saju.year.stem, saju.year.stemOhaeng)}
+                    </tr>
+                    <tr class="saju-row-branch">
+                        <th class="saju-row-label">지지</th>
+                        ${saju.hour ? cell(saju.hour.branchHanja, saju.hour.branch, saju.hour.branchOhaeng) : emptyCell}
+                        ${cell(saju.day.branchHanja, saju.day.branch, saju.day.branchOhaeng)}
+                        ${cell(saju.month.branchHanja, saju.month.branch, saju.month.branchOhaeng)}
+                        ${cell(saju.year.branchHanja, saju.year.branch, saju.year.branchOhaeng)}
+                    </tr>
+                    <tr class="saju-row-sipsin">
+                        <th class="saju-row-label">십성</th>
+                        ${sipsinCell(saju.hourSipsin)}
+                        ${sipsinCell('일간')}
+                        ${sipsinCell(saju.monthSipsin)}
+                        ${sipsinCell(saju.yearSipsin)}
+                    </tr>
                 </tbody>
             </table>
             <p class="saju-tti">${saju.tti}띠 · 일간 <b>${saju.ilgan}(${saju.ilganHanja})</b></p>

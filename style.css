@@ -1124,6 +1124,11 @@ a.blog-card:hover {
 }
 
 /* === 만세력 (사주 원국) 차트 === */
+.saju-chart-msg {
+    width: 100%;
+    margin-bottom: 12px;
+}
+
 .saju-chart {
     background: var(--card);
     border-radius: var(--radius);
@@ -1210,4 +1215,23 @@ a.blog-card:hover {
 
 .saju-row-branch .saju-cell {
     border-top: 1px dashed var(--border);
+}
+
+.saju-row-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-sub);
+    padding: 8px 6px;
+    white-space: nowrap;
+    background: var(--bg);
+    border: 1px solid var(--border);
+}
+
+.saju-sipsin {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--red);
+    text-align: center;
+    padding: 8px 4px;
+    border: 1px solid var(--border);
 }
