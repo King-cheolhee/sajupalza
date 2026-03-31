@@ -121,7 +121,7 @@ model = genai.GenerativeModel(
     model_name='gemini-2.0-flash',
     system_instruction=SAJU_SYSTEM_PROMPT,
     generation_config=genai.GenerationConfig(
-        max_output_tokens=2048,
+        max_output_tokens=4096,
         temperature=0.8
     )
 )
