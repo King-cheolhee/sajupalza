@@ -157,6 +157,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 chartDiv.classList.add('message', 'saju-chart-msg');
                 chartDiv.innerHTML = SajuCalc.renderHTML(sajuResult);
                 chatBox.appendChild(chartDiv);
+
+                // 만세력 결과를 sajuInfo에 포함 (Gemini에게 정확한 사주 데이터 전달)
+                sajuInfo.sajuWonGuk = {
+                    yearPillar: sajuResult.year.hanjaText + '(' + sajuResult.year.text + ')',
+                    monthPillar: sajuResult.month.hanjaText + '(' + sajuResult.month.text + ')',
+                    dayPillar: sajuResult.day.hanjaText + '(' + sajuResult.day.text + ')',
+                    hourPillar: sajuResult.hour ? sajuResult.hour.hanjaText + '(' + sajuResult.hour.text + ')' : '시간 모름',
+                    ilgan: sajuResult.ilgan + '(' + sajuResult.ilganHanja + ')',
+                    tti: sajuResult.tti,
+                    yearSipsin: sajuResult.yearSipsin,
+                    monthSipsin: sajuResult.monthSipsin,
+                    hourSipsin: sajuResult.hourSipsin || '모름'
+                };
             }
 
             // 상태 보존 활성화
