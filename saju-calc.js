@@ -114,8 +114,9 @@ const SajuCalc = (() => {
     function getDayPillar(year, month, day) {
         // 기준: 1900년 1월 1일 = 갑자(甲子)일 → stem=0, branch=0
         // 실제 1900-01-01은 경자(庚子)일임. 보정값 적용
-        const baseDate = new Date(1900, 0, 1); // 1900-01-01
-        const targetDate = new Date(year, month - 1, day);
+        // UTC 기반으로 날짜 차이 계산 (타임존 문제 방지)
+        const baseDate = Date.UTC(1900, 0, 1);
+        const targetDate = Date.UTC(year, month - 1, day);
         const diffDays = Math.floor((targetDate - baseDate) / (1000 * 60 * 60 * 24));
 
         // 1900-01-01 = 갑술일 (stem=0[갑], branch=10[술])
