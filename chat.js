@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const firstMessage = "이 사람의 사주를 분석해주세요. 유명인 비교, 사주 핵심(일간 기준), 대운 흐름, 올해 총운을 짧게 요약하고, 마지막에 반드시 (1)~(4) 질문 카테고리를 안내해 주세요.";
+        const firstMessage = "이 사람의 사주를 분석해주세요. 유명인 비교, 사주 핵심(일간 기준), 대운 흐름, 올해 총운을 짧게 요약하고, 마지막에 반드시 (1)~(4) 질문 카테고리와 함께 '그럼 질문하시지요.'를 볼드로 출력해 주세요.";
 
         // 빈 말풍선 생성 (스트리밍으로 채워질 예정)
         const botDiv = document.createElement('div');
