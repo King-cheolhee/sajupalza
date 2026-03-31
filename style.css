@@ -1152,7 +1152,7 @@ a.blog-card:hover {
 }
 
 .saju-cell {
-    padding: 12px 4px;
+    padding: 16px 6px;
     border: 1px solid var(--border);
     vertical-align: middle;
 }
@@ -1160,7 +1160,7 @@ a.blog-card:hover {
 .saju-cell .saju-hanja {
     display: block;
     font-family: 'Gowun Batang', serif;
-    font-size: 22px;
+    font-size: 28px;
     font-weight: 700;
     color: var(--text);
     line-height: 1.2;

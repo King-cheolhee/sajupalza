@@ -118,9 +118,9 @@ const SajuCalc = (() => {
         const targetDate = new Date(year, month - 1, day);
         const diffDays = Math.floor((targetDate - baseDate) / (1000 * 60 * 60 * 24));
 
-        // 1900-01-01 = 경자일 (stem=6[경], branch=0[자])
-        const stemIdx = ((diffDays % 10) + 6) % 10;
-        const branchIdx = ((diffDays % 12) + 0) % 12;
+        // 1900-01-01 = 갑술일 (stem=0[갑], branch=10[술])
+        const stemIdx = ((diffDays % 10) + 0) % 10;
+        const branchIdx = ((diffDays % 12) + 10) % 12;
 
         return {
             stem: (stemIdx + 10) % 10,
@@ -137,20 +137,20 @@ const SajuCalc = (() => {
 
         const totalMinutes = hour * 60 + (minute || 0);
 
-        // 시지(時支) 결정 (2시간 단위)
+        // 시지(時支) 결정 (정시 기준, 2시간 단위)
         let hourBranch;
-        if (totalMinutes >= 1410 || totalMinutes < 90) hourBranch = 0;       // 자시 23:30~01:30
-        else if (totalMinutes < 210) hourBranch = 1;   // 축시 01:30~03:30
-        else if (totalMinutes < 330) hourBranch = 2;   // 인시 03:30~05:30
-        else if (totalMinutes < 450) hourBranch = 3;   // 묘시 05:30~07:30
-        else if (totalMinutes < 570) hourBranch = 4;   // 진시 07:30~09:30
-        else if (totalMinutes < 690) hourBranch = 5;   // 사시 09:30~11:30
-        else if (totalMinutes < 810) hourBranch = 6;   // 오시 11:30~13:30
-        else if (totalMinutes < 930) hourBranch = 7;   // 미시 13:30~15:30
-        else if (totalMinutes < 1050) hourBranch = 8;  // 신시 15:30~17:30
-        else if (totalMinutes < 1170) hourBranch = 9;  // 유시 17:30~19:30
-        else if (totalMinutes < 1290) hourBranch = 10; // 술시 19:30~21:30
-        else hourBranch = 11;                           // 해시 21:30~23:30
+        if (totalMinutes >= 1380 || totalMinutes < 60) hourBranch = 0;        // 자시 23:00~01:00
+        else if (totalMinutes < 180) hourBranch = 1;   // 축시 01:00~03:00
+        else if (totalMinutes < 300) hourBranch = 2;   // 인시 03:00~05:00
+        else if (totalMinutes < 420) hourBranch = 3;   // 묘시 05:00~07:00
+        else if (totalMinutes < 540) hourBranch = 4;   // 진시 07:00~09:00
+        else if (totalMinutes < 660) hourBranch = 5;   // 사시 09:00~11:00
+        else if (totalMinutes < 780) hourBranch = 6;   // 오시 11:00~13:00
+        else if (totalMinutes < 900) hourBranch = 7;   // 미시 13:00~15:00
+        else if (totalMinutes < 1020) hourBranch = 8;  // 신시 15:00~17:00
+        else if (totalMinutes < 1140) hourBranch = 9;  // 유시 17:00~19:00
+        else if (totalMinutes < 1260) hourBranch = 10; // 술시 19:00~21:00
+        else hourBranch = 11;                           // 해시 21:00~23:00
 
         // 시간 계산: 일간 기준 (갑기→갑자시, 을경→병자시, 병신→무자시, 정임→경자시, 무계→임자시)
         const dayPillar = getDayPillar(year, month, day);
