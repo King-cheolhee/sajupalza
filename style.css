@@ -1123,117 +1123,101 @@ a.blog-card:hover {
     }
 }
 
-/* === 만세력 (사주 원국) 차트 === */
+/* === 만세력 (사주 원국) 차트 — 이전 디자인 복원 === */
 .saju-chart-msg {
     width: 100%;
     margin-bottom: 12px;
 }
 
 .saju-chart {
-    background: var(--card);
+    background: #fff;
     border-radius: var(--radius);
-    padding: 16px 12px;
+    padding: 12px 8px;
     margin: 0;
-    border: 1px solid var(--border);
+    border: 1px solid #cbd5e1;
     width: 100%;
     box-sizing: border-box;
+    overflow-x: auto;
 }
 
-.saju-table {
+.m-table {
     width: 100%;
     border-collapse: collapse;
     text-align: center;
+    table-layout: fixed;
 }
 
-.saju-table th {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-sub);
-    padding: 6px 4px;
-    border-bottom: 2px solid var(--red);
-}
-
-.saju-cell {
-    padding: 16px 6px;
-    border: 1px solid var(--border);
-    vertical-align: middle;
-}
-
-.saju-cell .saju-hanja {
-    display: block;
-    font-family: 'Gowun Batang', serif;
-    font-size: 32px;
+.m-table thead th {
+    padding: 10px 4px;
+    font-size: 14px;
     font-weight: 700;
-    color: var(--text);
-    line-height: 1.2;
+    color: #1e3a5f;
+    border-bottom: 3px solid #1e3a5f;
 }
 
-.saju-cell .saju-hangul {
-    display: block;
-    font-size: 11px;
-    color: var(--text-sub);
-    margin-top: 2px;
+.m-label {
+    width: 50px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #1e3a5f;
+    padding: 6px 4px;
+    white-space: nowrap;
+    vertical-align: middle;
+    border-right: 1px solid #e2e8f0;
 }
 
-.saju-cell .saju-ohaeng {
-    display: block;
-    font-size: 10px;
-    color: var(--red);
-    margin-top: 2px;
-    font-weight: 500;
-}
-
-.saju-me {
-    background: rgba(139, 69, 69, 0.08);
+.m-cell {
+    padding: 12px 4px;
+    vertical-align: middle;
+    border: 1px solid #e2e8f0;
     position: relative;
 }
 
-.saju-me-label {
+.m-cell .m-yy {
     display: block;
-    font-size: 9px;
-    font-weight: 700;
-    color: var(--red);
-    margin-top: 4px;
-    text-transform: uppercase;
-}
-
-.saju-unknown {
-    font-size: 13px;
-    color: var(--text-sub);
-    font-style: italic;
-}
-
-.saju-tti {
-    text-align: center;
-    font-size: 13px;
-    color: var(--text-sub);
-    margin-top: 12px;
-    margin-bottom: 0;
-}
-
-.saju-row-stem .saju-cell {
-    border-bottom: none;
-}
-
-.saju-row-branch .saju-cell {
-    border-top: 1px dashed var(--border);
-}
-
-.saju-row-label {
     font-size: 11px;
-    font-weight: 500;
-    color: var(--text-sub);
-    padding: 8px 6px;
-    white-space: nowrap;
-    background: var(--bg);
-    border: 1px solid var(--border);
+    font-weight: 600;
+    line-height: 1;
+    margin-bottom: 2px;
 }
 
-.saju-sipsin {
-    font-size: 12px;
+.m-cell .m-hanja {
+    display: block;
+    font-family: 'Gowun Batang', serif;
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.m-cell .m-hangul {
+    display: block;
+    font-size: 13px;
     font-weight: 600;
-    color: var(--red);
-    text-align: center;
+    margin-top: 2px;
+}
+
+.m-cell.m-unknown {
+    font-size: 32px;
+    color: #9ca3af;
+}
+
+.m-sipsin {
+    padding: 6px 4px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e3a5f;
+    border: 1px solid #e2e8f0;
+}
+
+.m-detail {
     padding: 8px 4px;
-    border: 1px solid var(--border);
+    font-size: 12px;
+    font-weight: 500;
+    color: #374151;
+    border: 1px solid #e2e8f0;
+}
+
+.m-row-sipsin+.m-row-branch .m-label,
+.m-row-sipsin+.m-row-branch .m-cell {
+    border-top: 3px solid #1e3a5f;
 }

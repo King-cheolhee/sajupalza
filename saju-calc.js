@@ -216,61 +216,158 @@ const SajuCalc = (() => {
         formatted.monthSipsin = getSipsin(dayP.stem, monthP.stem);
         formatted.hourSipsin = hourP ? getSipsin(dayP.stem, hourP.stem) : null;
 
+        // 지지 십신 계산 (지지의 본기 기준)
+        // 지지 → 본기 천간 매핑: 자=계, 축=기, 인=갑, 묘=을, 진=무, 사=병, 오=정, 미=기, 신=경, 유=신, 술=무, 해=임
+        const JIJI_BONGI = [9, 5, 0, 1, 4, 2, 3, 5, 6, 7, 4, 8];
+        formatted.yearBranchSipsin = getSipsin(dayP.stem, JIJI_BONGI[yearP.branch]);
+        formatted.monthBranchSipsin = getSipsin(dayP.stem, JIJI_BONGI[monthP.branch]);
+        formatted.dayBranchSipsin = getSipsin(dayP.stem, JIJI_BONGI[dayP.branch]);
+        formatted.hourBranchSipsin = hourP ? getSipsin(dayP.stem, JIJI_BONGI[hourP.branch]) : null;
+
+        // 지장간 매핑 (각 지지의 여기/중기/정기)
+        const JIJANGGAN = [
+            '임계',   // 자: 임,계
+            '계신기', // 축: 계,신,기
+            '무병갑', // 인: 무,병,갑
+            '갑을',   // 묘: 갑,을
+            '을계무', // 진: 을,계,무
+            '무경병', // 사: 무,경,병
+            '병기정', // 오: 병,기,정
+            '정을기', // 미: 정,을,기
+            '무임경', // 신: 무,임,경
+            '경신',   // 유: 경,신
+            '신정무', // 술: 신,정,무
+            '무갑임'  // 해: 무,갑,임
+        ];
+        formatted.yearJijanggan = JIJANGGAN[yearP.branch];
+        formatted.monthJijanggan = JIJANGGAN[monthP.branch];
+        formatted.dayJijanggan = JIJANGGAN[dayP.branch];
+        formatted.hourJijanggan = hourP ? JIJANGGAN[hourP.branch] : '?';
+
+        // 12운성 매핑 (일간 기준, 각 지지에 대한 12운성)
+        const UNSUNG_NAMES = ['장생', '목욕', '관대', '건록', '제왕', '쇠', '병', '사', '묘', '절', '태', '양'];
+        // 일간별 12운성 시작 지지 인덱스 (장생 위치)
+        const UNSUNG_START = [11, 6, 2, 9, 2, 9, 5, 0, 8, 3]; // 갑을병정무기경신임계
+        const dayUnsungStart = UNSUNG_START[dayP.stem];
+        const getUnsung = (branchIdx) => {
+            const offset = (branchIdx - dayUnsungStart + 12) % 12;
+            return UNSUNG_NAMES[offset];
+        };
+        formatted.yearUnsung = getUnsung(yearP.branch);
+        formatted.monthUnsung = getUnsung(monthP.branch);
+        formatted.dayUnsung = getUnsung(dayP.branch);
+        formatted.hourUnsung = hourP ? getUnsung(hourP.branch) : '?';
+
         return formatted;
     }
 
     /**
-     * HTML 테이블로 만세력 렌더링 (이전 디자인: 천간/지지/십성 3행)
+     * HTML 테이블로 만세력 렌더링 (이전 디자인 복원: 7행 완전 테이블)
      */
     function renderHTML(saju) {
-        const cell = (hanja, hangul, ohaeng, extra) =>
-            `<td class="saju-cell${extra || ''}">
-                <span class="saju-hanja">${hanja}</span>
-                <span class="saju-hangul">${hangul}</span>
-                <span class="saju-ohaeng">${ohaeng}</span>
-                ${extra === ' saju-me' ? '<span class="saju-me-label">나</span>' : ''}
-            </td>`;
+        // 오행별 색상 클래스 매핑
+        const OHAENG_COLOR = {
+            '목': '#15803d', '화': '#dc2626', '토': '#a16207', '금': '#475569', '수': '#2563eb'
+        };
+        const OHAENG_BG = {
+            '목': '#f0fdf4', '화': '#fef2f2', '토': '#fefce8', '금': '#f1f5f9', '수': '#eff6ff'
+        };
+        // 음양 표시 (천간: 갑병무경임=양, 을정기신계=음 / 지지: 자인진오신술=양, 축묘사미유해=음)
+        const stemYinYang = (idx) => idx % 2 === 0 ? '+' : '-';
+        const branchYinYang = (idx) => idx % 2 === 0 ? '+' : '-';
 
-        const emptyCell = `<td class="saju-cell saju-unknown">?</td>`;
-        const sipsinCell = (text) => `<td class="saju-sipsin">${text || ''}</td>`;
+        const stemCell = (pillar, isMe) => {
+            if (!pillar) return '<td class="m-cell m-unknown">?</td>';
+            const color = OHAENG_COLOR[pillar.stemOhaeng] || '#333';
+            const bg = isMe ? (OHAENG_BG[pillar.stemOhaeng] || '#fff') : 'transparent';
+            const yy = stemYinYang(pillar.stemIdx);
+            return `<td class="m-cell" style="background:${bg}">
+                <span class="m-yy" style="color:${color}">${yy}${pillar.stemOhaeng}</span>
+                <span class="m-hanja" style="color:${color}">${pillar.stemHanja}</span>
+                <span class="m-hangul" style="color:${color}">${pillar.stem}</span>
+            </td>`;
+        };
+
+        const branchCell = (pillar) => {
+            if (!pillar) return '<td class="m-cell m-unknown">?</td>';
+            const color = OHAENG_COLOR[pillar.branchOhaeng] || '#333';
+            const bg = OHAENG_BG[pillar.branchOhaeng] || '#fff';
+            const branchIdx = JIJI.indexOf(pillar.branch);
+            const yy = branchYinYang(branchIdx >= 0 ? branchIdx : 0);
+            return `<td class="m-cell" style="background:${bg}">
+                <span class="m-yy" style="color:${color}">${yy}${pillar.branchOhaeng}</span>
+                <span class="m-hanja" style="color:${color}">${pillar.branchHanja}</span>
+                <span class="m-hangul" style="color:${color}">${pillar.branch}</span>
+            </td>`;
+        };
+
+        const sipsinCell = (text, bg) =>
+            `<td class="m-sipsin" style="background:${bg || '#f8f9fa'}">${text || ''}</td>`;
+
+        const detailCell = (text) =>
+            `<td class="m-detail">${text || ''}</td>`;
+
+        // 십성 배경색 (천간십성은 연한 파랑, 지지십성은 연한 노랑)
+        const stemSipBg = '#eef2ff';
+        const branchSipBg = '#fefce8';
 
         return `
         <div class="saju-chart">
-            <table class="saju-table">
+            <table class="m-table">
                 <thead>
                     <tr>
-                        <th></th>
-                        <th>시주(時)</th>
-                        <th>일주(日)</th>
-                        <th>월주(月)</th>
-                        <th>연주(年)</th>
+                        <th class="m-label"></th>
+                        <th>생시</th>
+                        <th>생일</th>
+                        <th>생월</th>
+                        <th>생년</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="saju-row-stem">
-                        <th class="saju-row-label">천간</th>
-                        ${saju.hour ? cell(saju.hour.stemHanja, saju.hour.stem, saju.hour.stemOhaeng) : emptyCell}
-                        ${cell(saju.day.stemHanja, saju.day.stem, saju.day.stemOhaeng, ' saju-me')}
-                        ${cell(saju.month.stemHanja, saju.month.stem, saju.month.stemOhaeng)}
-                        ${cell(saju.year.stemHanja, saju.year.stem, saju.year.stemOhaeng)}
+                    <tr class="m-row-stem">
+                        <th class="m-label">천간</th>
+                        ${stemCell(saju.hour, false)}
+                        ${stemCell(saju.day, true)}
+                        ${stemCell(saju.month, false)}
+                        ${stemCell(saju.year, false)}
                     </tr>
-                    <tr class="saju-row-branch">
-                        <th class="saju-row-label">지지</th>
-                        ${saju.hour ? cell(saju.hour.branchHanja, saju.hour.branch, saju.hour.branchOhaeng) : emptyCell}
-                        ${cell(saju.day.branchHanja, saju.day.branch, saju.day.branchOhaeng)}
-                        ${cell(saju.month.branchHanja, saju.month.branch, saju.month.branchOhaeng)}
-                        ${cell(saju.year.branchHanja, saju.year.branch, saju.year.branchOhaeng)}
+                    <tr class="m-row-sipsin">
+                        <th class="m-label">십성</th>
+                        ${sipsinCell(saju.hourSipsin, stemSipBg)}
+                        ${sipsinCell('비견', stemSipBg)}
+                        ${sipsinCell(saju.monthSipsin, stemSipBg)}
+                        ${sipsinCell(saju.yearSipsin, stemSipBg)}
                     </tr>
-                    <tr class="saju-row-sipsin">
-                        <th class="saju-row-label">십성</th>
-                        ${sipsinCell(saju.hourSipsin)}
-                        ${sipsinCell('일간')}
-                        ${sipsinCell(saju.monthSipsin)}
-                        ${sipsinCell(saju.yearSipsin)}
+                    <tr class="m-row-branch">
+                        <th class="m-label">지지</th>
+                        ${branchCell(saju.hour)}
+                        ${branchCell(saju.day)}
+                        ${branchCell(saju.month)}
+                        ${branchCell(saju.year)}
+                    </tr>
+                    <tr class="m-row-sipsin">
+                        <th class="m-label">십성</th>
+                        ${sipsinCell(saju.hourBranchSipsin, branchSipBg)}
+                        ${sipsinCell(saju.dayBranchSipsin, branchSipBg)}
+                        ${sipsinCell(saju.monthBranchSipsin, branchSipBg)}
+                        ${sipsinCell(saju.yearBranchSipsin, branchSipBg)}
+                    </tr>
+                    <tr class="m-row-detail">
+                        <th class="m-label">지장간</th>
+                        ${detailCell(saju.hourJijanggan)}
+                        ${detailCell(saju.dayJijanggan)}
+                        ${detailCell(saju.monthJijanggan)}
+                        ${detailCell(saju.yearJijanggan)}
+                    </tr>
+                    <tr class="m-row-detail">
+                        <th class="m-label">12운성</th>
+                        ${detailCell(saju.hourUnsung)}
+                        ${detailCell(saju.dayUnsung)}
+                        ${detailCell(saju.monthUnsung)}
+                        ${detailCell(saju.yearUnsung)}
                     </tr>
                 </tbody>
             </table>
-            <p class="saju-tti">${saju.tti}띠 · 일간 <b>${saju.ilgan}(${saju.ilganHanja})</b></p>
         </div>`;
     }
 
