@@ -227,6 +227,7 @@ def chat_with_gemini():
                 f"상담자의 첫 질문: {user_message}"
                 f"{lang_instruction}"
             )
+            print(f"\n=== [DEBUG] Gemini에 전달되는 메시지 ===\n{context_message}\n===================================\n")
             response = call_gemini_with_retry(chat, context_message)
         else:
             response = call_gemini_with_retry(chat, user_message + lang_instruction)
@@ -274,6 +275,21 @@ def chat_stream():
             chat = session['chat']
 
             if saju_info:
+                # 만세력 원국 데이터 (프론트엔드 JS에서 계산한 정확한 결과)
+                wonGuk = saju_info.get('sajuWonGuk', None)
+                if wonGuk:
+                    saju_detail = (
+                        f"[사주 원국 (만세력 계산 결과 — 반드시 이 데이터를 기준으로 분석하세요)]\n"
+                        f"연주(年柱): {wonGuk.get('yearPillar', '?')} — 십성: {wonGuk.get('yearSipsin', '?')}\n"
+                        f"월주(月柱): {wonGuk.get('monthPillar', '?')} — 십성: {wonGuk.get('monthSipsin', '?')}\n"
+                        f"일주(日柱): {wonGuk.get('dayPillar', '?')} — 일간(日干, Day Master)\n"
+                        f"시주(時柱): {wonGuk.get('hourPillar', '?')} — 십성: {wonGuk.get('hourSipsin', '?')}\n"
+                        f"★★★ 일간(Day Master): {wonGuk.get('ilgan', '?')} ★★★ (반드시 이 일간을 기준으로 사주를 분석하세요!)\n"
+                        f"띠: {wonGuk.get('tti', '?')}띠\n\n"
+                    )
+                else:
+                    saju_detail = ""
+
                 message = (
                     f"[상담자 정보]\n"
                     f"이름: {saju_info.get('name', '미상')}\n"
@@ -281,6 +297,7 @@ def chat_stream():
                     f"생년월일: {saju_info.get('birthDate', '미상')}\n"
                     f"생시: {saju_info.get('birthTime', '시간 모름')}\n"
                     f"역법: {saju_info.get('calendar', '양력')}\n\n"
+                    f"{saju_detail}"
                     f"상담자의 첫 질문: {user_message}"
                     f"{lang_instruction}"
                 )
