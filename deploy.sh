@@ -10,7 +10,18 @@ echo "=============================="
 echo " 도향(道香) 서버 배포 시작"
 echo "=============================="
 
-# 1. 시스템 패키지 업데이트 + Python 설치
+# 1. 스왑 파일 설정 (512MB RAM 서버 OOM 방지)
+if [ ! -f /swapfile ]; then
+    echo "스왑 파일 생성 중 (2GB)..."
+    sudo fallocate -l 2G /swapfile
+    sudo chmod 600 /swapfile
+    sudo mkswap /swapfile
+    sudo swapon /swapfile
+    echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+    echo "✅ 2GB 스왑 파일 생성 완료"
+fi
+
+# 2. 시스템 패키지 업데이트 + Python 설치
 sudo apt update && sudo apt install -y python3 python3-pip python3-venv git nginx
 
 # 2. 프로젝트 클론 (이미 있으면 pull)
@@ -48,7 +59,7 @@ After=network.target
 User=ubuntu
 Group=ubuntu
 WorkingDirectory=/home/ubuntu/sajupalza
-ExecStart=/home/ubuntu/sajupalza/venv/bin/gunicorn --workers 4 --worker-class gevent --bind 127.0.0.1:5000 --timeout 120 app:app
+ExecStart=/home/ubuntu/sajupalza/venv/bin/gunicorn --workers 2 --threads 2 --bind 127.0.0.1:5000 --timeout 120 app:app
 Restart=always
 RestartSec=5
 EnvironmentFile=/home/ubuntu/sajupalza/.env
