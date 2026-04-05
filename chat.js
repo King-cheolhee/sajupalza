@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatBox = document.getElementById('chatBox');
     const chatInput = document.getElementById('userInput');
     const sendChatBtn = document.getElementById('sendBtn');
-    const BACKEND_URL = "http://127.0.0.1:5000/api/chat/stream";
+    const BACKEND_URL = "/api/chat/stream";
 
     // === 세션 및 사주 정보 관리 ===
     let sessionId = 'session-' + Date.now();
