@@ -284,7 +284,9 @@ def chat_stream():
             response = chat.send_message(message, stream=True)
             for chunk in response:
                 if chunk.text:
-                    yield f"data: {chunk.text}\n\n"
+                    # SSE에서 \n은 라인 구분자이므로, 텍스트 내의 줄바꿈을 <br>로 변환하여 보존
+                    safe_text = chunk.text.replace('\n', '<br>')
+                    yield f"data: {safe_text}\n\n"
             yield "data: [DONE]\n\n"
 
         except Exception as e:

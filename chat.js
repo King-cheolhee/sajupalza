@@ -260,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const text = line.slice(6);
                         if (text === '[DONE]') continue;
                         fullText += text;
-                        bubble.innerHTML = fullText.replace(/\n/g, '<br>');
+                        bubble.innerHTML = fullText;
                         chatBox.scrollTop = chatBox.scrollHeight;
                     }
                 }
@@ -328,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const text = line.slice(6);
                         if (text === '[DONE]') continue;
                         fullText += text;
-                        bubble.innerHTML = fullText.replace(/\n/g, '<br>');
+                        bubble.innerHTML = fullText;
                         chatBox.scrollTop = chatBox.scrollHeight;
                     }
                 }
