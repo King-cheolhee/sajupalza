@@ -130,13 +130,71 @@ const SajuCalc = (() => {
     }
 
     /**
+     * 균시차(Equation of Time) 계산 — 천문학 근사 공식
+     * @param {number} year - 연도
+     * @param {number} month - 월 (1~12)
+     * @param {number} day - 일 (1~31)
+     * @returns {number} 균시차(분 단위, 양수=태양이 빠름, 음수=태양이 느림)
+     */
+    function getEquationOfTime(year, month, day) {
+        // 연중 일수(Day of Year) 계산
+        const dt = new Date(year, month - 1, day);
+        const start = new Date(year, 0, 0);
+        const diff = dt - start;
+        const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+        // B = (360/365) * (dayOfYear - 81) in radians
+        const B = (2 * Math.PI / 365) * (dayOfYear - 81);
+
+        // 균시차 근사 공식 (분 단위)
+        const eot = 9.87 * Math.sin(2 * B) - 7.53 * Math.cos(B) - 1.5 * Math.sin(B);
+        return eot;
+    }
+
+    /**
+     * 진태양시(True Solar Time) 보정
+     * @param {number} hour - 표준시 시
+     * @param {number} minute - 표준시 분
+     * @param {number} year - 연도
+     * @param {number} month - 월
+     * @param {number} day - 일
+     * @param {number} longitude - 출생지 경도 (기본: 서울 127°)
+     * @returns {object} { hour, minute } 보정된 시각
+     */
+    function getTrueSolarTime(hour, minute, year, month, day, longitude) {
+        const KST_LONGITUDE = 135; // 한국 표준시 기준 경도
+        const lng = longitude || 127; // 기본값: 서울
+
+        // 1. 경도 보정 (분 단위): 기준경도와의 차이 × 4분/도
+        const lngCorrection = (lng - KST_LONGITUDE) * 4;
+
+        // 2. 균시차 (분 단위)
+        const eot = getEquationOfTime(year, month, day);
+
+        // 3. 진태양시 = 표준시 + 경도보정 + 균시차
+        let totalMinutes = hour * 60 + (minute || 0) + lngCorrection + eot;
+
+        // 범위 보정 (0~1440)
+        if (totalMinutes < 0) totalMinutes += 1440;
+        if (totalMinutes >= 1440) totalMinutes -= 1440;
+
+        return {
+            hour: Math.floor(totalMinutes / 60),
+            minute: Math.round(totalMinutes % 60)
+        };
+    }
+
+    /**
      * 시주 (時柱) 계산
      * 일간(日干)에 따라 시간의 천간이 결정됨
+     * 진태양시 보정을 적용하여 시지 결정
      */
-    function getHourPillar(year, month, day, hour, minute) {
+    function getHourPillar(year, month, day, hour, minute, longitude) {
         if (hour === null || hour === undefined) return null;
 
-        const totalMinutes = hour * 60 + (minute || 0);
+        // 진태양시 보정 적용
+        const tst = getTrueSolarTime(hour, minute, year, month, day, longitude);
+        const totalMinutes = tst.hour * 60 + tst.minute;
 
         // 시지(時支) 결정 (정시 기준, 2시간 단위)
         let hourBranch;
@@ -178,12 +236,13 @@ const SajuCalc = (() => {
 
     /**
      * 전체 사주 원국 계산
+     * @param {number} longitude - 출생지 경도 (기본: 127 = 서울)
      */
-    function calculate(year, month, day, hour, minute) {
+    function calculate(year, month, day, hour, minute, longitude) {
         const yearP = getYearPillar(year, month, day);
         const monthP = getMonthPillar(year, month, day);
         const dayP = getDayPillar(year, month, day);
-        const hourP = getHourPillar(year, month, day, hour, minute);
+        const hourP = getHourPillar(year, month, day, hour, minute, longitude);
 
         const format = (pillar) => {
             if (!pillar) return null;

@@ -152,7 +152,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 만세력을 chatBox 내부 첫 요소로 삽입 (스크롤과 함께 이동)
             if (typeof SajuCalc !== 'undefined') {
-                const sajuResult = SajuCalc.calculate(bYear, bMonth, bDay, bHour, bMinute);
+                // 출생지 경도 가져오기 (진태양시 보정용)
+                const regionEl = document.getElementById('birthRegion');
+                const longitude = regionEl ? parseFloat(regionEl.value) : 127;
+                const sajuResult = SajuCalc.calculate(bYear, bMonth, bDay, bHour, bMinute, longitude);
                 const chartDiv = document.createElement('div');
                 chartDiv.classList.add('message', 'saju-chart-msg');
                 chartDiv.innerHTML = SajuCalc.renderHTML(sajuResult);
