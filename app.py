@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, send_from_directory, Response, stream_with_context
 from flask_cors import CORS
-import google.generativeai as genai
+import requests as http_requests
+import json
 import os
 import time
 from dotenv import load_dotenv
@@ -20,8 +21,10 @@ def serve_index():
 def serve_static(filename):
     return send_from_directory('.', filename)
 
-# Gemini API 설정
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+# Gemini REST API 설정 (SDK 대신 직접 HTTP 호출 — 서버 시작 시간 30초→2초)
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+GEMINI_MODEL = "gemini-2.0-flash"
+GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}"
 
 # 사주 전문가 시스템 프롬프트 (Golden Formula: 역할 → 과제 → 형식 → 제약)
 SAJU_SYSTEM_PROMPT = """
@@ -94,17 +97,14 @@ D) 올해 총운 — 2026년 병오년 운세 한 줄 요약.
 - 의료, 법률, 투자에 대한 구체적 조언은 하지 않습니다.
 """
 
-model = genai.GenerativeModel(
-    model_name='gemini-2.0-flash',
-    system_instruction=SAJU_SYSTEM_PROMPT,
-    generation_config=genai.GenerationConfig(
-        max_output_tokens=4096,
-        temperature=0.7
-    )
-)
+# REST API용 생성 설정
+GENERATION_CONFIG = {
+    "maxOutputTokens": 4096,
+    "temperature": 0.7
+}
 
 # 세션별 대화 히스토리 저장 (메모리 기반)
-# 구조: { session_id: { 'chat': chat_object, 'last_active': timestamp } }
+# 구조: { session_id: { 'history': [대화 목록], 'last_active': timestamp } }
 chat_sessions = {}
 SESSION_TTL = 1800  # 30분 (초)
 MAX_SESSIONS = 2000  # 최대 세션 수
@@ -121,22 +121,52 @@ def cleanup_sessions():
         for sid, _ in sorted_sessions[:len(chat_sessions) - MAX_SESSIONS]:
             del chat_sessions[sid]
 
-def call_gemini_with_retry(chat, message, max_retries=3):
-    """Gemini API 호출 + 429 에러 시 자동 재시도 (지수 백오프)"""
+def build_gemini_contents(history, new_message):
+    """Gemini REST API용 contents 배열 구성 (히스토리 + 새 메시지)"""
+    contents = []
+    for msg in history:
+        contents.append(msg)
+    contents.append({"role": "user", "parts": [{"text": new_message}]})
+    return contents
+
+def call_gemini_rest(history, message, stream=False, max_retries=3):
+    """Gemini REST API 호출 + 429 에러 시 자동 재시도 (지수 백오프)"""
+    contents = build_gemini_contents(history, message)
+    payload = {
+        "contents": contents,
+        "systemInstruction": {"parts": [{"text": SAJU_SYSTEM_PROMPT}]},
+        "generationConfig": GENERATION_CONFIG
+    }
+
+    if stream:
+        endpoint = f"{GEMINI_API_URL}:streamGenerateContent?alt=sse&key={GEMINI_API_KEY}"
+    else:
+        endpoint = f"{GEMINI_API_URL}:generateContent?key={GEMINI_API_KEY}"
+
     for attempt in range(max_retries):
         try:
-            response = chat.send_message(message)
-            return response
-        except Exception as e:
-            error_str = str(e)
-            if '429' in error_str or 'RESOURCE_EXHAUSTED' in error_str:
-                wait_time = (2 ** attempt) * 2  # 2초, 4초, 8초
+            resp = http_requests.post(
+                endpoint,
+                json=payload,
+                headers={"Content-Type": "application/json"},
+                stream=stream,
+                timeout=120
+            )
+            if resp.status_code == 429:
+                wait_time = (2 ** attempt) * 2
                 print(f"[재시도 {attempt+1}/{max_retries}] Rate limit 초과, {wait_time}초 대기...")
                 time.sleep(wait_time)
                 if attempt == max_retries - 1:
-                    raise
-            else:
+                    raise Exception("429 RESOURCE_EXHAUSTED")
+                continue
+            resp.raise_for_status()
+            return resp
+        except http_requests.exceptions.HTTPError:
+            raise
+        except Exception as e:
+            if attempt == max_retries - 1:
                 raise
+            time.sleep((2 ** attempt) * 2)
 
 @app.route('/api/chat', methods=['POST'])
 def chat_with_gemini():
@@ -165,16 +195,16 @@ def chat_with_gemini():
         # 만료 세션 정리
         cleanup_sessions()
 
-        # 세션별 채팅 객체 관리
+        # 세션별 히스토리 관리
         if session_id not in chat_sessions:
             chat_sessions[session_id] = {
-                'chat': model.start_chat(history=[]),
+                'history': [],
                 'last_active': time.time()
             }
         
         session = chat_sessions[session_id]
         session['last_active'] = time.time()
-        chat = session['chat']
+        history = session['history']
         
         # 첫 메시지에 사주 정보 포함
         if saju_info:
@@ -204,11 +234,18 @@ def chat_with_gemini():
                 f"상담자의 첫 질문: {user_message}"
                 f"{lang_instruction}"
             )
-            response = call_gemini_with_retry(chat, context_message)
+            resp = call_gemini_rest(history, context_message, stream=False)
+            final_message = context_message
         else:
-            response = call_gemini_with_retry(chat, user_message + lang_instruction)
+            resp = call_gemini_rest(history, user_message + lang_instruction, stream=False)
+            final_message = user_message + lang_instruction
         
-        bot_reply = response.text
+        result = resp.json()
+        bot_reply = result['candidates'][0]['content']['parts'][0]['text']
+        
+        # 히스토리에 추가
+        history.append({"role": "user", "parts": [{"text": final_message}]})
+        history.append({"role": "model", "parts": [{"text": bot_reply}]})
         
         return jsonify({"reply": bot_reply})
     
@@ -242,13 +279,13 @@ def chat_stream():
 
             if session_id not in chat_sessions:
                 chat_sessions[session_id] = {
-                    'chat': model.start_chat(history=[]),
+                    'history': [],
                     'last_active': time.time()
                 }
 
             session = chat_sessions[session_id]
             session['last_active'] = time.time()
-            chat = session['chat']
+            history = session['history']
 
             if saju_info:
                 # 만세력 원국 데이터 (프론트엔드 JS에서 계산한 정확한 결과)
@@ -280,13 +317,30 @@ def chat_stream():
             else:
                 message = user_message + lang_instruction
 
-            # 스트리밍 응답
-            response = chat.send_message(message, stream=True)
-            for chunk in response:
-                if chunk.text:
-                    # SSE에서 \n은 라인 구분자이므로, 텍스트 내의 줄바꿈을 <br>로 변환하여 보존
-                    safe_text = chunk.text.replace('\n', '<br>')
-                    yield f"data: {safe_text}\n\n"
+            # REST API 스트리밍 응답
+            resp = call_gemini_rest(history, message, stream=True)
+            full_reply = ""
+
+            for line in resp.iter_lines():
+                if not line:
+                    continue
+                line_str = line.decode('utf-8')
+                if line_str.startswith('data: '):
+                    json_str = line_str[6:]
+                    try:
+                        chunk_data = json.loads(json_str)
+                        text = chunk_data.get('candidates', [{}])[0].get('content', {}).get('parts', [{}])[0].get('text', '')
+                        if text:
+                            full_reply += text
+                            # SSE에서 \n은 라인 구분자이므로, 텍스트 내의 줄바꿈을 <br>로 변환하여 보존
+                            safe_text = text.replace('\n', '<br>')
+                            yield f"data: {safe_text}\n\n"
+                    except (json.JSONDecodeError, IndexError, KeyError):
+                        continue
+
+            # 스트리밍 완료 후 히스토리에 추가
+            history.append({"role": "user", "parts": [{"text": message}]})
+            history.append({"role": "model", "parts": [{"text": full_reply}]})
             yield "data: [DONE]\n\n"
 
         except Exception as e:
