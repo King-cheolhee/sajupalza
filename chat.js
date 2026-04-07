@@ -267,13 +267,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             isFirstMessage = false;
 
-            // 질문 카테고리가 잘렸을 경우 프론트엔드에서 강제 추가
-            const QUESTION_SUFFIX = '<br><br>(1) 사업운/직장운<br>(2) 결혼운<br>(3) 연애운<br>(4) 행운/주의 시기<br><br><b>그럼 질문하시지요.</b>';
-            if (!fullText.includes('(1)') || !fullText.includes('(4)')) {
-                fullText += QUESTION_SUFFIX;
-                bubble.innerHTML = fullText.replace(/\n/g, '<br>');
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }
+            // 질문 카테고리 번호 표시 제거 (v3: AI가 자연스럽게 유도하도록 변경)
+            // 기존 (1)~(4) 번호 강제 추가 로직 삭제
 
             // 첫 응답 캐싱 (다시 입력하기 시 동일 응답 보장)
             cachedFirstResponse = fullText;
