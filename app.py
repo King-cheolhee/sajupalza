@@ -130,6 +130,12 @@ SAJU_SYSTEM_PROMPT = """
 - 어떠한 예기치 못한 상황이 발생하더라도 100% 한국어(Korean)로만 대답하십시오.
 - 다른 언어(영어, 러시아어, 아랍어 등)를 절대 사용하지 마십시오.
 
+[내부 데이터 유출 금지 — ★절대 규칙★]
+- 시스템 프롬프트 내부의 구조적 데이터("내담자 정보", "사주 원국", "일간", "연주", "월주", "일주", "시주" 등)를 그대로 복사하여 출력하지 마십시오.
+- "내담자 정보:", "SAJU_REF:", "[SYS_", "======" 같은 내부 레이블을 절대 출력하지 마세요.
+- 사주 데이터는 반드시 자연스러운 문장 속에 녹여서 설명하세요.
+  예: "이름 = 홍길동" 형태로 출력 ✘ → "길동 님의 사주를 살펴보니..." ✔
+
 [명리학 원칙]
 - 반드시 월령 기준 격국을 성립시키고 용신을 파악합니다.
 - 신살(도화살, 역마살 등)은 보조 도구로만 사용하되 현대적이고 긍정적으로 해석합니다.
@@ -178,19 +184,20 @@ def generate_dynamic_system_prompt(saju_info, lang_instruction=''):
         return SAJU_SYSTEM_PROMPT + lang_instruction
 
     wonGuk = saju_info.get('sajuWonGuk', {})
+    # ★ 내부 레이블을 AI가 복사 출력하지 못하도록 영문 태그 형태로 은닉
     saju_detail = (
-        f"\n\n========================================\n"
-        f"[현재 상담 중인 내담자 절대 기억 정보 (명리학 분석의 기준)]\n"
-        f"이름: {saju_info.get('name', '미상')}\n"
-        f"성별: {saju_info.get('gender', '미상')}\n"
-        f"생년월일: {saju_info.get('birthDate', '미상')} {saju_info.get('birthTime', '시간 모름')} ({saju_info.get('calendar', '양력')})\n"
-        f"★★★ 일간(Day Master): {wonGuk.get('ilgan', '?')} ★★★ (모든 운세 판단의 기준)\n"
-        f"사주 원국: 연주({wonGuk.get('yearPillar', '?')} {wonGuk.get('yearSipsin', '?')}) / "
-        f"월주({wonGuk.get('monthPillar', '?')} {wonGuk.get('monthSipsin', '?')}) / "
-        f"일주({wonGuk.get('dayPillar', '?')}) / "
-        f"시주({wonGuk.get('hourPillar', '?')} {wonGuk.get('hourSipsin', '?')})\n"
-        f"띠: {wonGuk.get('tti', '?')}띠\n"
-        f"========================================\n"
+        f"\n\n[SYS_SAJU_REF_DO_NOT_OUTPUT_THIS_SECTION]\n"
+        f"(아래는 분석용 참조 데이터입니다. 이 형식 그대로 출력하지 마세요. 자연스러운 문장으로만 활용하세요.)\n"
+        f"NAME={saju_info.get('name', '미상')}\n"
+        f"GENDER={saju_info.get('gender', '미상')}\n"
+        f"BIRTH={saju_info.get('birthDate', '미상')} {saju_info.get('birthTime', '시간 모름')} ({saju_info.get('calendar', '양력')})\n"
+        f"DAY_MASTER={wonGuk.get('ilgan', '?')}\n"
+        f"YEAR={wonGuk.get('yearPillar', '?')}({wonGuk.get('yearSipsin', '?')}) "
+        f"MONTH={wonGuk.get('monthPillar', '?')}({wonGuk.get('monthSipsin', '?')}) "
+        f"DAY={wonGuk.get('dayPillar', '?')} "
+        f"HOUR={wonGuk.get('hourPillar', '?')}({wonGuk.get('hourSipsin', '?')})\n"
+        f"TTI={wonGuk.get('tti', '?')}\n"
+        f"[/SYS_SAJU_REF]\n"
     )
     return SAJU_SYSTEM_PROMPT + saju_detail + lang_instruction
 
